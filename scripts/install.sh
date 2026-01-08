@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# BILU_SRC_DIR="/Users/rtfa/lab/bilu"
+
 REPO_SLUG="${BILU_REPO_SLUG:-rtfa1/bilu}"
 REF="${BILU_REF:-main}"
-https://github.com/rtfa1/bilu
+
 TARGET_DIR="${BILU_DIR:-$PWD/.bilu}"
 SHORTCUT_PATH="${BILU_SHORTCUT_PATH:-$PWD/bilu}"
 SHORTCUT_FORCE="${BILU_SHORTCUT_FORCE:-0}"
@@ -58,8 +58,9 @@ cp -R "$repo_dir/src/prompts" "$TARGET_DIR/prompts"
 cp -R "$repo_dir/src/skills" "$TARGET_DIR/skills"
 cp -R "$repo_dir/src/cli" "$TARGET_DIR/cli"
 
-mkdir -p "$TARGET_DIR/storage"
-chmod +x "$TARGET_DIR/cli/bilu" || true
+mkdir -p "$TARGET_DIR/storage" "$TARGET_DIR/bin"
+cp "$TARGET_DIR/cli/bilu" "$TARGET_DIR/bin/bilu"
+chmod +x "$TARGET_DIR/bin/bilu" >/dev/null 2>&1 || true
 
 if [[ "${BILU_SHORTCUT:-1}" != "0" ]]; then
   if [[ -e "$SHORTCUT_PATH" && "$SHORTCUT_FORCE" != "1" ]]; then
@@ -73,13 +74,13 @@ if [[ "${BILU_SHORTCUT:-1}" != "0" ]]; then
       cat >"$SHORTCUT_PATH" <<'EOF'
 #!/usr/bin/env sh
 set -eu
-exec "$(dirname -- "$0")/.bilu/cli/bilu" "$@"
+exec "$(dirname -- "$0")/.bilu/bin/bilu" "$@"
 EOF
     else
       cat >"$SHORTCUT_PATH" <<EOF
 #!/usr/bin/env sh
 set -eu
-exec "$target_abs/cli/bilu" "\$@"
+exec "$target_abs/bin/bilu" "\$@"
 EOF
     fi
     chmod +x "$SHORTCUT_PATH" || true
@@ -95,4 +96,4 @@ cat >"$TARGET_DIR/storage/config.json" <<EOF
 EOF
 
 echo "Installed bilu into: $TARGET_DIR"
-echo "Run: $TARGET_DIR/cli/bilu help"
+echo "Run: $TARGET_DIR/bin/bilu help"
