@@ -28,6 +28,8 @@ Usage: bilu <command>
 
 Commands:
   init        Create ./.bilu in the current directory
+  run         Print "running"
+  board       Board utilities
   help        Show this help
   version     Show version
 EOF
@@ -75,12 +77,18 @@ if [ -z "$BILU_ROOT" ] || [ -z "$TEMPLATE_ROOT" ] || [ -z "$COMMANDS_ROOT" ]; th
 fi
 
 cmd=${1:-help}
-shift 2>/dev/null || true
+shift 1 2>/dev/null || true
 
 case "$cmd" in
   init)
     BILU_TEMPLATE_ROOT="${BILU_TEMPLATE_ROOT:-$TEMPLATE_ROOT}" \
       exec sh "$COMMANDS_ROOT/init.sh" "$@"
+    ;;
+  run)
+    exec sh "$COMMANDS_ROOT/run.sh" "$@"
+    ;;
+  board)
+    exec sh "$COMMANDS_ROOT/board.sh" "$@"
     ;;
   help|-h|--help)
     usage

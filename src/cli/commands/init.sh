@@ -32,9 +32,7 @@ cp -R "$TEMPLATE_ROOT/skills" "$TARGET_ROOT/skills"
 cp -R "$TEMPLATE_ROOT/cli" "$TARGET_ROOT/cli"
 
 installed_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-mkdir -p "$TARGET_ROOT/storage" "$TARGET_ROOT/bin"
-cp "$TARGET_ROOT/cli/bilu" "$TARGET_ROOT/bin/bilu"
-chmod +x "$TARGET_ROOT/bin/bilu" >/dev/null 2>&1 || true
+mkdir -p "$TARGET_ROOT/storage"
 cat >"$TARGET_ROOT/storage/config.json" <<EOF
 {
   "installed": true,

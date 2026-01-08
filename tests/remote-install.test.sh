@@ -39,5 +39,5 @@ mkdir -p "$install_dir"
 (cd "$install_dir" && BILU_ARCHIVE_URL="file://$archive" /bin/bash -c "$(cat "$REPO_ROOT/scripts/install.sh")")
 
 test -d "$install_dir/.bilu"
-test -x "$install_dir/.bilu/bin/bilu"
-"$install_dir/.bilu/bin/bilu" version >/dev/null
+test -x "$install_dir/.bilu/cli/bilu"
+"$install_dir/.bilu/cli/bilu" version >/dev/null

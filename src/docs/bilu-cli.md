@@ -19,8 +19,8 @@ Example (replace `<owner>/<repo>` and `main`):
 
 - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/<owner>/<repo>/main/install.sh)"`
   - Creates `./.bilu/` in the current directory
-  - Installs the CLI at `./.bilu/bin/bilu`
-  - Creates a shortcut `./bilu` that runs `./.bilu/bin/bilu`
+  - Installs the CLI at `./.bilu/cli/bilu`
+  - Creates a shortcut `./bilu` that runs `./.bilu/cli/bilu`
   - Downloads a source tarball (no `git` required)
 
 Local dev (from this repo):
@@ -29,4 +29,4 @@ Local dev (from this repo):
 
 After install:
 
-- `./bilu help` (or `./.bilu/bin/bilu help`)
+- `./bilu help` (or `./.bilu/cli/bilu help`)

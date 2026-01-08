@@ -26,8 +26,8 @@ test -d "$tmp/.bilu/board"
 test -d "$tmp/.bilu/prompts"
 test -d "$tmp/.bilu/skills"
 test -d "$tmp/.bilu/storage"
-test -d "$tmp/.bilu/bin"
-test -x "$tmp/.bilu/bin/bilu"
+test -d "$tmp/.bilu/cli"
+test -x "$tmp/.bilu/cli/bilu"
 test -x "$tmp/bilu"
 
 "$tmp/bilu" version >/dev/null

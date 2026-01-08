@@ -14,7 +14,7 @@ mktemp_dir() {
       return 0
     fi
   fi
-  d="$REPO_ROOT/.tmp-test.$$"
+  d="$REPO_ROOT/.tmp-board-test.$$"
   mkdir -p "$d"
   printf "%s\n" "$d"
 }
@@ -23,20 +23,17 @@ tmp="$(mktemp_dir)"
 cleanup() { rm -rf "$tmp"; }
 trap cleanup EXIT INT TERM
 
-(cd "$tmp" && sh "$REPO_ROOT/src/cli/bilu" init)
+out="$(sh "$REPO_ROOT/src/cli/bilu" board --list)"
+printf "%s" "$out" | grep -F "board listing" >/dev/null
 
-test -d "$tmp/.bilu"
-for name in board prompts skills storage cli; do
-  test -d "$tmp/.bilu/$name"
-done
-test -f "$tmp/.bilu/storage/config.json"
+out="$(sh "$REPO_ROOT/src/cli/bilu" board --list --filter=status --filter-value=todo)"
+printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
-mkdir -p "$tmp/dir2/.bilu"
-echo keep >"$tmp/dir2/.bilu/keep.txt"
+out="$(sh "$REPO_ROOT/src/cli/bilu" board -l -f status -fv todo)"
+printf "%s" "$out" | grep -F "status=todo" >/dev/null
+
 set +e
-out="$(cd "$tmp/dir2" && sh "$REPO_ROOT/src/cli/bilu" init 2>&1)"
+sh "$REPO_ROOT/src/cli/bilu" board -x 2>/dev/null
 status=$?
 set -e
 test "$status" -ne 0
-printf "%s" "$out" | grep -Ei "\.bilu.*refusing to overwrite" >/dev/null
-test -f "$tmp/dir2/.bilu/keep.txt"
