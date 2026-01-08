@@ -58,9 +58,8 @@ cp -R "$repo_dir/src/prompts" "$TARGET_DIR/prompts"
 cp -R "$repo_dir/src/skills" "$TARGET_DIR/skills"
 cp -R "$repo_dir/src/cli" "$TARGET_DIR/cli"
 
-mkdir -p "$TARGET_DIR/storage" "$TARGET_DIR/bin"
-cp "$TARGET_DIR/cli/bilu" "$TARGET_DIR/bin/bilu"
-chmod +x "$TARGET_DIR/bin/bilu" >/dev/null 2>&1 || true
+mkdir -p "$TARGET_DIR/storage"
+chmod +x "$TARGET_DIR/cli/bilu" >/dev/null 2>&1 || true
 
 if [[ "${BILU_SHORTCUT:-1}" != "0" ]]; then
   if [[ -e "$SHORTCUT_PATH" && "$SHORTCUT_FORCE" != "1" ]]; then
@@ -74,13 +73,13 @@ if [[ "${BILU_SHORTCUT:-1}" != "0" ]]; then
       cat >"$SHORTCUT_PATH" <<'EOF'
 #!/usr/bin/env sh
 set -eu
-exec "$(dirname -- "$0")/.bilu/bin/bilu" "$@"
+exec "$(dirname -- "$0")/.bilu/cli/bilu" "$@"
 EOF
     else
       cat >"$SHORTCUT_PATH" <<EOF
 #!/usr/bin/env sh
 set -eu
-exec "$target_abs/bin/bilu" "\$@"
+exec "$target_abs/cli/bilu" "\$@"
 EOF
     fi
     chmod +x "$SHORTCUT_PATH" || true
@@ -96,4 +95,4 @@ cat >"$TARGET_DIR/storage/config.json" <<EOF
 EOF
 
 echo "Installed bilu into: $TARGET_DIR"
-echo "Run: $TARGET_DIR/bin/bilu help"
+echo "Run: $TARGET_DIR/cli/bilu help"
