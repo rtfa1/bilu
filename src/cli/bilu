@@ -1,0 +1,100 @@
+#!/usr/bin/env sh
+set -eu
+
+usage() {
+  cat <<'EOF'
+        .-""""-.
+      .'  .--.  '.
+     /   /    \   \
+    ;   |  .--. |  ;
+    |   | (o  o)|  |
+    |   |  \__/ |  |
+    ;    \  -- /   ;
+     \    '.__.'  /
+      '.        .'
+        '-.__.-'
+
+ ____  _ _       
+| __ )(_) |_   _ 
+|  _ \| | | | | |
+| |_) | | | |_| |
+|____/|_|_|\__,_|
+
+Busquem conhecimento
+EOF
+  echo
+  cat <<'EOF'
+Usage: bilu <command>
+
+Commands:
+  init        Create ./.bilu in the current directory
+  help        Show this help
+  version     Show version
+EOF
+}
+
+SCRIPT_DIR=$(
+  CDPATH= cd -- "$(dirname -- "$0")" >/dev/null 2>&1
+  pwd
+)
+
+find_layout() {
+  d=$SCRIPT_DIR
+  i=0
+  while [ "$i" -lt 8 ]; do
+    if [ -d "$d/src" ] && [ -f "$d/src/board/default.json" ] && [ -f "$d/src/cli/commands/init.sh" ]; then
+      printf "%s\t%s\t%s\t%s\n" "$d" "$d/src" "$d/src/cli/commands" "$d/src/cli/VERSION"
+      return 0
+    fi
+    if [ -f "$d/board/default.json" ] && [ -f "$d/cli/commands/init.sh" ]; then
+      printf "%s\t%s\t%s\t%s\n" "$d" "$d" "$d/cli/commands" "$d/cli/VERSION"
+      return 0
+    fi
+    d=$(
+      CDPATH= cd -- "$d/.." >/dev/null 2>&1
+      pwd
+    )
+    i=$((i + 1))
+  done
+  return 1
+}
+
+layout="$(find_layout || true)"
+if [ -z "$layout" ]; then
+  echo "bilu: could not locate bilu root (expected src/board/... or board/...)" >&2
+  exit 1
+fi
+
+IFS='	' read -r BILU_ROOT TEMPLATE_ROOT COMMANDS_ROOT VERSION_PATH <<EOF
+$layout
+EOF
+
+if [ -z "$BILU_ROOT" ] || [ -z "$TEMPLATE_ROOT" ] || [ -z "$COMMANDS_ROOT" ]; then
+  echo "bilu: invalid layout detection" >&2
+  exit 1
+fi
+
+cmd=${1:-help}
+shift 2>/dev/null || true
+
+case "$cmd" in
+  init)
+    BILU_TEMPLATE_ROOT="${BILU_TEMPLATE_ROOT:-$TEMPLATE_ROOT}" \
+      exec sh "$COMMANDS_ROOT/init.sh" "$@"
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  version|-v|--version)
+    if [ -f "$VERSION_PATH" ]; then
+      cat "$VERSION_PATH"
+    else
+      echo "0.0.0-dev"
+    fi
+    ;;
+  *)
+    echo "bilu: unknown command: $cmd" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
