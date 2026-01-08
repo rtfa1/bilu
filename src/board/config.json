@@ -1,0 +1,62 @@
+{
+  "statuses": {
+    "BACKLOG": 0,
+    "TODO": 1,
+    "INPROGRESS": 2,
+    "BLOCKED": 3,
+    "DONE": 4,
+    "REVIEW": 5,
+    "ARCHIVED": 6,
+    "CANCELLED": 7
+  },
+  "ui": {
+    "showCompletedTasks": true,
+    "itemsPerPage": 20,
+    "defaultSortBy": "priority",
+    "defaultSortOrder": "asc",
+    "columns": {
+      "backlog": {
+        "title": "Backlog",
+        "description": "Tasks that are planned but not yet started."
+      },
+      "in-progress": {
+        "title": "In Progress",
+        "description": "Tasks that are currently being worked on."
+      },
+      "review": {
+        "title": "Review",
+        "description": "Tasks that are completed and awaiting review."
+      },
+      "done": {
+        "title": "Done",
+        "description": "Tasks that have been completed."
+      }
+    }
+  },
+  "priorities": {
+    "CRITICAL": 10,
+    "HIGH": 8,
+    "MEDIUM": 5,
+    "LOW": 3,
+    "TRIVIAL": 1
+  },
+  "kind": {
+    "task": "Task",
+    "bug": "Bug",
+    "feature": "Feature",
+    "improvement": "Improvement"
+  },
+  "tags": {
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "devops": "DevOps",
+    "documentation": "Documentation",
+    "testing": "Testing",
+    "research": "Research",
+    "design": "Design",
+    "performance": "Performance",
+    "security": "Security",
+    "usability": "Usability",
+    "planning": "Planning"
+  }
+}

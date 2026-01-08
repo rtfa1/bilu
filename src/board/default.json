@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Project scaffold and Chrome Extension Manifest V3",
+    "description": "Set up the Chrome extension project structure, baseline configuration, and Manifest V3 with the required permissions and entry points (content script, background service worker, extension UI assets).",
+    "priority": "HIGH",
+    "kind": "feature",
+    "status": "INPROGRESS",
+    "depends_on": [],
+    "tags": ["frontend", "planning"],
+    "link": "board/tasks/01-project-scaffold-and-manifest.md"
+  },
+  {
+    "title": "Define messaging contracts between content scripts, workers, and background",
+    "description": "Specify the message types, payload schemas, and routing between the content script, Harper WASM worker, and background service worker. This keeps the extension modular and testable.",
+    "priority": "HIGH",
+    "kind": "feature",
+    "status": "TODO",
+    "tags": ["frontend", "documentation"],
+    "depends_on": ["board/tasks/01-project-scaffold-and-manifest.md"],
+    "link": "board/tasks/02-message-contracts.md"
+  },
+  {
+    "title": "Content script: detect editable fields and capture text changes",
+    "description": "Implement the content script responsible for identifying inputs/textarea/contenteditable fields, tracking user typing, and sending incremental updates into the analysis pipeline.",
+    "priority": "MEDIUM",
+    "status": "TODO",
+    "improvement": "Improvement",
+    "depends_on": [
+      "board/tasks/01-project-scaffold-and-manifest.md",
+      "board/tasks/02-message-contracts.md"
+    ],
+    "tags": ["frontend", "planning"],
+    "link": "board/tasks/03-content-script-text-capture.md"
+  },
+  {
+    "title": "Harper WASM integration in a Web Worker",
+    "description": "Integrate Harper as a WebAssembly module running in a worker for fast, local grammar checks with low latency. Expose a clean interface to the content script.",
+    "priority": "LOW",
+    "status": "TODO",
+    "bug": "Bug",
+    "depends_on": [
+      "board/tasks/01-project-scaffold-and-manifest.md",
+      "board/tasks/02-message-contracts.md"
+    ],
+    "tags": ["frontend", "planning"],
+    "link": "board/tasks/04-harper-wasm-worker.md"
+  },
+  {
+    "title": "Background service worker: LLM requests and API key storage",
+    "description": "Implement the background service worker that securely stores the API key, performs debounced LLM calls, and returns AI suggestions to the content script.",
+    "priority": "TRIVIAL",
+    "status": "TODO",
+    "depends_on": [
+      "board/tasks/01-project-scaffold-and-manifest.md",
+      "board/tasks/02-message-contracts.md"
+    ],
+    "tags": ["frontend", "planning"],
+    "link": "board/tasks/05-background-llm-service.md"
+  },
+  {
+    "title": "Suggestion UI: underlines, popovers, and accept/dismiss actions",
+    "description": "Build the in-page UI for local and AI suggestions, including underlines, popovers, and user actions. The UI must be lightweight and non-intrusive.",
+    "priority": "High",
+    "status": "TODO",
+    "depends_on": [
+      "board/tasks/03-content-script-text-capture.md",
+      "board/tasks/04-harper-wasm-worker.md",
+      "board/tasks/05-background-llm-service.md"
+    ],
+    "tags": ["frontend", "planning"],
+    "link": "board/tasks/06-ui-suggestions-overlay.md"
+  },
+
+  {
+    "title": "Settings UI and privacy messaging",
+    "description": "Add a simple settings view for entering the API key and explain privacy practices clearly to users. This should include opt-in language for AI calls.",
+    "priority": "Medium",
+    "status": "CANCELLED",
+    "depends_on": [
+      "board/tasks/01-project-scaffold-and-manifest.md",
+      "board/tasks/05-background-llm-service.md"
+    ],
+    "tags": ["frontend", "planning"],
+    "link": "board/tasks/07-settings-and-privacy.md"
+  }
+]
