@@ -6,14 +6,14 @@ Define how `bilu board` is split into small shell modules so it stays maintainab
 
 ## Checklist
 
-- [ ] Confirm the module folder layout under `src/cli/commands/board/`:
-  - [ ] `args.sh`, `paths.sh`
-  - [ ] loaders: config/tasks
-  - [ ] `normalize.sh`
-  - [ ] renderers: `render/table.sh`, `render/kanban.sh`, `render/tui.sh`
-  - [ ] actions: edit status/priority, open editor, rebuild index
-- [ ] Confirm which parts must stay POSIX `sh`.
-- [ ] Confirm which parts may be `bash` (recommend: `render/tui.sh` only).
+- [x] Confirm the module folder layout under `src/cli/commands/board/`:
+  - [x] `args.sh`, `paths.sh`
+  - [x] loaders: config/tasks
+  - [x] `normalize.sh`
+  - [x] renderers: `render/table.sh`, `render/kanban.sh`, `render/tui.sh`
+  - [x] actions: edit status/priority, open editor, rebuild index
+- [x] Confirm which parts must stay POSIX `sh`.
+- [x] Confirm which parts may be `bash` (recommend: `render/tui.sh` only).
 
 ## Acceptance
 
@@ -24,7 +24,7 @@ Define how `bilu board` is split into small shell modules so it stays maintainab
 
 # Phase 00 Task Implementation Plan — Module layout and responsibilities
 
-Task: `src/board/tasks/00-05-module-layout-and-responsibilities.md`
+Task: `.bilu/board/tasks/00-05-module-layout-and-responsibilities.md`
 
 This implementation plan defines a maintainable module architecture for `bilu board` that fits the shell-only constraints and follows the advice in `src/storage/research/shell-only-cli-advanced-notes.md`:
 - treat shell as an orchestrator
@@ -155,6 +155,13 @@ Prefer explicit checks over subtle `set -e` behavior in non-interactive code.
 
 ## References
 
-- `src/board/tasks/00-05-module-layout-and-responsibilities.md`
-- `src/board/phases/02-cli-and-modules.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/tasks/00-05-module-layout-and-responsibilities.md`
+- `.bilu/board/phases/02-cli-and-modules.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+
+---
+
+## Outcomes
+
+- Documented an authoritative module tree under `src/cli/commands/board/` with clear POSIX `sh` vs `bash` boundaries (`render/tui.sh` only).
+- Defined loader/normalizer/renderer/action responsibilities and a strict internal TSV contract to keep data transforms awk-driven and testable.

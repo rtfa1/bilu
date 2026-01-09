@@ -8,14 +8,26 @@ This phase restructures `bilu board` into a small shell “module” with clear 
 - `src/cli/commands/board/`
   - `paths.sh`: locate board root in repo vs installed layout.
   - `args.sh`: parse flags, support short/long aliases.
-  - `load_config.sh`: read config (`config.json`) into shell-friendly maps.
-  - `load_tasks_json.sh`: read index (`default.json`).
-  - `load_tasks_md.sh`: parse markdown sections.
-  - `normalize.sh`: produce stable internal TSV records.
-  - `render/table.sh`: non-interactive list/table.
-  - `render/kanban.sh`: non-interactive kanban.
-  - `render/tui.sh`: interactive (keyboard) UI.
-  - `actions/*.sh`: edit/status changes, open in editor, rebuild index.
+  - `normalize.sh`: normalize enums + enforce internal TSV escaping.
+  - `load/`
+    - `config.sh`: load `config.json` into shell-friendly values.
+    - `tasks_md.sh`: parse `tasks/*.md` into normalized TSV records.
+    - `tasks_index.sh`: read `default.json` (if used as input).
+  - `render/`
+    - `table.sh`: non-interactive list/table.
+    - `kanban.sh`: non-interactive kanban.
+    - `tui.sh`: interactive (keyboard) UI (bash only).
+  - `actions/`
+    - `open.sh`: open a task file in `$EDITOR` or pager.
+    - `set_status.sh`: edit task status safely (temp + atomic mv).
+    - `set_priority.sh`: edit task priority safely.
+    - `rebuild_index.sh`: rebuild derived artifacts (`default.json`, compiled TSV).
+  - `ui/`
+    - `ansi.sh`: color/styling helpers; `NO_COLOR` support.
+    - `layout.sh`: width/wrapping helpers shared by renderers.
+  - `lib/`
+    - `log.sh`: `die`/`warn`/`info`, consistent exit codes.
+    - `lock.sh`: optional mkdir-based locking for edit actions.
 
 ## CLI surface (proposed)
 
@@ -38,5 +50,4 @@ This phase restructures `bilu board` into a small shell “module” with clear 
 
 ## Phase 02 tasks
 
-See `src/board/tasks/` for Phase 02 tasks.
-
+See `.bilu/board/tasks/` for Phase 02 tasks.

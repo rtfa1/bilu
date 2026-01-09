@@ -67,7 +67,7 @@
     "description": "Define the module structure for bilu board under .bilu/cli/commands/board/ (args/paths/loaders/normalize/renderers/actions) and which parts must stay POSIX sh vs which may use bash (TUI only).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
