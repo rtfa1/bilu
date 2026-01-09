@@ -19,6 +19,10 @@ Board commands (shell only):
 - `bilu board --list --filter=status --filter-value=todo`
 - `bilu board --list -f status -fv todo`
 
+Data policy:
+
+- Task metadata is sourced from `.bilu/board/tasks/*.md`; `.bilu/board/default.json` is a derived index and may be regenerated (`.bilu/board/phases/01-data-contract.md`).
+
 Contract:
 
 - Flags must appear after `board` (e.g. `bilu board --list`).

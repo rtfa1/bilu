@@ -4,13 +4,15 @@ This phase makes the board data predictable and safe to render/edit.
 
 ## Sources
 
-- Index: `src/board/default.json`
-- Detail: `src/board/tasks/*.md`
-- Schema/config: `src/board/config.json`
+- Index (derived): `.bilu/board/default.json`
+- Detail/source: `.bilu/board/tasks/*.md`
+- Schema/config: `.bilu/board/config.json`
 
 ## Source of truth (choose one)
 
-Pick one and enforce it in code and docs:
+Pick one and enforce it in code and docs.
+
+**Policy (chosen):** Task metadata is sourced from `.bilu/board/tasks/*.md`. The board index (`.bilu/board/default.json`) is derived and may be regenerated at any time. All edits performed by the CLI write to task markdown files; index regeneration is explicit via a rebuild command. Renderers operate on normalized records produced from markdown.
 
 ### Option A (recommended)
 `tasks/*.md` is the source of truth. `default.json` is derived (generated/indexed).
@@ -68,5 +70,4 @@ Provide `bilu board --validate`:
 
 ## Phase 01 tasks
 
-See `src/board/tasks/` for Phase 01 tasks.
-
+See `.bilu/board/tasks/` for Phase 01 tasks.

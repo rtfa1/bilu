@@ -100,7 +100,7 @@
     "description": "Decide and document the single source of truth for task metadata (recommended: tasks/*.md with default.json derived) and define precedence and edit targets when both sources exist.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "planning"

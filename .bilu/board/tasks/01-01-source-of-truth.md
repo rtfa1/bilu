@@ -6,15 +6,15 @@ Pick a single authoritative source for task metadata so rendering and editing ar
 
 ## Options
 
-- **A (recommended):** `src/board/tasks/*.md` is the source of truth; `src/board/default.json` is derived.
-- **B:** `src/board/default.json` is the source of truth; markdown is detail-only.
+- **A (recommended):** `.bilu/board/tasks/*.md` is the source of truth; `.bilu/board/default.json` is derived.
+- **B:** `.bilu/board/default.json` is the source of truth; markdown is detail-only.
 
 ## Checklist
 
-- [ ] Decide A or B.
-- [ ] Define precedence if both sources contain the same field.
-- [ ] Define what fields are editable (status/priority/kind/tags/etc).
-- [ ] Define whether editing should update markdown, JSON, or both.
+- [x] Decide A or B.
+- [x] Define precedence if both sources contain the same field.
+- [x] Define what fields are editable (status/priority/kind/tags/etc).
+- [x] Define whether editing should update markdown, JSON, or both.
 
 ## Acceptance
 
@@ -27,7 +27,9 @@ Pick a single authoritative source for task metadata so rendering and editing ar
 
 Task: `src/board/tasks/01-01-source-of-truth.md`
 
-This implementation plan selects and codifies a single authoritative source for task metadata so rendering/editing is deterministic. It follows `src/storage/research/shell-only-cli-advanced-notes.md`, which strongly recommends “md is source-of-truth” and avoiding runtime JSON parsing in shell.
+Task: `.bilu/board/tasks/01-01-source-of-truth.md`
+
+This implementation plan selects and codifies a single authoritative source for task metadata so rendering/editing is deterministic. It follows `.bilu/storage/research/shell-only-cli-advanced-notes.md`, which strongly recommends “md is source-of-truth” and avoiding runtime JSON parsing in shell.
 
 ## Outcome (what “done” means)
 
@@ -38,8 +40,8 @@ This implementation plan selects and codifies a single authoritative source for 
 ## Recommendation (pick Option A)
 
 Choose **Option A**:
-- `src/board/tasks/*.md` is the source of truth.
-- `src/board/default.json` is derived (generated/indexed) and treated as cache/index, not authoritative.
+- `.bilu/board/tasks/*.md` is the source of truth.
+- `.bilu/board/default.json` is derived (generated/indexed) and treated as cache/index, not authoritative.
 
 Rationale (from the research note):
 - Editing markdown safely in shell is straightforward (section replacement + atomic `mv`).
@@ -48,7 +50,7 @@ Rationale (from the research note):
 
 ## Policy text (copy-paste into docs)
 
-“Task metadata is sourced from `src/board/tasks/*.md`. The board index (`src/board/default.json`) is derived and may be regenerated at any time. All edits performed by the CLI write to task markdown files; index regeneration is explicit via a rebuild command. Renderers operate on normalized records produced from markdown.”
+“Task metadata is sourced from `.bilu/board/tasks/*.md`. The board index (`.bilu/board/default.json`) is derived and may be regenerated at any time. All edits performed by the CLI write to task markdown files; index regeneration is explicit via a rebuild command. Renderers operate on normalized records produced from markdown.”
 
 ## Field ownership (what comes from where)
 
@@ -128,12 +130,20 @@ Run tests with `NO_COLOR=1` for stable assertions.
 
 ## Acceptance checks
 
-- Policy text is added to `src/board/phases/01-data-contract.md` (or a dedicated policy doc) and referenced by the CLI docs.
+- Policy text is added to `.bilu/board/phases/01-data-contract.md` (or a dedicated policy doc) and referenced by the CLI docs.
 - Implementation writes edits only to markdown.
 - Index regeneration is explicit and documented.
 
 ## References
 
-- `src/board/tasks/01-01-source-of-truth.md`
-- `src/board/phases/01-data-contract.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/tasks/01-01-source-of-truth.md`
+- `.bilu/board/phases/01-data-contract.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+
+---
+
+## Outcomes
+
+- Chose Option A: `.bilu/board/tasks/*.md` is authoritative; `.bilu/board/default.json` is a derived index.
+- Defined precedence (markdown wins), edit targets (markdown only), and an explicit index rebuild contract (`bilu board --rebuild-index`).
+- Updated `.bilu/board/phases/01-data-contract.md` to reflect this policy and the correct `.bilu/board/...` paths.
