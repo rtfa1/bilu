@@ -1,86 +1,508 @@
 [
   {
-    "title": "Project scaffold and Chrome Extension Manifest V3",
-    "description": "Set up the Chrome extension project structure, baseline configuration, and Manifest V3 with the required permissions and entry points (content script, background service worker, extension UI assets).",
-    "priority": "HIGH",
-    "kind": "feature",
-    "status": "INPROGRESS",
-    "depends_on": [],
-    "tags": ["frontend", "planning"],
-    "link": "board/tasks/01-project-scaffold-and-manifest.md"
-  },
-  {
-    "title": "Define messaging contracts between content scripts, workers, and background",
-    "description": "Specify the message types, payload schemas, and routing between the content script, Harper WASM worker, and background service worker. This keeps the extension modular and testable.",
-    "priority": "HIGH",
-    "kind": "feature",
-    "status": "TODO",
-    "tags": ["frontend", "documentation"],
-    "depends_on": ["board/tasks/01-project-scaffold-and-manifest.md"],
-    "link": "board/tasks/02-message-contracts.md"
-  },
-  {
-    "title": "Content script: detect editable fields and capture text changes",
-    "description": "Implement the content script responsible for identifying inputs/textarea/contenteditable fields, tracking user typing, and sending incremental updates into the analysis pipeline.",
+    "title": "Phase 00 — Scope and constraints",
+    "description": "Lock the core constraints for the shell-only board UI: POSIX sh for non-interactive, bash allowed for --tui, no required third-party deps, and support both repo (src/board/...) and installed (.bilu/board/...) layouts.",
     "priority": "MEDIUM",
+    "kind": "task",
     "status": "TODO",
-    "improvement": "Improvement",
-    "depends_on": [
-      "board/tasks/01-project-scaffold-and-manifest.md",
-      "board/tasks/02-message-contracts.md"
-    ],
-    "tags": ["frontend", "planning"],
-    "link": "board/tasks/03-content-script-text-capture.md"
+    "depends_on": [],
+    "tags": ["design", "devops", "frontend", "planning", "usability"],
+    "link": "board/tasks/00-01-scope-and-constraints.md",
+    "imp_link": "board/tasks/00-01-scope-and-constraints_imp.md"
   },
   {
-    "title": "Harper WASM integration in a Web Worker",
-    "description": "Integrate Harper as a WebAssembly module running in a worker for fast, local grammar checks with low latency. Expose a clean interface to the content script.",
-    "priority": "LOW",
+    "title": "Phase 00 — Board data audit",
+    "description": "Audit src/board/config.json, src/board/default.json, and src/board/tasks/*.md to identify inconsistencies (status/priority/kind, broken links, depends_on) and define the normalization rules the UI must apply.",
+    "priority": "MEDIUM",
+    "kind": "task",
     "status": "TODO",
-    "bug": "Bug",
-    "depends_on": [
-      "board/tasks/01-project-scaffold-and-manifest.md",
-      "board/tasks/02-message-contracts.md"
-    ],
-    "tags": ["frontend", "planning"],
-    "link": "board/tasks/04-harper-wasm-worker.md"
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/00-02-board-data-audit.md",
+    "imp_link": "board/tasks/00-02-board-data-audit_imp.md"
   },
   {
-    "title": "Background service worker: LLM requests and API key storage",
-    "description": "Implement the background service worker that securely stores the API key, performs debounced LLM calls, and returns AI suggestions to the content script.",
-    "priority": "TRIVIAL",
+    "title": "Phase 00 — CLI surface and aliases",
+    "description": "Define the bilu board CLI contract: required commands, short/long flag aliases (-l/-f/-fv), and validation rules (e.g. missing filter value must exit 2), plus which extra flags are in-scope next.",
+    "priority": "MEDIUM",
+    "kind": "task",
     "status": "TODO",
-    "depends_on": [
-      "board/tasks/01-project-scaffold-and-manifest.md",
-      "board/tasks/02-message-contracts.md"
-    ],
-    "tags": ["frontend", "planning"],
-    "link": "board/tasks/05-background-llm-service.md"
+    "depends_on": [],
+    "tags": ["design", "documentation", "frontend", "planning", "usability"],
+    "link": "board/tasks/00-03-cli-surface-and-aliases.md",
+    "imp_link": "board/tasks/00-03-cli-surface-and-aliases_imp.md"
   },
   {
-    "title": "Suggestion UI: underlines, popovers, and accept/dismiss actions",
-    "description": "Build the in-page UI for local and AI suggestions, including underlines, popovers, and user actions. The UI must be lightweight and non-intrusive.",
-    "priority": "High",
+    "title": "Phase 00 — Kanban UX requirements",
+    "description": "Define the UX/spec for non-interactive table+kanban output and the interactive --tui keymap (nav/search/filter/sort/open/edit), including visual requirements like colors, selected card highlight, header/footer, and NO_COLOR support.",
+    "priority": "MEDIUM",
+    "kind": "task",
     "status": "TODO",
-    "depends_on": [
-      "board/tasks/03-content-script-text-capture.md",
-      "board/tasks/04-harper-wasm-worker.md",
-      "board/tasks/05-background-llm-service.md"
-    ],
-    "tags": ["frontend", "planning"],
-    "link": "board/tasks/06-ui-suggestions-overlay.md"
+    "depends_on": [],
+    "tags": ["design", "devops", "frontend", "planning", "usability"],
+    "link": "board/tasks/00-04-kanban-ux-requirements.md",
+    "imp_link": "board/tasks/00-04-kanban-ux-requirements_imp.md"
   },
-
   {
-    "title": "Settings UI and privacy messaging",
-    "description": "Add a simple settings view for entering the API key and explain privacy practices clearly to users. This should include opt-in language for AI calls.",
-    "priority": "Medium",
-    "status": "CANCELLED",
-    "depends_on": [
-      "board/tasks/01-project-scaffold-and-manifest.md",
-      "board/tasks/05-background-llm-service.md"
-    ],
-    "tags": ["frontend", "planning"],
-    "link": "board/tasks/07-settings-and-privacy.md"
+    "title": "Phase 00 — Module layout and responsibilities",
+    "description": "Define the module structure for bilu board under src/cli/commands/board/ (args/paths/loaders/normalize/renderers/actions) and which parts must stay POSIX sh vs which may use bash (TUI only).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "documentation", "frontend", "planning", "usability"],
+    "link": "board/tasks/00-05-module-layout-and-responsibilities.md",
+    "imp_link": "board/tasks/00-05-module-layout-and-responsibilities_imp.md"
+  },
+  {
+    "title": "Phase 00 — Acceptance criteria",
+    "description": "Define measurable acceptance criteria for bilu board (list/filter/aliases/usage errors/layout support/no deps) so progress is testable and “done” is unambiguous.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "documentation", "frontend", "planning", "testing", "usability"],
+    "link": "board/tasks/00-06-acceptance-criteria.md",
+    "imp_link": "board/tasks/00-06-acceptance-criteria_imp.md"
+  },
+  {
+    "title": "Phase 01 — Choose source of truth",
+    "description": "Decide and document the single source of truth for task metadata (recommended: tasks/*.md with default.json derived) and define precedence and edit targets when both sources exist.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/01-01-source-of-truth.md",
+    "imp_link": "board/tasks/01-01-source-of-truth_imp.md"
+  },
+  {
+    "title": "Phase 01 — Normalized task schema",
+    "description": "Define the normalized task schema used internally for rendering/editing (required and optional fields), plus ID derivation and how paths/links work in repo vs installed layouts.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/01-02-normalized-task-schema.md",
+    "imp_link": "board/tasks/01-02-normalized-task-schema_imp.md"
+  },
+  {
+    "title": "Phase 01 — Normalization rules",
+    "description": "Define the normalization rules for status, priority, kind (including legacy keys), and tags so the board tolerates human input and historical inconsistencies with clear fallback + warning behavior.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/01-03-normalization-rules.md",
+    "imp_link": "board/tasks/01-03-normalization-rules_imp.md"
+  },
+  {
+    "title": "Phase 01 — Parsing strategy (no `jq`)",
+    "description": "Define a safe, portable parsing strategy for config.json/default.json and tasks/*.md without jq (schema-specific awk/sed or optional python3), including how to handle missing files and broken links.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/01-04-json-and-markdown-parsing-strategy.md",
+    "imp_link": "board/tasks/01-04-json-and-markdown-parsing-strategy_imp.md"
+  },
+  {
+    "title": "Phase 01 — `bilu board --validate`",
+    "description": "Specify bilu board --validate behavior: stable output format and exit codes (0 ok, 1 data/config errors, 2 usage), plus what gets validated in config.json and tasks (normalization, depends_on, link targets).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["documentation", "planning", "testing"],
+    "link": "board/tasks/01-05-validation-command.md",
+    "imp_link": "board/tasks/01-05-validation-command_imp.md"
+  },
+  {
+    "title": "Phase 01 — Index derivation and migration",
+    "description": "Define how default.json is derived/maintained (via bilu board --rebuild-index with stable ordering and clear field sources) and how to migrate old inconsistent data safely with no silent rewrites.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/01-06-index-derivation-and-migration.md",
+    "imp_link": "board/tasks/01-06-index-derivation-and-migration_imp.md"
+  },
+  {
+    "title": "Phase 02 — Board command entrypoint",
+    "description": "Make bilu board a first-class command by wiring src/cli/bilu to a thin src/cli/commands/board.sh dispatcher, documenting it in bilu help, and standardizing exit codes (2 usage, 1 runtime).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["documentation", "planning"],
+    "link": "board/tasks/02-01-board-command-entrypoint.md",
+    "imp_link": "board/tasks/02-01-board-command-entrypoint_imp.md"
+  },
+  {
+    "title": "Phase 02 — Module skeleton",
+    "description": "Create the board module skeleton under src/cli/commands/board/ (render/actions/ui + core modules) and standardize sourcing/imports via SCRIPT_DIR so board.sh works from any working directory.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/02-02-module-skeleton.md",
+    "imp_link": "board/tasks/02-02-module-skeleton_imp.md"
+  },
+  {
+    "title": "Phase 02 — Layout detection",
+    "description": "Define how bilu board locates the board root and files in both repo and installed layouts, reusing src/cli/bilu layout detection where possible and exposing helpers for config/default/tasks paths.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/02-03-layout-detection.md",
+    "imp_link": "board/tasks/02-03-layout-detection_imp.md"
+  },
+  {
+    "title": "Phase 02 — Args parser",
+    "description": "Implement a robust bilu board flag parser supporting long/short aliases and both --flag value and --flag=value, enforcing paired filter flags, supporting -- end-of-options, and returning exit 2 on usage errors.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["devops", "documentation", "planning"],
+    "link": "board/tasks/02-04-args-parser.md",
+    "imp_link": "board/tasks/02-04-args-parser_imp.md"
+  },
+  {
+    "title": "Phase 02 — Help and usage text",
+    "description": "Standardize bilu board help output (usage line, options with aliases, filter examples), ensure bilu help mentions board, and keep the CLI docs in sync as flags evolve.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["documentation", "planning"],
+    "link": "board/tasks/02-05-help-and-usage-text.md",
+    "imp_link": "board/tasks/02-05-help-and-usage-text_imp.md"
+  },
+  {
+    "title": "Phase 02 — Internal record format (TSV)",
+    "description": "Define the single internal TSV wire format (strict column order) used between loaders/normalizers and renderers, including explicit escaping rules for tabs/newlines so parsing is unambiguous everywhere.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/02-06-internal-record-format.md",
+    "imp_link": "board/tasks/02-06-internal-record-format_imp.md"
+  },
+  {
+    "title": "Phase 02 — Integration tests for parsing",
+    "description": "Add integration tests to prevent regressions in bilu board routing and argument parsing (help exits 0, unknown flags exit 2, paired filter enforcement, and alias forms like -l -f ... -fv ...), without depending on ANSI output.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["documentation", "planning", "testing"],
+    "link": "board/tasks/02-07-integration-tests-for-parsing.md",
+    "imp_link": "board/tasks/02-07-integration-tests-for-parsing_imp.md"
+  },
+  {
+    "title": "Phase 03 — Table view spec",
+    "description": "Define the exact table output contract for bilu board --list: default view name, column set/order, truncation/wrapping rules, header/totals behavior, missing-field display, and stability for scripting (future --format=tsv).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/03-01-table-view-spec.md",
+    "imp_link": "board/tasks/03-01-table-view-spec_imp.md"
+  },
+  {
+    "title": "Phase 03 — Color theme and `NO_COLOR`",
+    "description": "Standardize ANSI styling for table and kanban output: define status/priority colors, selected/dimmed/warning styles, and ensure NO_COLOR=1 and --no-color reliably disable escapes for script-friendly output.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/03-02-color-theme-and-no-color.md",
+    "imp_link": "board/tasks/03-02-color-theme-and-no-color_imp.md"
+  },
+  {
+    "title": "Phase 03 — Kanban layout algorithm (non-interactive)",
+    "description": "Define the non-interactive kanban rendering algorithm: detect terminal size, choose columns and widths, define card layout (title/priority/desc preview/tags), and specify truncation/wrapping rules that keep output readable across common widths.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/03-03-kanban-layout-algorithm.md",
+    "imp_link": "board/tasks/03-03-kanban-layout-algorithm_imp.md"
+  },
+  {
+    "title": "Phase 03 — Narrow-terminal fallback",
+    "description": "Define and implement a narrow-terminal fallback for --view=kanban (threshold, alternate rendering mode, and border/wrapping rules) so output stays readable on small widths without terminal glitches.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/03-04-kanban-narrow-fallback.md",
+    "imp_link": "board/tasks/03-04-kanban-narrow-fallback_imp.md"
+  },
+  {
+    "title": "Phase 03 — Column mapping and configuration",
+    "description": "Define how status values map into displayed kanban columns (default Backlog/In Progress/Review/Done), whether mapping is hard-coded or read from config.json, and how to treat ARCHIVED/CANCELLED and showCompletedTasks.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/03-05-column-mapping-config.md",
+    "imp_link": "board/tasks/03-05-column-mapping-config_imp.md"
+  },
+  {
+    "title": "Phase 03 — Renderer performance rules",
+    "description": "Define performance rules for shell renderers: avoid per-cell tput calls, build one output buffer per frame, cache terminal size, and minimize external processes in hot loops so 100+ tasks render without lag.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "performance", "planning", "usability"],
+    "link": "board/tasks/03-06-renderer-performance.md",
+    "imp_link": "board/tasks/03-06-renderer-performance_imp.md"
+  },
+  {
+    "title": "Phase 03 — Renderer tests",
+    "description": "Add stable tests for non-interactive renderers (table and kanban) that assert on deterministic markers/tokens, verify --no-color produces no ANSI escapes, and avoid terminal-width flakiness by forcing a fixed width when needed.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "devops", "frontend", "planning", "testing", "usability"],
+    "link": "board/tasks/03-07-renderer-tests.md",
+    "imp_link": "board/tasks/03-07-renderer-tests_imp.md"
+  },
+  {
+    "title": "Phase 04 — Terminal setup and cleanup",
+    "description": "Implement safe terminal setup/cleanup for the bash TUI: alternate screen, cursor visibility, wrap, stty echo/canon settings, and trap-based cleanup so exit via q, Ctrl-C, or errors always restores the terminal.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-01-terminal-setup-and-cleanup.md",
+    "imp_link": "board/tasks/04-01-terminal-setup-and-cleanup_imp.md"
+  },
+  {
+    "title": "Phase 04 — Key input decoding",
+    "description": "Implement reliable key input decoding for the bash TUI: non-blocking single-key reads, escape-sequence decoding for arrows (optionally Home/End/Page), and fallback hjkl navigation across common terminals.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-02-key-input-decoding.md",
+    "imp_link": "board/tasks/04-02-key-input-decoding_imp.md"
+  },
+  {
+    "title": "Phase 04 — Layout and selection model",
+    "description": "Define the TUI state model (columns with filtered card lists and a (column_index, card_index) selection) plus movement/scrolling rules so left/right preserves vertical position, up/down moves within a column, and selection stays visible.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-03-layout-and-selection-model.md",
+    "imp_link": "board/tasks/04-03-layout-and-selection-model_imp.md"
+  },
+  {
+    "title": "Phase 04 — Render loop and frame buffer",
+    "description": "Implement the TUI main loop (read key → update state → render), using a full-frame buffer printed once per redraw, handling WINCH resizes, and avoiding per-cell tput so updates stay responsive and flicker-free.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "devops", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-04-render-loop-and-frame-buffer.md",
+    "imp_link": "board/tasks/04-04-render-loop-and-frame-buffer_imp.md"
+  },
+  {
+    "title": "Phase 04 — Search UI",
+    "description": "Implement interactive / search in the TUI: prompt for a query, filter visible tasks by title/description, support n/p navigation between matches, and show search state in the status bar without breaking selection.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-05-search-ui.md",
+    "imp_link": "board/tasks/04-05-search-ui_imp.md"
+  },
+  {
+    "title": "Phase 04 — Filter and sort UI",
+    "description": "Add interactive filtering and sorting in the TUI: f opens a field/value filter prompt (status/priority/tag/kind), s opens sort prompt, status bar shows active modes, and a quick clear action resets filter/search/sort.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-06-filter-and-sort-ui.md",
+    "imp_link": "board/tasks/04-06-filter-and-sort-ui_imp.md"
+  },
+  {
+    "title": "Phase 04 — Open and edit actions",
+    "description": "Define TUI actions for opening and editing: Enter opens the selected task (EDITOR else pager), e forces editor, S/P cycle status/priority and persist safely, and r refreshes from disk with the UI reflecting changes.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-07-open-and-edit-actions.md",
+    "imp_link": "board/tasks/04-07-open-and-edit-actions_imp.md"
+  },
+  {
+    "title": "Phase 04 — Help overlay and status bar",
+    "description": "Add a discoverable TUI help overlay (? toggle) and a status bar showing active filter/search/sort, counts, and quick hints (q quit, ? help), while keeping layout stable on narrow terminals.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "documentation", "frontend", "planning", "usability"],
+    "link": "board/tasks/04-08-help-overlay-and-status-bar.md",
+    "imp_link": "board/tasks/04-08-help-overlay-and-status-bar_imp.md"
+  },
+  {
+    "title": "Phase 05 — Edit status in markdown",
+    "description": "Implement safe status updates by editing the # Status section in task markdown (replace only the value line), validating the normalized status, and writing via temp file + atomic mv so files remain valid.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["devops", "planning"],
+    "link": "board/tasks/05-01-edit-status-in-markdown.md",
+    "imp_link": "board/tasks/05-01-edit-status-in-markdown_imp.md"
+  },
+  {
+    "title": "Phase 05 — Edit priority in markdown",
+    "description": "Implement safe priority updates by editing the # Priority section in task markdown, validating the normalized priority, and persisting changes via temp file + atomic mv so list/kanban output reflects edits reliably.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "devops", "frontend", "planning", "usability"],
+    "link": "board/tasks/05-02-edit-priority-in-markdown.md",
+    "imp_link": "board/tasks/05-02-edit-priority-in-markdown_imp.md"
+  },
+  {
+    "title": "Phase 05 — Open task in editor",
+    "description": "Provide a consistent open action for tasks: use $EDITOR when set (or a pager fallback like less/more) and ensure the TUI restores terminal state before/after opening so it returns cleanly.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "usability"],
+    "link": "board/tasks/05-03-open-task-in-editor.md",
+    "imp_link": "board/tasks/05-03-open-task-in-editor_imp.md"
+  },
+  {
+    "title": "Phase 05 — Rebuild index command",
+    "description": "Add a deterministic rebuild-index command (bilu board --rebuild-index) that regenerates derived default.json from task markdown with stable ordering/formatting and explicit write behavior (no silent rewrites).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning"],
+    "link": "board/tasks/05-04-rebuild-index-command.md",
+    "imp_link": "board/tasks/05-04-rebuild-index-command_imp.md"
+  },
+  {
+    "title": "Phase 05 — File locking and concurrency",
+    "description": "Prevent concurrent edits from corrupting task files by introducing a board-level lock (mkdir-based, stored under board/storage or .bilu/storage) with trap-based release and defined timeout/stale-lock behavior.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["devops", "planning"],
+    "link": "board/tasks/05-05-file-locking-and-concurrency.md",
+    "imp_link": "board/tasks/05-05-file-locking-and-concurrency_imp.md"
+  },
+  {
+    "title": "Phase 05 — Persistence tests",
+    "description": "Add non-interactive persistence tests that operate on a temp copy of task markdown, verify status/priority edits are scoped to the right section, confirm atomic write behavior, and ensure list output reflects persisted edits.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "devops", "frontend", "planning", "testing", "usability"],
+    "link": "board/tasks/05-06-persistence-tests.md",
+    "imp_link": "board/tasks/05-06-persistence-tests_imp.md"
+  },
+  {
+    "title": "Phase 06 — Test matrix",
+    "description": "Define the test matrix for the shell-only board UI (CLI parsing, normalization, non-interactive rendering, persistence edits), explicitly excluding automated TUI interaction tests and listing the required tools (POSIX sh + coreutils).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "testing", "usability"],
+    "link": "board/tasks/06-01-test-matrix.md",
+    "imp_link": "board/tasks/06-01-test-matrix_imp.md"
+  },
+  {
+    "title": "Phase 06 — CLI parsing tests",
+    "description": "Add parser regression tests for bilu board covering help output, -l alias, unknown flags exiting 2, missing values exiting 2, and both long and short filter forms (--filter=status --filter-value=todo and -f status -fv todo).",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["documentation", "planning", "testing"],
+    "link": "board/tasks/06-02-cli-parsing-tests.md",
+    "imp_link": "board/tasks/06-02-cli-parsing-tests_imp.md"
+  },
+  {
+    "title": "Phase 06 — Normalization tests",
+    "description": "Add normalization tests to lock deterministic behavior for status/priority/kind variants (including legacy/missing fields), asserting stable normalized outputs and (optionally) warning messages routed to stderr.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["planning", "testing"],
+    "link": "board/tasks/06-03-normalization-tests.md",
+    "imp_link": "board/tasks/06-03-normalization-tests_imp.md"
+  },
+  {
+    "title": "Phase 06 — Renderer tests",
+    "description": "Add stable renderer tests for non-interactive table and kanban views that assert key markers/titles/statuses, verify --no-color has no escape sequences, and force a deterministic width to avoid terminal-dependent flakes.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "testing", "usability"],
+    "link": "board/tasks/06-04-renderer-tests.md",
+    "imp_link": "board/tasks/06-04-renderer-tests_imp.md"
+  },
+  {
+    "title": "Phase 06 — Docs sync checklist",
+    "description": "Keep documentation in sync with CLI behavior: ensure the docs index and CLI guide cover install flow, bilu board usage/flags, and eventual --tui keybindings, and verify phase docs link to their tasks.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "devops", "documentation", "frontend", "planning", "usability"],
+    "link": "board/tasks/06-05-docs-sync-checklist.md",
+    "imp_link": "board/tasks/06-05-docs-sync-checklist_imp.md"
+  },
+  {
+    "title": "Phase 06 — Manual TUI test script",
+    "description": "Provide a repeatable manual QA checklist for the interactive TUI covering terminal restore (q/Ctrl-C), navigation, search, filter/sort, open/edit with persistence verification, and resize redraw behavior.",
+    "priority": "MEDIUM",
+    "kind": "task",
+    "status": "TODO",
+    "depends_on": [],
+    "tags": ["design", "frontend", "planning", "testing", "usability"],
+    "link": "board/tasks/06-06-manual-tui-test-script.md",
+    "imp_link": "board/tasks/06-06-manual-tui-test-script_imp.md"
   }
 ]

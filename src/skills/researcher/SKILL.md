@@ -88,7 +88,7 @@ Only create files if the user asks; otherwise paste the report in chat.
 ## Files
 
 Only create files if the user asks. If asked, propose:
-- `docs/research/<slug>.md`
+- `storage/research/<slug>.md`
 
 ## Examples
 

@@ -93,7 +93,7 @@ Using the brief’s constraints, produce:
 ### 6) Output
 
 Write one Markdown report using `assets/template.md`.
-Only create files if the user asks (suggest `docs/research/technical/<slug>.md`).
+Only create files if the user asks (suggest `storage/research/technical/<slug>.md`).
 
 ## Output Quality Checklist
 
