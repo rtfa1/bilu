@@ -23,44 +23,55 @@ tmp="$(mktemp_dir)"
 cleanup() { rm -rf "$tmp"; }
 trap cleanup EXIT INT TERM
 
-out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
+out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
 printf "%s" "$out" | grep -F "board listing" >/dev/null
 
-out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status --filter-value=todo)"
+out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status --filter-value=todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
-out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board -l -f status -fv todo)"
+out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board -l -f status -fv todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
-out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --help)"
+out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --help)"
 printf "%s" "$out" | grep -F "Usage: bilu board --list" >/dev/null
 
 set +e
-sh "$REPO_ROOT/.bilu/cli/bilu" board -x 2>/dev/null
-status=$?
-set -e
-test "$status" -ne 0
-
-set +e
-sh "$REPO_ROOT/.bilu/cli/bilu" board -x >/dev/null 2>&1
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board -x >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
+grep -F "Usage: bilu board --list" "$tmp/err" >/dev/null
 
 set +e
-sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter >/dev/null 2>&1
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
+grep -F "Usage: bilu board --list" "$tmp/err" >/dev/null
 
 set +e
-sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status >/dev/null 2>&1
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
+grep -F "Usage: bilu board --list" "$tmp/err" >/dev/null
 
 set +e
-sh "$REPO_ROOT/.bilu/cli/bilu" board --list -- --help >/dev/null 2>&1
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter-value=todo >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
+grep -F "Usage: bilu board --list" "$tmp/err" >/dev/null
+
+set +e
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list -- --help >"$tmp/out" 2>"$tmp/err"
+status=$?
+set -e
+test "$status" -eq 2
+grep -F "Usage: bilu board --list" "$tmp/err" >/dev/null
+
+# Smoke check: board CLI should not require extra deps.
+if grep -R -n -E '(^|[^[:alnum:]_])(jq|fzf|gum|dialog|whiptail)([^[:alnum:]_]|$)' "$REPO_ROOT/.bilu/cli" >/dev/null 2>&1; then
+  echo "unexpected dependency referenced in .bilu/cli" >&2
+  exit 1
+fi

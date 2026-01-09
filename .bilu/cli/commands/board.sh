@@ -42,6 +42,7 @@ while [ $# -gt 0 ]; do
       shift
       if [ $# -lt 1 ]; then
         err "missing value for $arg"
+        usage >&2
         exit 2
       fi
       if [ -n "$filter" ]; then
@@ -65,6 +66,7 @@ while [ $# -gt 0 ]; do
       shift
       if [ $# -lt 1 ]; then
         err "missing value for $arg"
+        usage >&2
         exit 2
       fi
       if [ -n "$filter_value" ]; then

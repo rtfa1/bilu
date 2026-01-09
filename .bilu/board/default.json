@@ -83,7 +83,7 @@
     "description": "Define measurable acceptance criteria for bilu board (list/filter/aliases/usage errors/layout support/no deps) so progress is testable and “done” is unambiguous.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

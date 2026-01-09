@@ -31,3 +31,6 @@ test -x "$tmp/.bilu/cli/bilu"
 test -x "$tmp/bilu"
 
 "$tmp/bilu" version >/dev/null
+
+out="$("$tmp/bilu" board --list)"
+printf "%s" "$out" | grep -F "board listing" >/dev/null

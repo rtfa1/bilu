@@ -6,12 +6,12 @@ Define measurable acceptance criteria for the board feature so progress is testa
 
 ## Must pass
 
-- [ ] `bilu board --list` prints a stable list and exits `0`.
-- [ ] `bilu board --list --filter=status --filter-value=todo` filters correctly.
-- [ ] Aliases work: `-l`, `-f`, `-fv`.
-- [ ] Unknown flags exit `2` and show usage.
-- [ ] Works in repo layout and installed layout.
-- [ ] No required dependencies beyond shell + coreutils.
+- [x] `bilu board --list` prints a stable list and exits `0`.
+- [x] `bilu board --list --filter=status --filter-value=todo` filters correctly.
+- [x] Aliases work: `-l`, `-f`, `-fv`.
+- [x] Unknown flags exit `2` and show usage.
+- [x] Works in repo layout and installed layout.
+- [x] No required dependencies beyond shell + coreutils.
 
 ## Nice to have (later)
 
@@ -135,3 +135,12 @@ To avoid flaky assertions:
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `tests/board.test.sh`
 - `src/board/phases/06-testing-and-docs.md`
+
+---
+
+## Outcomes
+
+- Expanded automated checks in `tests/board.test.sh` (exit codes, usage-on-error, NO_COLOR) and added a simple “no extra deps” smoke check.
+- Extended `tests/install.test.sh` to verify `bilu board --list` works after install.
+- Updated `.bilu/cli/commands/board.sh` to print usage on missing option values.
+- Verified with `sh tests/run.sh`.
