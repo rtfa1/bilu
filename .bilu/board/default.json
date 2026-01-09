@@ -408,7 +408,7 @@
     "description": "Define the TUI state model (columns with filtered card lists and a (column_index, card_index) selection) plus movement/scrolling rules so left/right preserves vertical position, up/down moves within a column, and selection stays visible.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "INPROGRESS",
+    "status": "TODO",
     "depends_on": [],
     "tags": [
       "design",
