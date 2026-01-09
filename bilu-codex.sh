@@ -21,21 +21,19 @@ EOF
 
   result=$(docker run --rm \
     -e CODEX_ENV_PYTHON_VERSION=3.12 \
-    -e CODEX_ENV_NODE_VERSION=22 \
+    -e CODEX_ENV_NODE_VERSION=20 \
     -e CODEX_ENV_RUST_VERSION=1.87.0 \
     -e CODEX_ENV_GO_VERSION=1.23.8 \
     -e CODEX_ENV_SWIFT_VERSION=6.2 \
     -e CODEX_ENV_RUBY_VERSION=3.4.4 \
     -e CODEX_ENV_PHP_VERSION=8.4 \
     -v "$(pwd):/workspace/$(basename "$PWD")" -w "/workspace/$(basename "$PWD")" \
-    -v "$HOME/.copilot:/root/.copilot" \
-    -v "$HOME/.config/gh:/root/.config/gh" \
+    -v "$HOME/.codex:/root/.codex" \
     -v "$HOME/.gitconfig:/root/.gitconfig:ro" \
-    -v "$HOME/.ssh:/root/.ssh:ro" \
     --network=bridge \
     ghcr.io/openai/codex-universal:latest \
-    -lc "npm install -g @github/copilot && copilot -p '$PROMPT' \
-    --model gpt-5-mini --allow-all-tools --allow-all-urls")
+    -lc "npm install -g @openai/codex && codex exec --sandbox workspace-write --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check --cd /workspace \
+    '$PROMPT'")
 
   echo "$result"
 
