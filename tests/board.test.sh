@@ -23,17 +23,17 @@ tmp="$(mktemp_dir)"
 cleanup() { rm -rf "$tmp"; }
 trap cleanup EXIT INT TERM
 
-out="$(sh "$REPO_ROOT/src/cli/bilu" board --list)"
+out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
 printf "%s" "$out" | grep -F "board listing" >/dev/null
 
-out="$(sh "$REPO_ROOT/src/cli/bilu" board --list --filter=status --filter-value=todo)"
+out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status --filter-value=todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
-out="$(sh "$REPO_ROOT/src/cli/bilu" board -l -f status -fv todo)"
+out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board -l -f status -fv todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
 set +e
-sh "$REPO_ROOT/src/cli/bilu" board -x 2>/dev/null
+sh "$REPO_ROOT/.bilu/cli/bilu" board -x 2>/dev/null
 status=$?
 set -e
 test "$status" -ne 0

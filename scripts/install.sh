@@ -44,7 +44,7 @@ else
   repo_dir="$extracted"
 fi
 
-for p in "$repo_dir/src/board" "$repo_dir/src/prompts" "$repo_dir/src/skills" "$repo_dir/src/cli"; do
+for p in "$repo_dir/.bilu/board" "$repo_dir/.bilu/prompts" "$repo_dir/.bilu/skills" "$repo_dir/.bilu/cli"; do
   if [[ ! -d "$p" ]]; then
     echo "bilu install: missing expected path: $p" >&2
     exit 1
@@ -53,10 +53,10 @@ done
 
 mkdir -p "$TARGET_DIR"
 
-cp -R "$repo_dir/src/board" "$TARGET_DIR/board"
-cp -R "$repo_dir/src/prompts" "$TARGET_DIR/prompts"
-cp -R "$repo_dir/src/skills" "$TARGET_DIR/skills"
-cp -R "$repo_dir/src/cli" "$TARGET_DIR/cli"
+cp -R "$repo_dir/.bilu/board" "$TARGET_DIR/board"
+cp -R "$repo_dir/.bilu/prompts" "$TARGET_DIR/prompts"
+cp -R "$repo_dir/.bilu/skills" "$TARGET_DIR/skills"
+cp -R "$repo_dir/.bilu/cli" "$TARGET_DIR/cli"
 
 mkdir -p "$TARGET_DIR/storage"
 chmod +x "$TARGET_DIR/cli/bilu" >/dev/null 2>&1 || true

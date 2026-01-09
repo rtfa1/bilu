@@ -23,7 +23,7 @@ tmp="$(mktemp_dir)"
 cleanup() { rm -rf "$tmp"; }
 trap cleanup EXIT INT TERM
 
-(cd "$tmp" && sh "$REPO_ROOT/src/cli/bilu" init)
+(cd "$tmp" && sh "$REPO_ROOT/.bilu/cli/bilu" init)
 
 test -d "$tmp/.bilu"
 for name in board prompts skills storage cli; do
@@ -34,7 +34,7 @@ test -f "$tmp/.bilu/storage/config.json"
 mkdir -p "$tmp/dir2/.bilu"
 echo keep >"$tmp/dir2/.bilu/keep.txt"
 set +e
-out="$(cd "$tmp/dir2" && sh "$REPO_ROOT/src/cli/bilu" init 2>&1)"
+out="$(cd "$tmp/dir2" && sh "$REPO_ROOT/.bilu/cli/bilu" init 2>&1)"
 status=$?
 set -e
 test "$status" -ne 0

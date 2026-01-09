@@ -26,7 +26,7 @@ trap cleanup EXIT INT TERM
 # Simulate a "GitHub tarball" locally (top-level folder like bilu-main/).
 stage="$tmp/stage/bilu-main"
 mkdir -p "$stage"
-cp -R "$REPO_ROOT/src" "$stage/src"
+cp -R "$REPO_ROOT/.bilu" "$stage/.bilu"
 cp -R "$REPO_ROOT/scripts" "$stage/scripts"
 
 archive="$tmp/archive.tgz"

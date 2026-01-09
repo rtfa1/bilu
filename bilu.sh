@@ -7,15 +7,12 @@ if [ -z "${1-}" ]; then
 fi
 
 for ((i=1; i<=$1; i++)); do
-  # Build the prompt (keeps the original instructions and references to repo files)
   read -r -d '' PROMPT <<'EOF' || true
-YOUR MAIN INSTRUCTIONS ARE LOCATED IN THE FILE: .ai/instructions.md 
-READ THAT FILE FIRST
-1. Find the highest priority task to work on and focus solely on that task until completion. This should be the one YOU decide has the highest priority, not necessarily the first one on the list.
+1. Find the first task with status TODO to work on and focus solely on that task until completion.
 2. Check if the tests are passing. 
-3. Update the board.json file to reflect the current status of tasks.
+3. Update the board/default.json file to reflect the current status of tasks.
 4. Update the task file with the work that was done.
-5. Append you progress to the progress.txt file. Use this to leave notes for yourself and others working in the codebase.
+5. Append you progress to the storage/progress.txt file. Use this to leave notes for yourself and others working in the codebase.
 6. Make a git commit with a meaningful message about the work that was done.
 ONLY WORK ON ONE TASK AT A TIME.
 If, while implementing a task, you find that there is a blocking issue (e.g., a dependency that needs to be resolved, or a question that needs answering), make a note of it in progress.txt and move on to the next highest priority task.
