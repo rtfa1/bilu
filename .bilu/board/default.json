@@ -292,7 +292,7 @@
     "description": "Define the exact table output contract for bilu board --list: default view name, column set/order, truncation/wrapping rules, header/totals behavior, missing-field display, and stability for scripting (future --format=tsv).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

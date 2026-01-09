@@ -169,7 +169,7 @@ Avoid testing exact spacing; test stable tokens.
 # Description
 Define the exact table output contract for bilu board --list: default view name, column set/order, truncation/wrapping rules, header/totals behavior, missing-field display, and stability for scripting (future --format=tsv).
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -180,3 +180,15 @@ task
 - planning
 - usability
 # depends_on
+
+---
+
+## Outcomes
+
+### What changed
+
+- Implemented the table output contract in `.bilu/cli/commands/board/render/table.sh` (columns: `STATUS PRIO TITLE TAGS PATH`, truncation with `...`, width derived from `COLUMNS` with a stable default).
+
+### Tests
+
+- `sh tests/run.sh`
