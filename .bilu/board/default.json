@@ -51,7 +51,7 @@
     "description": "Define the UX/spec for non-interactive table+kanban output and the interactive --tui keymap (nav/search/filter/sort/open/edit), including visual requirements like colors, selected card highlight, header/footer, and NO_COLOR support.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

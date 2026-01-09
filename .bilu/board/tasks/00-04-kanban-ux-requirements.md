@@ -6,25 +6,25 @@ Define what the “beautiful” output looks like and which keyboard interaction
 
 ## Non-interactive requirements
 
-- [ ] Table view is readable and aligned.
-- [ ] Kanban view renders columns and cards with borders and colors.
-- [ ] Output degrades gracefully for narrow terminals.
+- [x] Table view is readable and aligned.
+- [x] Kanban view renders columns and cards with borders and colors.
+- [x] Output degrades gracefully for narrow terminals.
 
 ## Interactive (`--tui`) requirements
 
-- [ ] Navigation: arrows + `hjkl`
-- [ ] Search: `/` to search, `n/p` to navigate matches
-- [ ] Filter: choose field/value
-- [ ] Sort: choose sort key + order
-- [ ] Open/edit: `Enter` opens task, `e` opens in `$EDITOR`
-- [ ] Minimal edits: change status/priority and persist safely
+- [x] Navigation: arrows + `hjkl`
+- [x] Search: `/` to search, `n/p` to navigate matches
+- [x] Filter: choose field/value
+- [x] Sort: choose sort key + order
+- [x] Open/edit: `Enter` opens task, `e` opens in `$EDITOR`
+- [x] Minimal edits: change status/priority and persist safely
 
 ## Visual design requirements
 
-- [ ] Consistent color theme for status + priority.
-- [ ] Highlight selected card.
-- [ ] Header with counts; footer status bar with active filter/search/sort.
-- [ ] `NO_COLOR` and `--no-color` support.
+- [x] Consistent color theme for status + priority.
+- [x] Highlight selected card.
+- [x] Header with counts; footer status bar with active filter/search/sort.
+- [x] `NO_COLOR` and `--no-color` support.
 
 ## Acceptance
 
@@ -35,9 +35,9 @@ Define what the “beautiful” output looks like and which keyboard interaction
 
 # Phase 00 Task Implementation Plan — Kanban UX requirements
 
-Task: `src/board/tasks/00-04-kanban-ux-requirements.md`
+Task: `.bilu/board/tasks/00-04-kanban-ux-requirements.md`
 
-This implementation plan defines a concrete UX spec for both non-interactive output and the interactive TUI, aligned with the project constraints and the terminal/TUI guidance in `src/storage/research/shell-only-cli-advanced-notes.md`.
+This implementation plan defines a concrete UX spec for both non-interactive output and the interactive TUI, aligned with the project constraints and the terminal/TUI guidance in `.bilu/storage/research/shell-only-cli-advanced-notes.md`.
 
 ## Outcome (what “done” means)
 
@@ -73,7 +73,7 @@ This implementation plan defines a concrete UX spec for both non-interactive out
 - Fixed columns (suggested):
   - `STATUS` `PRIO` `TITLE` `TAGS` `PATH`
 - Truncation:
-  - `TITLE` truncates with `…` (or `...`) when needed.
+  - `TITLE` truncates with `...` when needed (avoid Unicode for portability).
   - `TAGS` truncates after N chars.
 - Header line:
   - include counts and any active filter/search (optional but recommended).
@@ -82,12 +82,12 @@ This implementation plan defines a concrete UX spec for both non-interactive out
 
 - Columns: Backlog / In Progress / Review / Done (mapping defined in Phase 03).
 - Cards:
-  - Border using ASCII or box drawing (choose one and stick to it).
+  - Border uses ASCII only (portable, test-friendly), choose one and stick to it.
   - Line 1: `[PRIO] Title` (with status color or priority badge)
   - Line 2–3: short description preview (optional; can be toggled later)
   - Last line: tags chips (e.g. `#frontend #planning`)
 - Layout:
-  - Use terminal width (`stty size`) to compute column width.
+  - Use terminal width (`$COLUMNS` if set, else `stty size`) to compute column width.
   - When narrow:
     - fallback to vertical column blocks (one column at a time).
 
@@ -197,7 +197,15 @@ General:
 
 ## References
 
-- `src/board/tasks/00-04-kanban-ux-requirements.md`
+- `.bilu/board/tasks/00-04-kanban-ux-requirements.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+
+---
+
+## Outcomes (2026-01-09)
+
+- Finalized a v1 keymap and visual spec for table + printed kanban output, including narrow-terminal degradation rules.
+- Locked initial color/NO_COLOR behavior and a portable (ASCII-only) rendering rule for testability.
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/phases/03-rendering-table-and-kanban.md`
 - `src/board/phases/04-interactive-tui.md`
