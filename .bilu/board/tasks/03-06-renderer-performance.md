@@ -125,10 +125,16 @@ If you want an explicit target:
 - `src/board/tasks/03-03-kanban-layout-algorithm.md`
 - `src/board/tasks/02-06-internal-record-format.md`
 
+## Outcomes
+
+- Updated the non-interactive kanban renderer to stream lines directly from `awk` (avoid building a huge concatenated output buffer in memory).
+- Confirmed renderers avoid `tput` in hot paths and avoid subprocesses inside per-task loops.
+- Tests: `sh bilu/tests/run.sh`
+
 # Description
 Define performance rules for shell renderers: avoid per-cell tput calls, build one output buffer per frame, cache terminal size, and minimize external processes in hot loops so 100+ tasks render without lag.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

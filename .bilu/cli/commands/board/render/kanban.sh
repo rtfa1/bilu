@@ -191,9 +191,7 @@ board_render_kanban() {
       }
       return border
     }
-    function emit_line(s) { out = out s "\n" }
     BEGIN {
-      out=""
       col_titles[1] = "Backlog"
       col_titles[2] = "In Progress"
       col_titles[3] = "Review"
@@ -237,16 +235,15 @@ board_render_kanban() {
         line_w = cols
         for (c=1; c<=4; c++) {
           header = "== " col_titles[c] " (" col_count[c] ") =="
-          emit_line(trunc(header, line_w))
-          emit_line("")
+          print trunc(header, line_w)
+          print ""
           for (i=1; i<=col_count[c]; i++) {
-            emit_line(trunc(render_narrow_card(card_prio[c, i], card_title[c, i], line_w), line_w))
+            print trunc(render_narrow_card(card_prio[c, i], card_title[c, i], line_w), line_w)
             tags_line = chips_from_csv_or_empty(card_tags[c, i])
-            if (tags_line != "") emit_line(trunc("  tags: " tags_line, line_w))
-            emit_line("")
+            if (tags_line != "") print trunc("  tags: " tags_line, line_w)
+            print ""
           }
         }
-        printf "%s", out
         exit 0
       }
 
@@ -262,8 +259,8 @@ board_render_kanban() {
         header = header seg
         divider = divider line
       }
-      emit_line(header)
-      emit_line(divider)
+      print header
+      print divider
 
       max_cards = 0
       for (c=1; c<=4; c++) if (col_count[c] > max_cards) max_cards = col_count[c]
@@ -280,11 +277,9 @@ board_render_kanban() {
               row = row blank
             }
           }
-          emit_line(row)
+          print row
         }
       }
-
-      printf "%s", out
     }
     '
 }

@@ -369,7 +369,7 @@
     "description": "Define performance rules for shell renderers: avoid per-cell tput calls, build one output buffer per frame, cache terminal size, and minimize external processes in hot loops so 100+ tasks render without lag.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
