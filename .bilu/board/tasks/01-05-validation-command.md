@@ -6,18 +6,18 @@ Specify validation output and exit codes so broken boards are detectable.
 
 ## Checklist
 
-- [ ] Define exit codes:
-  - [ ] `0` ok
-  - [ ] `1` fatal config/data errors
-  - [ ] `2` CLI usage error
-- [ ] Validate `src/board/config.json`:
-  - [ ] required top-level keys exist
-  - [ ] status ordering values are unique
-  - [ ] priority weights are unique (or explicitly allow ties)
-- [ ] Validate tasks:
-  - [ ] every task normalizes cleanly
-  - [ ] `depends_on` targets exist (warn-only vs error)
-  - [ ] `link` targets exist (warn-only vs error)
+- [x] Define exit codes:
+  - [x] `0` ok
+  - [x] `1` fatal config/data errors
+  - [x] `2` CLI usage error
+- [x] Validate `.bilu/board/config.json`:
+  - [x] required top-level keys exist
+  - [x] status ordering values are unique
+  - [x] priority weights are unique (or explicitly allow ties)
+- [x] Validate tasks:
+  - [x] every task normalizes cleanly
+  - [x] `depends_on` targets exist (warn-only vs error)
+  - [x] `link` targets exist (warn-only vs error)
 
 ## Acceptance
 
@@ -146,7 +146,13 @@ Run tests with `NO_COLOR=1` to keep output stable.
 
 ## References
 
-- `src/board/tasks/01-05-validation-command.md`
-- `src/board/tasks/01-03-normalization-rules.md`
-- `src/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/tasks/01-05-validation-command.md`
+- `.bilu/board/tasks/01-03-normalization-rules.md`
+- `.bilu/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+
+## Outcomes
+
+- Implemented `bilu board --validate` in `.bilu/cli/commands/board.sh` with stable `ok` stdout + `warn:`/`error:` stderr and exit codes `0/1/2`.
+- Validates `.bilu/board/config.json` (required keys, unique status/priority numeric values) and `.bilu/board/default.json` entries (required fields, `link` target exists, `depends_on` targets exist; warn-only).
+- Added regression tests in `tests/board.test.sh` for success + fatal config error; tests: `sh tests/run.sh`.

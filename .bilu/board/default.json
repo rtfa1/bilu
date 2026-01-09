@@ -151,7 +151,7 @@
     "description": "Specify bilu board --validate behavior: stable output format and exit codes (0 ok, 1 data/config errors, 2 usage), plus what gets validated in config.json and tasks (normalization, depends_on, link targets).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "documentation",
