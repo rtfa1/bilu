@@ -6,15 +6,15 @@ Standardize ANSI styling so output is “beautiful” but still script-friendly 
 
 ## Checklist
 
-- [ ] Define status colors (TODO, INPROGRESS, BLOCKED, REVIEW, DONE, CANCELLED, ARCHIVED).
-- [ ] Define priority colors/badges (CRITICAL, HIGH, MEDIUM, LOW, TRIVIAL).
+- [x] Define status colors (TODO, INPROGRESS, BLOCKED, REVIEW, DONE, CANCELLED, ARCHIVED).
+- [x] Define priority colors/badges (CRITICAL, HIGH, MEDIUM, LOW, TRIVIAL).
 - [ ] Define styles for:
   - [ ] selected card (TUI later)
-  - [ ] dimmed/cancelled items
-  - [ ] warnings
-- [ ] Implement and document:
-  - [ ] `NO_COLOR=1` disables ANSI
-  - [ ] `--no-color` flag disables ANSI
+  - [x] dimmed/cancelled items
+  - [x] warnings
+- [x] Implement and document:
+  - [x] `NO_COLOR=1` disables ANSI
+  - [x] `--no-color` flag disables ANSI
 
 ## Acceptance
 
@@ -150,7 +150,7 @@ Recommendation:
 # Description
 Standardize ANSI styling for table and kanban output: define status/priority colors, selected/dimmed/warning styles, and ensure NO_COLOR=1 and --no-color reliably disable escapes for script-friendly output.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -161,3 +161,12 @@ task
 - planning
 - usability
 # depends_on
+
+---
+
+## Outcomes
+
+- Added a shared ANSI theme module at `.bilu/cli/commands/board/ui/ansi.sh` (status/priority mappings, `NO_COLOR`, `--no-color`, and non-TTY auto-disable).
+- Applied token-only styling in `.bilu/cli/commands/board/render/{table.sh,kanban.sh}` without breaking alignment.
+- Documented `--no-color` in `.bilu/cli/commands/board.sh` and `.bilu/cli/bilu-cli.md`; updated stderr warn/error prefixes in `.bilu/cli/commands/board/lib/log.sh`.
+- Extended `tests/board.test.sh` to assert stable, ANSI-free output in non-TTY and `NO_COLOR=1` runs.

@@ -4,15 +4,16 @@ set -eu
 board_usage() {
   cat <<'EOF'
 Usage:
-  bilu board --list [--filter <name> --filter-value <value>]
-  bilu board --validate
-  bilu board --migrate [--dry-run]
-  bilu board --rebuild-index [--dry-run]
+  bilu board --list [--filter <name> --filter-value <value>] [--no-color]
+  bilu board --validate [--no-color]
+  bilu board --migrate [--dry-run] [--no-color]
+  bilu board --rebuild-index [--dry-run] [--no-color]
 
 Options:
   --list, -l                 List board items
   --filter, -f <name>        Filter field name (e.g. status)
   --filter-value, -fv <val>  Filter value (e.g. todo)
+  --no-color                 Disable ANSI colors (also respects NO_COLOR)
   --validate                 Validate board config/data
   --migrate                  Migrate task markdown metadata sections
   --rebuild-index            Rebuild derived board index from markdown
@@ -35,6 +36,7 @@ SCRIPT_DIR=$(
 
 BOARD_LIB_DIR="$SCRIPT_DIR/board"
 
+. "$BOARD_LIB_DIR/ui/ansi.sh" 2>/dev/null || true
 . "$BOARD_LIB_DIR/lib/log.sh"
 . "$BOARD_LIB_DIR/paths.sh"
 . "$BOARD_LIB_DIR/args.sh"

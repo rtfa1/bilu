@@ -18,6 +18,7 @@ Board commands (shell only):
 - `bilu board --list` (`-l`)
 - `bilu board --list --filter=status --filter-value=todo`
 - `bilu board --list -f status -fv todo`
+- `bilu board --list --no-color` (or `NO_COLOR=1`)
 - `bilu board --validate`
 - `bilu board --migrate [--dry-run]`
 - `bilu board --rebuild-index [--dry-run]`
@@ -38,6 +39,7 @@ Contract:
 - Flags must appear after `board` (e.g. `bilu board --list`).
 - Exactly one `--filter` and one `--filter-value` are supported (no repeats).
 - `--filter` and `--filter-value` must be provided together (usage error, exit `2`).
+- ANSI colors are enabled only on TTY stdout; disable with `NO_COLOR` or `--no-color`.
 - Supported syntaxes: `--flag value`, `--flag=value`, and `--` to end option parsing.
 - Exit codes: `0` success, `1` runtime/data/config error, `2` usage error.
 

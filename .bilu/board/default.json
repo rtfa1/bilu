@@ -308,7 +308,7 @@
     "description": "Standardize ANSI styling for table and kanban output: define status/priority colors, selected/dimmed/warning styles, and ensure NO_COLOR=1 and --no-color reliably disable escapes for script-friendly output.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

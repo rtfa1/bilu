@@ -23,24 +23,42 @@ tmp="$(mktemp_dir)"
 cleanup() { rm -rf "$tmp"; }
 trap cleanup EXIT INT TERM
 
+assert_no_ansi() {
+  # Basic check for SGR escape sequences: ESC[
+  awk 'index($0, sprintf("%c[", 27)) { found=1 } END { exit found ? 1 : 0 }'
+}
+
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
 printf "%s" "$out" | grep -F "board listing" >/dev/null
+printf "%s" "$out" | assert_no_ansi
+
+out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
+printf "%s" "$out" | grep -F "board listing" >/dev/null
+printf "%s" "$out" | assert_no_ansi
 
 out="$(
   cd "$REPO_ROOT/storage"
   NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list
 )"
 printf "%s" "$out" | grep -F "board listing" >/dev/null
+printf "%s" "$out" | assert_no_ansi
 
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status --filter-value=todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
+printf "%s" "$out" | assert_no_ansi
 
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board -l -f status -fv todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
+printf "%s" "$out" | assert_no_ansi
 
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --help)"
 printf "%s" "$out" | grep -F "Usage:" >/dev/null
 printf "%s" "$out" | grep -F "bilu board --list" >/dev/null
+printf "%s" "$out" | grep -F -- "--no-color" >/dev/null
+
+out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --no-color)"
+printf "%s" "$out" | grep -F "board listing" >/dev/null
+printf "%s" "$out" | assert_no_ansi
 
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --validate)"
 printf "%s\n" "$out" | awk 'NR==1 { exit $0=="ok" ? 0 : 1 }'

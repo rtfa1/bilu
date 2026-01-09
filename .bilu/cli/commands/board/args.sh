@@ -5,6 +5,7 @@ board_parse_args() {
   BOARD_DRY_RUN=0
   BOARD_FILTER_NAME=""
   BOARD_FILTER_VALUE=""
+  BOARD_NO_COLOR=0
 
   while [ $# -gt 0 ]; do
     arg=$1
@@ -44,6 +45,10 @@ board_parse_args() {
         ;;
       --dry-run)
         BOARD_DRY_RUN=1
+        shift
+        ;;
+      --no-color)
+        BOARD_NO_COLOR=1
         shift
         ;;
       --filter|-f)
@@ -122,5 +127,5 @@ board_parse_args() {
     usage_error "--filter is required when --filter-value is set"
   fi
 
-  export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE
+  export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE BOARD_NO_COLOR
 }
