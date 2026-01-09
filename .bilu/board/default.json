@@ -340,7 +340,7 @@
     "description": "Define and implement a narrow-terminal fallback for --view=kanban (threshold, alternate rendering mode, and border/wrapping rules) so output stays readable on small widths without terminal glitches.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

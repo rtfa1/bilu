@@ -6,11 +6,11 @@ Ensure `--view=kanban` remains usable on small terminals.
 
 ## Checklist
 
-- [ ] Define “narrow” threshold (e.g. `< 80 cols`).
-- [ ] Implement fallback rendering:
-  - [ ] vertical blocks per column
-  - [ ] one-column-at-a-time with section headers
-- [ ] Ensure card borders don’t wrap unexpectedly.
+- [x] Define “narrow” threshold (e.g. `< 80 cols`).
+- [x] Implement fallback rendering:
+  - [x] vertical blocks per column
+  - [x] one-column-at-a-time with section headers
+- [x] Ensure card borders don’t wrap unexpectedly.
 
 ## Acceptance
 
@@ -135,7 +135,7 @@ Test expectations:
 # Description
 Define and implement a narrow-terminal fallback for --view=kanban (threshold, alternate rendering mode, and border/wrapping rules) so output stays readable on small widths without terminal glitches.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -146,3 +146,9 @@ task
 - planning
 - usability
 # depends_on
+
+## Outcomes
+
+- Implemented narrow-mode kanban rendering with `== <Column> (N) ==` section headers and borderless cards (`- [PRIO] Title`) in `.bilu/cli/commands/board/render/kanban.sh`.
+- Narrow mode triggers when `COLUMNS < 80` or wide-mode `inner_w < 20` (existing behavior) and avoids border wrapping.
+- Tests: `sh tests/run.sh`

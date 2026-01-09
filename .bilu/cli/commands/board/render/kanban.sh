@@ -128,6 +128,25 @@ board_render_kanban() {
       if (pre != "" && R != "") return pre badge R
       return badge
     }
+    function chips_from_csv_or_empty(csv,    n, a, i, out, part) {
+      if (csv == "") return ""
+      n = split(csv, a, ",")
+      out = ""
+      for (i=1; i<=n; i++) {
+        part = a[i]
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", part)
+        if (part == "") continue
+        if (out != "") out = out " "
+        out = out "#" part
+      }
+      return out
+    }
+    function render_narrow_card(prio, title, line_w,    pre, max_title) {
+      pre = "- [" prio "] "
+      max_title = line_w - length(pre)
+      if (max_title < 0) max_title = 0
+      return "- " render_badge(prio) " " trunc(title, max_title)
+    }
     function render_title_cell(prio, id, title, inner_w,    badge, raw, out, padlen) {
       badge = "[" prio "]"
       raw = badge " " id " " title
@@ -199,13 +218,13 @@ board_render_kanban() {
       if (mode == "narrow") {
         line_w = cols
         for (c=1; c<=4; c++) {
-          title = trunc(col_titles[c], line_w)
-          emit_line(title)
-          emit_line(repeat("-", length(title)))
+          header = "== " col_titles[c] " (" col_count[c] ") =="
+          emit_line(trunc(header, line_w))
+          emit_line("")
           for (i=1; i<=col_count[c]; i++) {
-            head = "[" card_prio[c, i] "] " card_id[c, i] " " card_title[c, i]
-            emit_line(trunc(head, line_w))
-            emit_line(trunc(chips_from_csv(card_tags[c, i]), line_w))
+            emit_line(trunc(render_narrow_card(card_prio[c, i], card_title[c, i], line_w), line_w))
+            tags_line = chips_from_csv_or_empty(card_tags[c, i])
+            if (tags_line != "") emit_line(trunc("  tags: " tags_line, line_w))
             emit_line("")
           }
         }
