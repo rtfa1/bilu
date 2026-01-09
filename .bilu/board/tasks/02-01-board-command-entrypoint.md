@@ -6,12 +6,12 @@ Make `bilu board` a first-class command with a thin dispatcher and predictable r
 
 ## Checklist
 
-- [ ] Confirm `src/cli/bilu` routes `board` to `src/cli/commands/board.sh`.
-- [ ] Ensure `board.sh` is thin (dispatch only; no heavy logic).
-- [ ] Add/verify `bilu help` documents `board`.
-- [ ] Define exit codes for:
-  - [ ] unknown subcommand/flag (`2`)
-  - [ ] runtime error (`1`)
+- [x] Confirm `src/cli/bilu` routes `board` to `src/cli/commands/board.sh`.
+- [x] Ensure `board.sh` is thin (dispatch only; no heavy logic).
+- [x] Add/verify `bilu help` documents `board`.
+- [x] Define exit codes for:
+  - [x] unknown subcommand/flag (`2`)
+  - [x] runtime error (`1`)
 
 ## Acceptance
 
@@ -103,10 +103,16 @@ Run tests with `NO_COLOR=1` to keep output stable.
 - `src/cli/bilu`
 - `src/cli/commands/board.sh`
 
+## Outcomes
+
+- Refactored `.bilu/cli/commands/board.sh` into a thin dispatcher and moved validation/list logic into `.bilu/cli/commands/board/{validate.sh,list.sh}`.
+- Verified `bilu help` documents `board`, `bilu board --help` exits `0`, unknown flags exit `2`, and runtime/data/config failures exit `1`.
+- Tests: `sh tests/run.sh`
+
 # Description
 Make bilu board a first-class command by wiring .bilu/cli/bilu to a thin .bilu/cli/commands/board.sh dispatcher, documenting it in bilu help, and standardizing exit codes (2 usage, 1 runtime).
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

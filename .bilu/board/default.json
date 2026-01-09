@@ -189,7 +189,7 @@
     "description": "Make bilu board a first-class command by wiring .bilu/cli/bilu to a thin .bilu/cli/commands/board.sh dispatcher, documenting it in bilu help, and standardizing exit codes (2 usage, 1 runtime).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
