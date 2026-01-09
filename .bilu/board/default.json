@@ -277,7 +277,7 @@
     "description": "Add integration tests to prevent regressions in bilu board routing and argument parsing (help exits 0, unknown flags exit 2, paired filter enforcement, and alias forms like -l -f ... -fv ...), without depending on ANSI output.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

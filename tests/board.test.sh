@@ -39,6 +39,7 @@ out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board -l -f status -fv todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --help)"
+printf "%s" "$out" | grep -F "Usage:" >/dev/null
 printf "%s" "$out" | grep -F "bilu board --list" >/dev/null
 
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --validate)"
@@ -49,42 +50,61 @@ NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board -x >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
-grep -F "bilu board --list" "$tmp/err" >/dev/null
+grep -F "unknown option" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
 
 set +e
 NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
-grep -F "bilu board --list" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
 
 set +e
 NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
-grep -F "bilu board --list" "$tmp/err" >/dev/null
+grep -F -- "--filter-value is required" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
 
 set +e
 NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter-value=todo >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
-grep -F "bilu board --list" "$tmp/err" >/dev/null
+grep -F -- "--filter is required" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
+
+set +e
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter status >"$tmp/out" 2>"$tmp/err"
+status=$?
+set -e
+test "$status" -eq 2
+grep -F -- "--filter-value is required" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
+
+set +e
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter-value todo >"$tmp/out" 2>"$tmp/err"
+status=$?
+set -e
+test "$status" -eq 2
+grep -F -- "--filter is required" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
 
 set +e
 NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --filter=status --filter-value=todo >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
-grep -F "bilu board --list" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
 
 set +e
 NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list -- --help >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
 test "$status" -eq 2
-grep -F "bilu board --list" "$tmp/err" >/dev/null
+grep -F "Usage:" "$tmp/err" >/dev/null
 
 # Fatal validation error: duplicate config values should exit 1 and not print "ok".
 rm -rf "$tmp/.bilu"

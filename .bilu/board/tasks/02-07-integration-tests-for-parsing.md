@@ -108,10 +108,15 @@ Recommended:
 - `tests/board.test.sh`
 - `tests/run.sh`
 
+## Outcomes
+
+- Expanded `bilu/tests/board.test.sh` to assert `bilu board --help` prints `Usage:` and to check specific stderr error strings for unknown options and missing `--filter/--filter-value` pairs (both `--filter=status` and `--filter status` forms).
+- Verified `sh bilu/tests/run.sh` passes.
+
 # Description
 Add integration tests to prevent regressions in bilu board routing and argument parsing (help exits 0, unknown flags exit 2, paired filter enforcement, and alias forms like -l -f ... -fv ...), without depending on ANSI output.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
