@@ -386,7 +386,7 @@
     "description": "Add stable tests for non-interactive renderers (table and kanban) that assert on deterministic markers/tokens, verify --no-color produces no ANSI escapes, and avoid terminal-width flakiness by forcing a fixed width when needed.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

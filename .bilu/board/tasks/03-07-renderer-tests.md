@@ -6,11 +6,11 @@ Add tests for non-interactive renderers without depending on ANSI formatting.
 
 ## Checklist
 
-- [ ] Add tests for:
-  - [ ] `--view=table` contains expected titles/statuses
-  - [ ] `--view=kanban` prints column headers (or markers) deterministically
-  - [ ] `--no-color` produces no ANSI escape sequences
-- [ ] Ensure tests don’t depend on terminal width (set a fixed width if needed).
+- [x] Add tests for:
+  - [x] `--view=table` contains expected titles/statuses
+  - [x] `--view=kanban` prints column headers (or markers) deterministically
+  - [x] `--no-color` produces no ANSI escape sequences
+- [x] Ensure tests don’t depend on terminal width (set a fixed width if needed).
 
 ## Acceptance
 
@@ -137,10 +137,16 @@ This separation keeps failures easy to interpret.
 - `src/board/tasks/03-02-color-theme-and-no-color.md`
 - `tests/board.test.sh`
 
+## Outcomes
+
+- Added `tests/board-render.test.sh` to assert stable table/kanban markers without depending on ANSI or terminal width.
+- Tests force deterministic width via `COLUMNS` and ensure `NO_COLOR` output has no `ESC[` sequences.
+- Verified with `sh tests/run.sh`.
+
 # Description
 Add stable tests for non-interactive renderers (table and kanban) that assert on deterministic markers/tokens, verify --no-color produces no ANSI escapes, and avoid terminal-width flakiness by forcing a fixed width when needed.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
