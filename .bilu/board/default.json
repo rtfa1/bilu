@@ -139,7 +139,7 @@
     "description": "Define a safe, portable parsing strategy for config.json/default.json and tasks/*.md without jq (schema-specific awk/sed or optional python3), including how to handle missing files and broken links.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "planning"

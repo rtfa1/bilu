@@ -11,12 +11,12 @@ Define how shell scripts parse `config.json`, `default.json`, and `tasks/*.md` s
 
 ## Checklist
 
-- [ ] Decide whether JSON parsing uses:
-  - [ ] `python3 -c` helper (allowed?) OR
-  - [ ] `awk/sed` schema-specific extraction only
-- [ ] Define markdown parsing approach:
-  - [ ] parse `# Title`, `# Description`, `# Priority`, `# Status`, `# depends_on`
-- [ ] Define handling for missing files and broken links (warn vs error).
+- [x] Decide whether JSON parsing uses:
+  - [ ] `python3 -c` helper (optional enhancement; not required)
+  - [x] `awk` schema-specific extraction only (for small, known shapes)
+- [x] Define markdown parsing approach:
+  - [x] parse `# Title`, `# Description`, `# Priority`, `# Status`, `# depends_on`
+- [x] Define handling for missing files and broken links (warn vs error).
 
 ## Acceptance
 
@@ -27,9 +27,9 @@ Define how shell scripts parse `config.json`, `default.json`, and `tasks/*.md` s
 
 # Phase 01 Task Implementation Plan — Parsing strategy (no `jq`)
 
-Task: `src/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
+Task: `.bilu/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
 
-This implementation plan chooses a parsing approach that is portable, maintainable, and consistent with `src/storage/research/shell-only-cli-advanced-notes.md`: avoid runtime JSON parsing in shell when possible, prefer “compile”/derive an internal TSV, and use `awk` for structured transforms.
+This implementation plan chooses a parsing approach that is portable, maintainable, and consistent with `.bilu/storage/research/shell-only-cli-advanced-notes.md`: avoid runtime JSON parsing in shell when possible, prefer “compile”/derive an internal TSV, and use `awk` for structured transforms.
 
 ## Outcome (what “done” means)
 
@@ -44,7 +44,7 @@ This implementation plan chooses a parsing approach that is portable, maintainab
 ### Primary strategy: markdown is authoritative; runtime reads markdown
 
 Per Phase 01-01 and the research note:
-- Treat `src/board/tasks/*.md` as the source of truth.
+- Treat `.bilu/board/tasks/*.md` as the source of truth.
 - Parse markdown at runtime for `--list` and renderers.
 
 ### Derived artifacts: compile to TSV and (optionally) JSON explicitly
@@ -52,14 +52,14 @@ Per Phase 01-01 and the research note:
 Avoid parsing JSON at runtime by introducing explicit build steps:
 - `bilu board --rebuild-index` generates:
   - an internal TSV cache (preferred) for fast rendering, and optionally
-  - `src/board/default.json` for compatibility/inspection
+  - `.bilu/board/default.json` for compatibility/inspection
 
 This follows “Strategy A” from the research note: compile structured data during init/rebuild rather than parsing JSON in hot paths.
 
 ### JSON usage
 
 Keep runtime JSON usage minimal:
-- `src/board/config.json` is small and stable; it can be:
+- `.bilu/board/config.json` is small and stable; it can be:
   - compiled to TSV key-value lines during `--rebuild-index`, or
   - read with schema-specific `awk` extraction if you choose not to compile
 
@@ -94,7 +94,7 @@ Parse a limited, well-defined subset of the markdown structure (no full markdown
 
 ### Sections to parse
 
-From each `src/board/tasks/*.md`:
+From each `.bilu/board/tasks/*.md`:
 - `# Title` → single-line value
 - `# Description` → text block until next `#` header
 - `# Priority` → single-line value
@@ -153,8 +153,15 @@ Add tests that verify parsing without relying on ANSI:
 
 ## References
 
-- `src/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
-- `src/board/tasks/00-02-board-data-audit.md`
-- `src/board/tasks/01-05-validation-command.md`
-- `src/board/tasks/01-02-normalized-task-schema.md`
+- `.bilu/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/tasks/00-02-board-data-audit.md`
+- `.bilu/board/tasks/01-05-validation-command.md`
+- `.bilu/board/tasks/01-02-normalized-task-schema.md`
+
+---
+
+## Outcomes
+
+- Chose the “no runtime JSON parsing in render paths” policy: markdown is authoritative, with small schema-specific `awk` extraction only where needed (no `jq`, no required `python3`).
+- Documented the authoritative markdown sections to parse and the warn-vs-error behavior for missing/broken references.

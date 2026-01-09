@@ -23,6 +23,12 @@ Data policy:
 
 - Task metadata is sourced from `.bilu/board/tasks/*.md`; `.bilu/board/default.json` is a derived index and may be regenerated (`.bilu/board/phases/01-data-contract.md`).
 
+Parsing:
+
+- Render paths parse task markdown with a small `awk`-based extractor (limited headers/sections) and normalize into internal TSV records.
+- Avoid runtime JSON parsing; treat JSON as derived/compiled artifacts or use tightly scoped, schema-specific `awk` extraction for small config shapes (no required external JSON parser; no required `python3`).
+- Parsing details live in `.bilu/board/tasks/01-04-json-and-markdown-parsing-strategy.md`.
+
 Contract:
 
 - Flags must appear after `board` (e.g. `bilu board --list`).

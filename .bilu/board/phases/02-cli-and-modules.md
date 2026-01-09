@@ -47,6 +47,7 @@ This phase restructures `bilu board` into a small shell “module” with clear 
   - `--flag=value`
 - Reject unknown options with exit code `2` and show usage.
 - Do not accept positional args unless explicitly defined.
+- Parsing strategy (no `jq`): see `.bilu/board/tasks/01-04-json-and-markdown-parsing-strategy.md`.
 
 ## Phase 02 tasks
 
