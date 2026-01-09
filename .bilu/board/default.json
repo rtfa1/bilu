@@ -420,7 +420,7 @@
     "description": "Implement reliable key input decoding for the bash TUI: non-blocking single-key reads, escape-sequence decoding for arrows (optionally Home/End/Page), and fallback hjkl navigation across common terminals.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "IN_PROGRESS",
     "depends_on": [
     ],
     "tags": [

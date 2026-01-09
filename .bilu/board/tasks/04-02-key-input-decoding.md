@@ -145,7 +145,11 @@ In macOS Terminal/iTerm2 and a Linux terminal:
 # Description
 Implement reliable key input decoding for the bash TUI: non-blocking single-key reads, escape-sequence decoding for arrows (optionally Home/End/Page), and fallback hjkl navigation across common terminals.
 # Status
-TODO
+IN_PROGRESS
+
+## Work
+- Reviewed and confirmed the implementation plan for non-blocking key reads and escape-sequence decoding.
+- Marked task IN_PROGRESS; next step is to implement `tui_read_key` in the bash TUI module (`src/cli/commands/board/render/tui.sh`).
 # Priority
 MEDIUM
 # Kind
