@@ -2,21 +2,21 @@
 
 ## Goal
 
-Create the module directory structure under `src/cli/commands/board/` and wire imports in a consistent way.
+Create the module directory structure under `.bilu/cli/commands/board/` and wire imports in a consistent way.
 
 ## Checklist
 
-- [ ] Create module directories:
-  - [ ] `src/cli/commands/board/`
-  - [ ] `src/cli/commands/board/render/`
-  - [ ] `src/cli/commands/board/actions/`
-  - [ ] `src/cli/commands/board/ui/`
-- [ ] Add placeholder modules with clear interfaces:
-  - [ ] `paths.sh`, `args.sh`, `normalize.sh`
-  - [ ] `load_config.sh`, `load_tasks_json.sh`, `load_tasks_md.sh`
-- [ ] Decide module sourcing convention:
-  - [ ] `SCRIPT_DIR` + `. "$SCRIPT_DIR/..."` includes
-  - [ ] no reliance on `$PWD`
+- [x] Create module directories:
+  - [x] `.bilu/cli/commands/board/`
+  - [x] `.bilu/cli/commands/board/render/`
+  - [x] `.bilu/cli/commands/board/actions/`
+  - [x] `.bilu/cli/commands/board/ui/`
+- [x] Add placeholder modules with clear interfaces:
+  - [x] `paths.sh`, `args.sh`, `normalize.sh`
+  - [x] `load/config.sh`, `load/tasks_json.sh`, `load/tasks_md.sh`
+- [x] Decide module sourcing convention:
+  - [x] `SCRIPT_DIR` + `. "$SCRIPT_DIR/..."` includes
+  - [x] no reliance on `$PWD`
 
 ## Acceptance
 
@@ -27,25 +27,25 @@ Create the module directory structure under `src/cli/commands/board/` and wire i
 
 # Phase 02 Task Implementation Plan — Module skeleton
 
-Task: `src/board/tasks/02-02-module-skeleton.md`
+Task: `.bilu/board/tasks/02-02-module-skeleton.md`
 
-This implementation plan creates the module directory skeleton for `bilu board` and defines a sourcing convention that works from any working directory. It aligns with `src/storage/research/shell-only-cli-advanced-notes.md` and the Phase 00 module layout plan: keep non-interactive code POSIX `sh`, keep stateful TUI code in `bash`, and structure logic so `awk` can be the compute engine.
+This implementation plan creates the module directory skeleton for `bilu board` and defines a sourcing convention that works from any working directory. It aligns with `.bilu/storage/research/shell-only-cli-advanced-notes.md` and the Phase 00 module layout plan: keep non-interactive code POSIX `sh`, keep stateful TUI code in `bash`, and structure logic so `awk` can be the compute engine.
 
 ## Outcome (what “done” means)
 
-1) The directory tree under `src/cli/commands/board/` exists.
+1) The directory tree under `.bilu/cli/commands/board/` exists.
 2) Placeholder modules exist with documented, stable interfaces.
-3) `src/cli/commands/board.sh` can source modules reliably from any working directory.
+3) `.bilu/cli/commands/board.sh` can source modules reliably from any working directory.
 
 ## Directory structure to create
 
 Create:
-- `src/cli/commands/board/`
-- `src/cli/commands/board/render/`
-- `src/cli/commands/board/actions/`
-- `src/cli/commands/board/ui/`
-- (recommended) `src/cli/commands/board/lib/`
-- (recommended) `src/cli/commands/board/load/`
+- `.bilu/cli/commands/board/`
+- `.bilu/cli/commands/board/render/`
+- `.bilu/cli/commands/board/actions/`
+- `.bilu/cli/commands/board/ui/`
+- `.bilu/cli/commands/board/lib/`
+- `.bilu/cli/commands/board/load/`
 
 Note: Phase 02 task list uses flat `load_config.sh` naming, while Phase 00 plan proposes `load/config.sh`. Choose one structure now and keep it consistent.
 
@@ -54,7 +54,7 @@ Recommendation:
 
 ## Module sourcing convention (authoritative)
 
-In `src/cli/commands/board.sh`:
+In `.bilu/cli/commands/board.sh`:
 
 1) Compute a stable module root:
 - `SCRIPT_DIR` = directory of `board.sh`
@@ -127,7 +127,7 @@ Define minimal function interfaces now so later tasks can fill them in without c
 
 1) Create the folders.
 2) Add placeholder files with function stubs and clear comments in docstrings (no heavy logic yet).
-3) Update `src/cli/commands/board.sh` to:
+3) Update `.bilu/cli/commands/board.sh` to:
   - compute module paths
   - source `lib/log.sh` first
   - call `board_detect_paths`, then `board_parse_args`
@@ -135,21 +135,21 @@ Define minimal function interfaces now so later tasks can fill them in without c
 
 ## Acceptance checks
 
-- Running `sh src/cli/bilu board --help` still works from any directory.
-- Running `sh src/cli/bilu board --list` still works and does not depend on `$PWD`.
+- Running `sh .bilu/cli/bilu board --help` still works from any directory.
+- Running `sh .bilu/cli/bilu board --list` still works and does not depend on `$PWD`.
 - `board.sh` sources modules successfully (no “file not found”).
 
 ## References
 
-- `src/board/tasks/02-02-module-skeleton.md`
-- `src/board/tasks/00-05-module-layout-and-responsibilities.md`
-- `src/board/phases/02-cli-and-modules.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/tasks/02-02-module-skeleton.md`
+- `.bilu/board/tasks/00-05-module-layout-and-responsibilities.md`
+- `.bilu/board/phases/02-cli-and-modules.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
 
 # Description
 Create the board module skeleton under .bilu/cli/commands/board/ (render/actions/ui + core modules) and standardize sourcing/imports via SCRIPT_DIR so board.sh works from any working directory.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -160,3 +160,9 @@ task
 - planning
 - usability
 # depends_on
+
+## Outcomes
+
+- Confirmed module skeleton exists under `.bilu/cli/commands/board/` (including `render/`, `actions/`, `ui/`, `lib/`, `load/`).
+- Confirmed `.bilu/cli/commands/board.sh` sources modules via `SCRIPT_DIR`/`BOARD_LIB_DIR` and does not rely on `$PWD`.
+- Tests: `sh tests/run.sh`

@@ -203,7 +203,7 @@
     "description": "Create the board module skeleton under .bilu/cli/commands/board/ (render/actions/ui + core modules) and standardize sourcing/imports via SCRIPT_DIR so board.sh works from any working directory.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
