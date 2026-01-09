@@ -150,7 +150,7 @@ normalize_tags_csv() {
 }
 
 if [ "${1:-}" = "__lib__" ]; then
-  exit 0
+  return 0 2>/dev/null || exit 0
 fi
 
 cmd=${1:-}
@@ -178,4 +178,3 @@ case "$cmd" in
     exit 2
     ;;
 esac
-
