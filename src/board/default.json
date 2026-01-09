@@ -6,9 +6,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "frontend", "planning", "usability"],
-    "link": "board/tasks/00-01-scope-and-constraints.md",
-    "imp_link": "board/tasks/00-01-scope-and-constraints_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/00-01-scope-and-constraints.md"
   },
   {
     "title": "Phase 00 — Board data audit",
@@ -17,9 +22,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/00-02-board-data-audit.md",
-    "imp_link": "board/tasks/00-02-board-data-audit_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/00-02-board-data-audit.md"
   },
   {
     "title": "Phase 00 — CLI surface and aliases",
@@ -28,9 +37,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "documentation", "frontend", "planning", "usability"],
-    "link": "board/tasks/00-03-cli-surface-and-aliases.md",
-    "imp_link": "board/tasks/00-03-cli-surface-and-aliases_imp.md"
+    "tags": [
+      "design",
+      "documentation",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/00-03-cli-surface-and-aliases.md"
   },
   {
     "title": "Phase 00 — Kanban UX requirements",
@@ -39,9 +53,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "frontend", "planning", "usability"],
-    "link": "board/tasks/00-04-kanban-ux-requirements.md",
-    "imp_link": "board/tasks/00-04-kanban-ux-requirements_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/00-04-kanban-ux-requirements.md"
   },
   {
     "title": "Phase 00 — Module layout and responsibilities",
@@ -50,9 +69,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "documentation", "frontend", "planning", "usability"],
-    "link": "board/tasks/00-05-module-layout-and-responsibilities.md",
-    "imp_link": "board/tasks/00-05-module-layout-and-responsibilities_imp.md"
+    "tags": [
+      "design",
+      "documentation",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/00-05-module-layout-and-responsibilities.md"
   },
   {
     "title": "Phase 00 — Acceptance criteria",
@@ -61,9 +85,15 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "documentation", "frontend", "planning", "testing", "usability"],
-    "link": "board/tasks/00-06-acceptance-criteria.md",
-    "imp_link": "board/tasks/00-06-acceptance-criteria_imp.md"
+    "tags": [
+      "design",
+      "documentation",
+      "frontend",
+      "planning",
+      "testing",
+      "usability"
+    ],
+    "link": "board/tasks/00-06-acceptance-criteria.md"
   },
   {
     "title": "Phase 01 — Choose source of truth",
@@ -72,9 +102,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/01-01-source-of-truth.md",
-    "imp_link": "board/tasks/01-01-source-of-truth_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/01-01-source-of-truth.md"
   },
   {
     "title": "Phase 01 — Normalized task schema",
@@ -83,9 +114,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/01-02-normalized-task-schema.md",
-    "imp_link": "board/tasks/01-02-normalized-task-schema_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/01-02-normalized-task-schema.md"
   },
   {
     "title": "Phase 01 — Normalization rules",
@@ -94,9 +126,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/01-03-normalization-rules.md",
-    "imp_link": "board/tasks/01-03-normalization-rules_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/01-03-normalization-rules.md"
   },
   {
     "title": "Phase 01 — Parsing strategy (no `jq`)",
@@ -105,9 +141,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/01-04-json-and-markdown-parsing-strategy.md",
-    "imp_link": "board/tasks/01-04-json-and-markdown-parsing-strategy_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/01-04-json-and-markdown-parsing-strategy.md"
   },
   {
     "title": "Phase 01 — `bilu board --validate`",
@@ -116,9 +153,12 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["documentation", "planning", "testing"],
-    "link": "board/tasks/01-05-validation-command.md",
-    "imp_link": "board/tasks/01-05-validation-command_imp.md"
+    "tags": [
+      "documentation",
+      "planning",
+      "testing"
+    ],
+    "link": "board/tasks/01-05-validation-command.md"
   },
   {
     "title": "Phase 01 — Index derivation and migration",
@@ -127,9 +167,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/01-06-index-derivation-and-migration.md",
-    "imp_link": "board/tasks/01-06-index-derivation-and-migration_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/01-06-index-derivation-and-migration.md"
   },
   {
     "title": "Phase 02 — Board command entrypoint",
@@ -138,9 +179,11 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["documentation", "planning"],
-    "link": "board/tasks/02-01-board-command-entrypoint.md",
-    "imp_link": "board/tasks/02-01-board-command-entrypoint_imp.md"
+    "tags": [
+      "documentation",
+      "planning"
+    ],
+    "link": "board/tasks/02-01-board-command-entrypoint.md"
   },
   {
     "title": "Phase 02 — Module skeleton",
@@ -149,9 +192,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/02-02-module-skeleton.md",
-    "imp_link": "board/tasks/02-02-module-skeleton_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/02-02-module-skeleton.md"
   },
   {
     "title": "Phase 02 — Layout detection",
@@ -160,9 +207,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/02-03-layout-detection.md",
-    "imp_link": "board/tasks/02-03-layout-detection_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/02-03-layout-detection.md"
   },
   {
     "title": "Phase 02 — Args parser",
@@ -171,9 +219,12 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["devops", "documentation", "planning"],
-    "link": "board/tasks/02-04-args-parser.md",
-    "imp_link": "board/tasks/02-04-args-parser_imp.md"
+    "tags": [
+      "devops",
+      "documentation",
+      "planning"
+    ],
+    "link": "board/tasks/02-04-args-parser.md"
   },
   {
     "title": "Phase 02 — Help and usage text",
@@ -182,9 +233,11 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["documentation", "planning"],
-    "link": "board/tasks/02-05-help-and-usage-text.md",
-    "imp_link": "board/tasks/02-05-help-and-usage-text_imp.md"
+    "tags": [
+      "documentation",
+      "planning"
+    ],
+    "link": "board/tasks/02-05-help-and-usage-text.md"
   },
   {
     "title": "Phase 02 — Internal record format (TSV)",
@@ -193,9 +246,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/02-06-internal-record-format.md",
-    "imp_link": "board/tasks/02-06-internal-record-format_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/02-06-internal-record-format.md"
   },
   {
     "title": "Phase 02 — Integration tests for parsing",
@@ -204,9 +261,12 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["documentation", "planning", "testing"],
-    "link": "board/tasks/02-07-integration-tests-for-parsing.md",
-    "imp_link": "board/tasks/02-07-integration-tests-for-parsing_imp.md"
+    "tags": [
+      "documentation",
+      "planning",
+      "testing"
+    ],
+    "link": "board/tasks/02-07-integration-tests-for-parsing.md"
   },
   {
     "title": "Phase 03 — Table view spec",
@@ -215,9 +275,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/03-01-table-view-spec.md",
-    "imp_link": "board/tasks/03-01-table-view-spec_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/03-01-table-view-spec.md"
   },
   {
     "title": "Phase 03 — Color theme and `NO_COLOR`",
@@ -226,9 +290,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/03-02-color-theme-and-no-color.md",
-    "imp_link": "board/tasks/03-02-color-theme-and-no-color_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/03-02-color-theme-and-no-color.md"
   },
   {
     "title": "Phase 03 — Kanban layout algorithm (non-interactive)",
@@ -237,9 +305,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/03-03-kanban-layout-algorithm.md",
-    "imp_link": "board/tasks/03-03-kanban-layout-algorithm_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/03-03-kanban-layout-algorithm.md"
   },
   {
     "title": "Phase 03 — Narrow-terminal fallback",
@@ -248,9 +320,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/03-04-kanban-narrow-fallback.md",
-    "imp_link": "board/tasks/03-04-kanban-narrow-fallback_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/03-04-kanban-narrow-fallback.md"
   },
   {
     "title": "Phase 03 — Column mapping and configuration",
@@ -259,9 +335,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/03-05-column-mapping-config.md",
-    "imp_link": "board/tasks/03-05-column-mapping-config_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/03-05-column-mapping-config.md"
   },
   {
     "title": "Phase 03 — Renderer performance rules",
@@ -270,9 +347,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "performance", "planning", "usability"],
-    "link": "board/tasks/03-06-renderer-performance.md",
-    "imp_link": "board/tasks/03-06-renderer-performance_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "performance",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/03-06-renderer-performance.md"
   },
   {
     "title": "Phase 03 — Renderer tests",
@@ -281,9 +363,15 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "frontend", "planning", "testing", "usability"],
-    "link": "board/tasks/03-07-renderer-tests.md",
-    "imp_link": "board/tasks/03-07-renderer-tests_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "frontend",
+      "planning",
+      "testing",
+      "usability"
+    ],
+    "link": "board/tasks/03-07-renderer-tests.md"
   },
   {
     "title": "Phase 04 — Terminal setup and cleanup",
@@ -292,9 +380,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-01-terminal-setup-and-cleanup.md",
-    "imp_link": "board/tasks/04-01-terminal-setup-and-cleanup_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-01-terminal-setup-and-cleanup.md"
   },
   {
     "title": "Phase 04 — Key input decoding",
@@ -303,9 +395,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-02-key-input-decoding.md",
-    "imp_link": "board/tasks/04-02-key-input-decoding_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-02-key-input-decoding.md"
   },
   {
     "title": "Phase 04 — Layout and selection model",
@@ -314,9 +410,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-03-layout-and-selection-model.md",
-    "imp_link": "board/tasks/04-03-layout-and-selection-model_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-03-layout-and-selection-model.md"
   },
   {
     "title": "Phase 04 — Render loop and frame buffer",
@@ -325,9 +425,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-04-render-loop-and-frame-buffer.md",
-    "imp_link": "board/tasks/04-04-render-loop-and-frame-buffer_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-04-render-loop-and-frame-buffer.md"
   },
   {
     "title": "Phase 04 — Search UI",
@@ -336,9 +441,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-05-search-ui.md",
-    "imp_link": "board/tasks/04-05-search-ui_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-05-search-ui.md"
   },
   {
     "title": "Phase 04 — Filter and sort UI",
@@ -347,9 +456,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-06-filter-and-sort-ui.md",
-    "imp_link": "board/tasks/04-06-filter-and-sort-ui_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-06-filter-and-sort-ui.md"
   },
   {
     "title": "Phase 04 — Open and edit actions",
@@ -358,9 +471,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-07-open-and-edit-actions.md",
-    "imp_link": "board/tasks/04-07-open-and-edit-actions_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-07-open-and-edit-actions.md"
   },
   {
     "title": "Phase 04 — Help overlay and status bar",
@@ -369,9 +486,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "documentation", "frontend", "planning", "usability"],
-    "link": "board/tasks/04-08-help-overlay-and-status-bar.md",
-    "imp_link": "board/tasks/04-08-help-overlay-and-status-bar_imp.md"
+    "tags": [
+      "design",
+      "documentation",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/04-08-help-overlay-and-status-bar.md"
   },
   {
     "title": "Phase 05 — Edit status in markdown",
@@ -380,9 +502,11 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["devops", "planning"],
-    "link": "board/tasks/05-01-edit-status-in-markdown.md",
-    "imp_link": "board/tasks/05-01-edit-status-in-markdown_imp.md"
+    "tags": [
+      "devops",
+      "planning"
+    ],
+    "link": "board/tasks/05-01-edit-status-in-markdown.md"
   },
   {
     "title": "Phase 05 — Edit priority in markdown",
@@ -391,9 +515,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "frontend", "planning", "usability"],
-    "link": "board/tasks/05-02-edit-priority-in-markdown.md",
-    "imp_link": "board/tasks/05-02-edit-priority-in-markdown_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/05-02-edit-priority-in-markdown.md"
   },
   {
     "title": "Phase 05 — Open task in editor",
@@ -402,9 +531,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "usability"],
-    "link": "board/tasks/05-03-open-task-in-editor.md",
-    "imp_link": "board/tasks/05-03-open-task-in-editor_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/05-03-open-task-in-editor.md"
   },
   {
     "title": "Phase 05 — Rebuild index command",
@@ -413,9 +546,10 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning"],
-    "link": "board/tasks/05-04-rebuild-index-command.md",
-    "imp_link": "board/tasks/05-04-rebuild-index-command_imp.md"
+    "tags": [
+      "planning"
+    ],
+    "link": "board/tasks/05-04-rebuild-index-command.md"
   },
   {
     "title": "Phase 05 — File locking and concurrency",
@@ -424,9 +558,11 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["devops", "planning"],
-    "link": "board/tasks/05-05-file-locking-and-concurrency.md",
-    "imp_link": "board/tasks/05-05-file-locking-and-concurrency_imp.md"
+    "tags": [
+      "devops",
+      "planning"
+    ],
+    "link": "board/tasks/05-05-file-locking-and-concurrency.md"
   },
   {
     "title": "Phase 05 — Persistence tests",
@@ -435,9 +571,15 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "frontend", "planning", "testing", "usability"],
-    "link": "board/tasks/05-06-persistence-tests.md",
-    "imp_link": "board/tasks/05-06-persistence-tests_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "frontend",
+      "planning",
+      "testing",
+      "usability"
+    ],
+    "link": "board/tasks/05-06-persistence-tests.md"
   },
   {
     "title": "Phase 06 — Test matrix",
@@ -446,9 +588,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "testing", "usability"],
-    "link": "board/tasks/06-01-test-matrix.md",
-    "imp_link": "board/tasks/06-01-test-matrix_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "testing",
+      "usability"
+    ],
+    "link": "board/tasks/06-01-test-matrix.md"
   },
   {
     "title": "Phase 06 — CLI parsing tests",
@@ -457,9 +604,12 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["documentation", "planning", "testing"],
-    "link": "board/tasks/06-02-cli-parsing-tests.md",
-    "imp_link": "board/tasks/06-02-cli-parsing-tests_imp.md"
+    "tags": [
+      "documentation",
+      "planning",
+      "testing"
+    ],
+    "link": "board/tasks/06-02-cli-parsing-tests.md"
   },
   {
     "title": "Phase 06 — Normalization tests",
@@ -468,9 +618,11 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["planning", "testing"],
-    "link": "board/tasks/06-03-normalization-tests.md",
-    "imp_link": "board/tasks/06-03-normalization-tests_imp.md"
+    "tags": [
+      "planning",
+      "testing"
+    ],
+    "link": "board/tasks/06-03-normalization-tests.md"
   },
   {
     "title": "Phase 06 — Renderer tests",
@@ -479,9 +631,14 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "testing", "usability"],
-    "link": "board/tasks/06-04-renderer-tests.md",
-    "imp_link": "board/tasks/06-04-renderer-tests_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "testing",
+      "usability"
+    ],
+    "link": "board/tasks/06-04-renderer-tests.md"
   },
   {
     "title": "Phase 06 — Docs sync checklist",
@@ -490,9 +647,15 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "devops", "documentation", "frontend", "planning", "usability"],
-    "link": "board/tasks/06-05-docs-sync-checklist.md",
-    "imp_link": "board/tasks/06-05-docs-sync-checklist_imp.md"
+    "tags": [
+      "design",
+      "devops",
+      "documentation",
+      "frontend",
+      "planning",
+      "usability"
+    ],
+    "link": "board/tasks/06-05-docs-sync-checklist.md"
   },
   {
     "title": "Phase 06 — Manual TUI test script",
@@ -501,8 +664,13 @@
     "kind": "task",
     "status": "TODO",
     "depends_on": [],
-    "tags": ["design", "frontend", "planning", "testing", "usability"],
-    "link": "board/tasks/06-06-manual-tui-test-script.md",
-    "imp_link": "board/tasks/06-06-manual-tui-test-script_imp.md"
+    "tags": [
+      "design",
+      "frontend",
+      "planning",
+      "testing",
+      "usability"
+    ],
+    "link": "board/tasks/06-06-manual-tui-test-script.md"
   }
 ]

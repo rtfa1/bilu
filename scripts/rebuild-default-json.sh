@@ -180,10 +180,8 @@ infer_tags_json() {
   printf "[\n"
   first=1
 
-  find "$TASKS_DIR" -maxdepth 1 -type f -name '*.md' ! -name '*_imp.md' | sort | while IFS= read -r f; do
+  find "$TASKS_DIR" -maxdepth 1 -type f -name '*.md' | sort | while IFS= read -r f; do
     base=$(basename -- "$f")
-    imp="${base%.md}_imp.md"
-    imp_path="$TASKS_DIR/$imp"
 
     title=$(
       sed -n '1{s/^#[[:space:]]*//p; q;}' "$f"
@@ -210,13 +208,7 @@ infer_tags_json() {
     printf "    \"status\": \"TODO\",\n"
     printf "    \"depends_on\": [],\n"
     printf "    \"tags\": %s,\n" "$tags_json"
-    printf "    \"link\": \"board/tasks/%s\",\n" "$base"
-
-    if [ -f "$imp_path" ]; then
-      printf "    \"imp_link\": \"board/tasks/%s\"\n" "$imp"
-    else
-      printf "    \"imp_link\": \"\"\n"
-    fi
+    printf "    \"link\": \"board/tasks/%s\"\n" "$base"
 
     printf "  }"
   done
