@@ -73,6 +73,13 @@ test "$status" -eq 2
 grep -F "bilu board --list" "$tmp/err" >/dev/null
 
 set +e
+NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --filter=status --filter-value=todo >"$tmp/out" 2>"$tmp/err"
+status=$?
+set -e
+test "$status" -eq 2
+grep -F "bilu board --list" "$tmp/err" >/dev/null
+
+set +e
 NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list -- --help >"$tmp/out" 2>"$tmp/err"
 status=$?
 set -e
@@ -86,7 +93,10 @@ sed 's/"TODO": 1/"TODO": 0/' "$tmp/.bilu/board/config.json" >"$tmp/config.json"
 mv "$tmp/config.json" "$tmp/.bilu/board/config.json"
 
 set +e
-NO_COLOR=1 sh "$tmp/.bilu/cli/bilu" board --validate >"$tmp/out" 2>"$tmp/err"
+(
+  cd "$tmp"
+  NO_COLOR=1 sh "$tmp/.bilu/cli/bilu" board --validate >"$tmp/out" 2>"$tmp/err"
+)
 status=$?
 set -e
 test "$status" -eq 1

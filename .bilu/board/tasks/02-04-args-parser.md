@@ -147,10 +147,16 @@ Run tests with `NO_COLOR=1` for stable output.
 - `src/cli/commands/board.sh`
 - `tests/board.test.sh`
 
+# Outcomes
+
+- Implemented the board CLI argument parser in `.bilu/cli/commands/board/args.sh` with support for `--flag value` and `--flag=value`, short aliases (`-l`, `-f`, `-fv`, `-h`), strict `--` end-of-options handling, and consistent usage errors (exit `2`).
+- Enforced paired `--filter`/`--filter-value` semantics and rejected unknown options/positional args deterministically.
+- Expanded `tests/board.test.sh` to lock exit code `2` for missing-action cases; tests: `sh tests/run.sh`.
+
 # Description
 Implement a robust bilu board flag parser supporting long/short aliases and both --flag value and --flag=value, enforcing paired filter flags, supporting -- end-of-options, and returning exit 2 on usage errors.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

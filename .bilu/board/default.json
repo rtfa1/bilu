@@ -232,7 +232,7 @@
     "description": "Implement a robust bilu board flag parser supporting long/short aliases and both --flag value and --flag=value, enforcing paired filter flags, supporting -- end-of-options, and returning exit 2 on usage errors.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
