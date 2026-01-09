@@ -36,6 +36,14 @@ out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
 printf "%s" "$out" | grep -F "board listing" >/dev/null
 printf "%s" "$out" | assert_no_ansi
 
+out="$(NO_COLOR=1 COLUMNS=120 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --view=kanban)"
+printf "%s" "$out" | grep -F "board listing" >/dev/null
+printf "%s" "$out" | grep -F "Backlog" >/dev/null
+printf "%s" "$out" | grep -F "In Progress" >/dev/null
+printf "%s" "$out" | grep -F "Review" >/dev/null
+printf "%s" "$out" | grep -F "Done" >/dev/null
+printf "%s" "$out" | assert_no_ansi
+
 out="$(
   cd "$REPO_ROOT/storage"
   NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list

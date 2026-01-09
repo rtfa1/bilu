@@ -6,17 +6,17 @@ Define the rendering algorithm for a non-interactive kanban layout that adapts t
 
 ## Checklist
 
-- [ ] Use `stty size` to get `LINES`/`COLUMNS`.
-- [ ] Choose number of columns to render based on width.
+- [x] Use `stty size` to get `LINES`/`COLUMNS`.
+- [x] Choose number of columns to render based on width.
 - [ ] Define column width calculation:
-  - [ ] padding
-  - [ ] borders
-  - [ ] inter-column spacing
+  - [x] padding
+  - [x] borders
+  - [x] inter-column spacing
 - [ ] Define card layout:
-  - [ ] title line (with priority badge)
+  - [x] title line (with priority badge)
   - [ ] optional description preview lines
-  - [ ] tags chips line (truncated)
-- [ ] Define truncation/wrapping rules that avoid breaking the screen.
+  - [x] tags chips line (truncated)
+- [x] Define truncation/wrapping rules that avoid breaking the screen.
 
 ## Acceptance
 
@@ -172,7 +172,7 @@ Avoid asserting exact spacing; prefer stable tokens.
 # Description
 Define the non-interactive kanban rendering algorithm: detect terminal size, choose columns and widths, define card layout (title/priority/desc preview/tags), and specify truncation/wrapping rules that keep output readable across common widths.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -183,3 +183,17 @@ task
 - planning
 - usability
 # depends_on
+
+---
+
+## Outcomes
+
+### What changed
+
+- Added `--view=table|kanban` (default `table`) and wired `bilu board --list --view=kanban` to a real non-interactive kanban renderer.
+- Implemented width-aware wide/narrow kanban rendering in `.bilu/cli/commands/board/render/kanban.sh` (uses `stty size` when possible; truncates to avoid wrapping).
+- Extended `tests/board.test.sh` to cover `--view=kanban` output tokens and ensure `NO_COLOR=1` stays ANSI-free.
+
+### Tests
+
+- `sh tests/run.sh`

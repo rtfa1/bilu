@@ -6,6 +6,7 @@ board_parse_args() {
   BOARD_FILTER_NAME=""
   BOARD_FILTER_VALUE=""
   BOARD_NO_COLOR=0
+  BOARD_VIEW="table"
 
   while [ $# -gt 0 ]; do
     arg=$1
@@ -49,6 +50,26 @@ board_parse_args() {
         ;;
       --no-color)
         BOARD_NO_COLOR=1
+        shift
+        ;;
+      --view)
+        shift
+        if [ $# -lt 1 ]; then
+          usage_error "missing value for $arg"
+        fi
+        if [ -n "${BOARD_VIEW_SET:-}" ]; then
+          usage_error "multiple --view values are not supported"
+        fi
+        BOARD_VIEW=$1
+        BOARD_VIEW_SET=1
+        shift
+        ;;
+      --view=*)
+        if [ -n "${BOARD_VIEW_SET:-}" ]; then
+          usage_error "multiple --view values are not supported"
+        fi
+        BOARD_VIEW=${arg#*=}
+        BOARD_VIEW_SET=1
         shift
         ;;
       --filter|-f)
@@ -112,6 +133,9 @@ board_parse_args() {
     if [ -n "$BOARD_FILTER_NAME" ] || [ -n "$BOARD_FILTER_VALUE" ]; then
       usage_error "--filter/--filter-value are only valid with --list"
     fi
+    if [ -n "${BOARD_VIEW_SET:-}" ]; then
+      usage_error "--view is only valid with --list"
+    fi
   fi
 
   if [ "$BOARD_ACTION" = "validate" ]; then
@@ -127,5 +151,12 @@ board_parse_args() {
     usage_error "--filter is required when --filter-value is set"
   fi
 
-  export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE BOARD_NO_COLOR
+  case "$BOARD_VIEW" in
+    table|kanban) ;;
+    *)
+      usage_error "invalid --view value: $BOARD_VIEW (expected table or kanban)"
+      ;;
+  esac
+
+  export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE BOARD_NO_COLOR BOARD_VIEW
 }

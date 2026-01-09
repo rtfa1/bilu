@@ -16,6 +16,7 @@ Runs in the current folder:
 Board commands (shell only):
 
 - `bilu board --list` (`-l`)
+- `bilu board --list --view=kanban`
 - `bilu board --list --filter=status --filter-value=todo`
 - `bilu board --list -f status -fv todo`
 - `bilu board --list --no-color` (or `NO_COLOR=1`)
@@ -37,6 +38,7 @@ Parsing:
 Contract:
 
 - Flags must appear after `board` (e.g. `bilu board --list`).
+- `--view` is only valid with `--list` and currently supports `table` (default) and `kanban`.
 - Exactly one `--filter` and one `--filter-value` are supported (no repeats).
 - `--filter` and `--filter-value` must be provided together (usage error, exit `2`).
 - ANSI colors are enabled only on TTY stdout; disable with `NO_COLOR` or `--no-color`.

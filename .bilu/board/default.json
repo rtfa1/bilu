@@ -324,7 +324,7 @@
     "description": "Define the non-interactive kanban rendering algorithm: detect terminal size, choose columns and widths, define card layout (title/priority/desc preview/tags), and specify truncation/wrapping rules that keep output readable across common widths.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
