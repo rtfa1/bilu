@@ -27,3 +27,4 @@
 [2026-01-09T14:25:31Z] Marked .bilu/board/tasks/04-02-key-input-decoding.md as IN_PROGRESS; reviewed plan; tests passing.
 2026-01-09T14:27:28.759Z Phase 04 — Key input decoding: implemented `tui_read_key` in `.bilu/cli/commands/board/render/tui.sh`; updated `.bilu/board/default.json` status to DONE; ran tests: sh tests/run.sh -> ok
 2026-01-09T14:28:00Z Phase 04 — Key input decoding: updated .bilu/board/default.json to IN_PROGRESS to reflect task file; tests: sh tests/run.sh
+2026-01-09T14:28:30Z BLOCKER: .bilu/board/config.json does not include 'IN_PROGRESS' as a valid status (it uses 'INPROGRESS'); tools warn and default to TODO. Consider adding mapping or using INPROGRESS in task files/default.json.
