@@ -20,7 +20,7 @@
     "description": "Audit src/board/config.json, src/board/default.json, and src/board/tasks/*.md to identify inconsistencies (status/priority/kind, broken links, depends_on) and define the normalization rules the UI must apply.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

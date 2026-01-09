@@ -1,0 +1,1 @@
+2026-01-09T03:54:12Z Phase 00 — Board data audit: updated .bilu/board/tasks/00-02-board-data-audit.md to reflect installed-layout reality (layout-root link resolution, current default.json consistency); marked task DONE in .bilu/board/default.json; tests: sh tests/run.sh

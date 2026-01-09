@@ -6,26 +6,32 @@ Audit the current board data and document inconsistencies that the UI must norma
 
 ## Checklist
 
-- [ ] Inventory board files:
-  - [ ] `src/board/config.json`
-  - [ ] `src/board/default.json`
-  - [ ] `src/board/tasks/*.md`
-- [ ] List inconsistencies and decide normalization targets:
-  - [ ] status values (e.g. `Done` vs `DONE`)
-  - [ ] priority casing (e.g. `High` vs `HIGH`)
-  - [ ] kind representation (e.g. `kind` vs legacy keys like `bug` / `improvement`)
-- [ ] Confirm how to handle broken links (e.g. task points to missing `.md`).
-- [ ] Confirm how to handle `depends_on` paths (warn vs error).
+- [x] Inventory board files:
+  - [x] `.bilu/board/config.json`
+  - [x] `.bilu/board/default.json`
+  - [x] `.bilu/board/tasks/*.md`
+- [x] List inconsistencies and decide normalization targets:
+  - [x] status values (e.g. `Done` vs `DONE`)
+  - [x] priority casing (e.g. `High` vs `HIGH`)
+  - [x] kind representation (e.g. `kind` vs legacy keys like `bug` / `improvement`)
+- [x] Confirm how to handle broken links (e.g. task points to missing `.md`).
+- [x] Confirm how to handle `depends_on` paths (warn vs error).
 
 ## Acceptance
 
 - A written list of known inconsistencies with explicit normalization rules to resolve them.
 
+## Work done
+
+- Audited `.bilu/board/config.json`, `.bilu/board/default.json`, and `.bilu/board/tasks/*.md`.
+- Documented implementation-ready normalization rules (status/priority/kind/tags + TSV escaping).
+- Documented link resolution rules for repo vs installed layout and how to handle missing `link`/`depends_on` targets.
+
 ## References
 
-- `src/board/config.json`
-- `src/board/default.json`
-- `src/board/tasks/`
+- `.bilu/board/config.json`
+- `.bilu/board/default.json`
+- `.bilu/board/tasks/`
 
 ---
 
@@ -33,9 +39,9 @@ Audit the current board data and document inconsistencies that the UI must norma
 
 # Phase 00 Task Implementation Plan — Board data audit
 
-Task: `src/board/tasks/00-02-board-data-audit.md`
+Task: `.bilu/board/tasks/00-02-board-data-audit.md`
 
-This implementation plan produces the concrete “data audit” deliverable the UI depends on: a written list of inconsistencies plus explicit normalization rules. It applies the guardrails from `src/storage/research/shell-only-cli-advanced-notes.md` (TSV internal format, strict normalization, avoid brittle JSON parsing at runtime).
+This implementation plan produces the concrete “data audit” deliverable the UI depends on: a written list of inconsistencies plus explicit normalization rules. It applies the guardrails from `.bilu/storage/research/shell-only-cli-advanced-notes.md` (or `src/storage/research/shell-only-cli-advanced-notes.md` in repo layout) (TSV internal format, strict normalization, avoid brittle JSON parsing at runtime).
 
 ## Outcome (what “done” means)
 
@@ -51,14 +57,14 @@ This implementation plan produces the concrete “data audit” deliverable the 
 
 ## Inputs reviewed (current repo)
 
-- `src/board/config.json` (canonical enums + ordering)
-- `src/board/default.json` (task index)
-- `src/board/tasks/*.md` (task details)
-- `src/storage/research/shell-only-cli-advanced-notes.md` (parsing/portability guidance)
+- `.bilu/board/config.json` (canonical enums + ordering)
+- `.bilu/board/default.json` (task index)
+- `.bilu/board/tasks/*.md` (task details)
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md` (parsing/portability guidance)
 
 ## Current state summary (observed)
 
-### `src/board/config.json`
+### `.bilu/board/config.json`
 
 - Canonical statuses + ordering:
   - `BACKLOG`, `TODO`, `INPROGRESS`, `BLOCKED`, `DONE`, `REVIEW`, `ARCHIVED`, `CANCELLED`
@@ -67,39 +73,42 @@ This implementation plan produces the concrete “data audit” deliverable the 
 - Canonical kinds:
   - `task`, `bug`, `feature`, `improvement`
 
-### `src/board/default.json` (index)
+### `.bilu/board/default.json` (index)
 
 Observed patterns:
 - `status` uses canonical enum-like values (e.g. `TODO`, `INPROGRESS`, `CANCELLED`) ✅
-- `priority` casing is inconsistent (`HIGH`, `High`, `Medium`) ❌
-- `kind` is sometimes missing; legacy keys sometimes appear (`bug`, `improvement`) ❌
-- `link` values point to `board/tasks/*.md` (path-like strings) ✅
+- `priority` currently uses `MEDIUM` (canonical casing) ✅
+- `kind` currently uses `task` (canonical casing) ✅
+- `link` values point to `board/tasks/*.md` and resolve relative to the *layout root* (`src/` for repo layout; `.bilu/` for installed layout), not relative to the `board/` directory ✅
 
-### `src/board/tasks/*.md` (details)
+### `.bilu/board/tasks/*.md` (details)
 
 Observed patterns:
-- `# Priority` uses human-cased values like `High`, `Medium` (not canonical casing) ❌
-- `# Status` uses `Done` (human-cased and not aligned to config casing) ❌
-- `# depends_on` uses paths with a different prefix (some reference `docs/...`), which does not match `default.json` paths ❌
+- Tasks are primarily narrative/spec documents (no structured `Status`/`Priority` headers to normalize today).
+- The UI should still treat task markdown as untrusted input (tabs/newlines/odd characters) when deriving any internal records.
 
 ## Inconsistencies to normalize (explicit list)
 
+Even though the current `.bilu/board/default.json` is consistent, the UI should normalize/tolerate human input in both JSON and (future) task metadata.
+
 1) **Status value normalization**
-- Input variants in markdown: `Done`
-- Canonical enum in config: `DONE`
+- Accept human-friendly variants like `Done`, `In Progress`, `To Do`, etc.
+- Canonical enum in config: `BACKLOG|TODO|INPROGRESS|BLOCKED|REVIEW|DONE|ARCHIVED|CANCELLED`
 
 2) **Priority casing normalization**
-- Input variants: `High`, `Medium`, plus JSON has `HIGH`, `Medium`, `High`, etc.
-- Canonical enum in config: `HIGH`, `MEDIUM`, etc.
+- Accept `High`, `MEDIUM`, etc.
+- Canonical enum in config: `CRITICAL|HIGH|MEDIUM|LOW|TRIVIAL`
 
 3) **Kind representation**
-- JSON sometimes uses `kind`, sometimes uses legacy keys like `bug` / `improvement` instead.
-- Canonical enum in config: `task|bug|feature|improvement`
+- Accept `task|bug|feature|improvement` case-insensitively.
+- Tolerate legacy boolean keys (if they ever appear) like `bug:true` by mapping to the canonical `kind`.
 
-4) **Path/link inconsistencies**
-- JSON `link` uses `board/tasks/<file>.md`
-- Markdown `# depends_on` entries may reference `docs/...` paths (likely wrong/outdated)
-- Some referenced files may be missing (must not crash)
+4) **Path/link semantics**
+- `link` values use `board/tasks/<file>.md` and must resolve relative to the layout root, not relative to `board/` itself.
+- Missing `link` targets must not crash the UI.
+
+5) **`depends_on` targets**
+- Missing dependency targets must be treated as warnings (default) and not crash rendering.
 
 ## Normalization rules (implementation-ready)
 
@@ -164,7 +173,10 @@ Rules:
 
 ### `link` (task detail path)
 
-- If `link` points to a missing file: warn (stderr) and still render the card.
+- Resolve `link` relative to the layout root (parent directory of `board/`):
+  - if index path is `src/board/default.json` ⇒ layout root is `src/` ⇒ task path is `src/<link>`
+  - if index path is `.bilu/board/default.json` ⇒ layout root is `.bilu/` ⇒ task path is `.bilu/<link>`
+- If the resolved `link` points to a missing file: warn (stderr) and still render the card.
 - TUI “open” action:
   - if file missing, show an error message in the status bar (do not crash).
 
@@ -191,9 +203,9 @@ If you keep `default.json` as the source of truth instead, strongly consider all
 
 ## References
 
-- `src/board/phases/00-board-ui-overview.md`
-- `src/board/tasks/00-02-board-data-audit.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
-- `src/board/config.json`
-- `src/board/default.json`
-- `src/board/tasks/`
+- `.bilu/board/phases/00-board-ui-overview.md`
+- `.bilu/board/tasks/00-02-board-data-audit.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/config.json`
+- `.bilu/board/default.json`
+- `.bilu/board/tasks/`
