@@ -35,7 +35,7 @@
     "description": "Define the bilu board CLI contract: required commands, short/long flag aliases (-l/-f/-fv), and validation rules (e.g. missing filter value must exit 2), plus which extra flags are in-scope next.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

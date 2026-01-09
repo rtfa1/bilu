@@ -32,8 +32,35 @@ printf "%s" "$out" | grep -F "status=todo" >/dev/null
 out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board -l -f status -fv todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
+out="$(sh "$REPO_ROOT/.bilu/cli/bilu" board --help)"
+printf "%s" "$out" | grep -F "Usage: bilu board --list" >/dev/null
+
 set +e
 sh "$REPO_ROOT/.bilu/cli/bilu" board -x 2>/dev/null
 status=$?
 set -e
 test "$status" -ne 0
+
+set +e
+sh "$REPO_ROOT/.bilu/cli/bilu" board -x >/dev/null 2>&1
+status=$?
+set -e
+test "$status" -eq 2
+
+set +e
+sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter >/dev/null 2>&1
+status=$?
+set -e
+test "$status" -eq 2
+
+set +e
+sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status >/dev/null 2>&1
+status=$?
+set -e
+test "$status" -eq 2
+
+set +e
+sh "$REPO_ROOT/.bilu/cli/bilu" board --list -- --help >/dev/null 2>&1
+status=$?
+set -e
+test "$status" -eq 2

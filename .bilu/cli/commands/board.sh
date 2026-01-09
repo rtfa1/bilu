@@ -7,13 +7,19 @@ err() {
 
 usage() {
   cat <<'EOF'
-Usage: bilu board --list [--filter <name> --filter-value <value>]
+Usage: bilu board --list [--filter <name>|--filter=<name> --filter-value <value>|--filter-value=<value>]
 
 Options:
   --list, -l                 List board items
   --filter, -f <name>        Filter field name (e.g. status)
   --filter-value, -fv <val>  Filter value (e.g. todo)
+  --                         End of options
   --help, -h                 Show this help
+
+Exit codes:
+  0 success
+  1 runtime/data/config error
+  2 usage error
 EOF
 }
 
@@ -38,10 +44,20 @@ while [ $# -gt 0 ]; do
         err "missing value for $arg"
         exit 2
       fi
+      if [ -n "$filter" ]; then
+        err "multiple --filter values are not supported"
+        usage >&2
+        exit 2
+      fi
       filter=$1
       shift
       ;;
     --filter=*|-f=*)
+      if [ -n "$filter" ]; then
+        err "multiple --filter values are not supported"
+        usage >&2
+        exit 2
+      fi
       filter=${arg#*=}
       shift
       ;;
@@ -51,10 +67,20 @@ while [ $# -gt 0 ]; do
         err "missing value for $arg"
         exit 2
       fi
+      if [ -n "$filter_value" ]; then
+        err "multiple --filter-value values are not supported"
+        usage >&2
+        exit 2
+      fi
       filter_value=$1
       shift
       ;;
     --filter-value=*|-fv=*)
+      if [ -n "$filter_value" ]; then
+        err "multiple --filter-value values are not supported"
+        usage >&2
+        exit 2
+      fi
       filter_value=${arg#*=}
       shift
       ;;
@@ -75,6 +101,12 @@ while [ $# -gt 0 ]; do
   esac
 done
 
+if [ $# -gt 0 ]; then
+  err "unexpected argument: $1"
+  usage >&2
+  exit 2
+fi
+
 if [ "$list" -ne 1 ]; then
   err "missing action (use --list)"
   usage >&2
@@ -83,10 +115,12 @@ fi
 
 if [ -n "$filter" ] && [ -z "$filter_value" ]; then
   err "--filter-value is required when --filter is set"
+  usage >&2
   exit 2
 fi
 if [ -z "$filter" ] && [ -n "$filter_value" ]; then
   err "--filter is required when --filter-value is set"
+  usage >&2
   exit 2
 fi
 

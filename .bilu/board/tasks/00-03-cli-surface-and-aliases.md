@@ -15,10 +15,10 @@ Define the exact CLI syntax for the board module, including short and long flags
 
 ## Checklist
 
-- [ ] Confirm whether `bilu board --list` is the only entrypoint or whether `bilu board list` is also allowed.
-- [ ] Confirm whether flags can appear before/after `board` (recommend: after `board` only).
-- [ ] Confirm `--filter` supports only one filter or multiple repeated filters.
-- [ ] Confirm behavior when only one of `--filter` / `--filter-value` is present (error with code `2`).
+- [x] Confirm whether `bilu board --list` is the only entrypoint or whether `bilu board list` is also allowed. (Only flag-based form for now.)
+- [x] Confirm whether flags can appear before/after `board` (recommend: after `board` only). (After `board` only.)
+- [x] Confirm `--filter` supports only one filter or multiple repeated filters. (Exactly one filter + one filter-value; repeats are a usage error.)
+- [x] Confirm behavior when only one of `--filter` / `--filter-value` is present (error with code `2`). (Exit `2` and print usage.)
 - [ ] Confirm which extra flags are in-scope immediately:
   - [ ] `--view=table|kanban`
   - [ ] `--search`
@@ -32,8 +32,8 @@ Define the exact CLI syntax for the board module, including short and long flags
 
 ## References
 
-- `src/cli/commands/board.sh`
-- `src/docs/bilu-cli.md`
+- `.bilu/cli/commands/board.sh`
+- `.bilu/cli/bilu-cli.md`
 ---
 
 ## Implementation plan
@@ -166,7 +166,15 @@ Recommendation:
 
 ## References
 
-- `src/board/tasks/00-03-cli-surface-and-aliases.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
-- `src/cli/commands/board.sh`
-- `src/docs/bilu-cli.md`
+- `.bilu/board/tasks/00-03-cli-surface-and-aliases.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/cli/commands/board.sh`
+- `.bilu/cli/bilu-cli.md`
+
+---
+
+## Work done
+
+- Documented the `bilu board` CLI contract (flags, aliases, supported syntaxes, and exit codes) in `.bilu/cli/bilu-cli.md`.
+- Tightened argument validation in `.bilu/cli/commands/board.sh` (single filter pair only, better usage output, and strict handling of extra args after `--`).
+- Expanded `tests/board.test.sh` to lock parsing/alias behavior and usage error exit codes.
