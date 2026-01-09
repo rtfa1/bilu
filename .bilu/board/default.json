@@ -247,7 +247,7 @@
     "description": "Standardize bilu board help output (usage line, options with aliases, filter examples), ensure bilu help mentions board, and keep the CLI docs in sync as flags evolve.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

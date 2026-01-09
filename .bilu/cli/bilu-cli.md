@@ -18,8 +18,10 @@ Board commands (shell only):
 - `bilu board --list` (`-l`)
 - `bilu board --list --filter=status --filter-value=todo`
 - `bilu board --list -f status -fv todo`
+- `bilu board --validate`
 - `bilu board --migrate [--dry-run]`
 - `bilu board --rebuild-index [--dry-run]`
+- `bilu board --help` (`-h`)
 
 Data policy:
 

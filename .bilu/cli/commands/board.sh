@@ -4,26 +4,27 @@ set -eu
 board_usage() {
   cat <<'EOF'
 Usage:
-  bilu board --list [--filter <name>|--filter=<name> --filter-value <value>|--filter-value=<value>]
-  bilu board --rebuild-index [--dry-run]
-  bilu board --migrate [--dry-run]
+  bilu board --list [--filter <name> --filter-value <value>]
   bilu board --validate
+  bilu board --migrate [--dry-run]
+  bilu board --rebuild-index [--dry-run]
 
 Options:
   --list, -l                 List board items
   --filter, -f <name>        Filter field name (e.g. status)
   --filter-value, -fv <val>  Filter value (e.g. todo)
-  --rebuild-index            Rebuild derived board index from markdown
-  --migrate                  Migrate existing data into markdown metadata sections
-  --dry-run                  Print changes without writing
   --validate                 Validate board config/data
+  --migrate                  Migrate task markdown metadata sections
+  --rebuild-index            Rebuild derived board index from markdown
+  --dry-run                  Print changes without writing
   --                         End of options
   --help, -h                 Show this help
 
-Exit codes:
-  0 success
-  1 runtime/data/config error
-  2 usage error
+Examples:
+  bilu board --list
+  bilu board --list --filter=status --filter-value=todo
+  bilu board --list -f status -fv todo
+  bilu board --validate
 EOF
 }
 

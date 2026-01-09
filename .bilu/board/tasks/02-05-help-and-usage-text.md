@@ -6,12 +6,12 @@ Standardize help output for `bilu board` and ensure docs match.
 
 ## Checklist
 
-- [ ] Add `bilu board --help` output with:
-  - [ ] usage line
-  - [ ] options with aliases
-  - [ ] examples for filter usage
-- [ ] Ensure `bilu help` mentions `board`.
-- [ ] Update `src/docs/bilu-cli.md` if flags change.
+- [x] Add `bilu board --help` output with:
+  - [x] usage line
+  - [x] options with aliases
+  - [x] examples for filter usage
+- [x] Ensure `bilu help` mentions `board`.
+- [x] Update `.bilu/cli/bilu-cli.md` if flags change.
 
 ## Acceptance
 
@@ -22,32 +22,40 @@ Standardize help output for `bilu board` and ensure docs match.
 
 # Phase 02 Task Implementation Plan — Help and usage text
 
-Task: `src/board/tasks/02-05-help-and-usage-text.md`
+Task: `.bilu/board/tasks/02-05-help-and-usage-text.md`
 
-This implementation plan standardizes help output for `bilu board`, keeps it consistent with `bilu help` and `src/docs/bilu-cli.md`, and ensures usage errors always show the same guidance. It follows `src/storage/research/shell-only-cli-advanced-notes.md` by preferring boring/explicit CLI contracts and stable outputs suitable for tests.
+This implementation plan standardizes help output for `bilu board`, keeps it consistent with `bilu help` and `.bilu/cli/bilu-cli.md`, and ensures usage errors always show the same guidance. It follows `.bilu/storage/research/shell-only-cli-advanced-notes.md` by preferring boring/explicit CLI contracts and stable outputs suitable for tests.
 
 ## Outcome (what “done” means)
 
 1) `bilu board --help` prints a concise, accurate help message and exits `0`.
 2) Usage errors (exit `2`) print the same usage block to stderr.
 3) `bilu help` lists `board` (already true) and stays accurate.
-4) `src/docs/bilu-cli.md` matches the implemented flags and examples.
+4) `.bilu/cli/bilu-cli.md` matches the implemented flags and examples.
 
 ## Help content spec (authoritative)
 
 ### `bilu board --help` must include
 
-- Usage line:
-  - `Usage: bilu board --list [--filter <name> --filter-value <value>]`
+- Usage:
+  - `bilu board --list [--filter <name> --filter-value <value>]`
+  - `bilu board --validate`
+  - `bilu board --migrate [--dry-run]`
+  - `bilu board --rebuild-index [--dry-run]`
 - Options list with aliases:
   - `--list, -l`
   - `--filter, -f <name>`
   - `--filter-value, -fv <value>`
+  - `--validate`
+  - `--migrate`
+  - `--rebuild-index`
+  - `--dry-run`
   - `--help, -h`
 - Examples:
   - `bilu board --list`
   - `bilu board --list --filter=status --filter-value=todo`
   - `bilu board --list -f status -fv todo`
+  - `bilu board --validate`
 
 ### Consistency rules
 
@@ -59,7 +67,7 @@ This implementation plan standardizes help output for `bilu board`, keeps it con
 ## Where help text lives
 
 To avoid drift:
-- `src/cli/commands/board.sh` should call a single `board_usage` function (eventually from `args.sh` or `lib/log.sh`).
+- `.bilu/cli/commands/board.sh` should call a single `board_usage` function (eventually from `args.sh` or `lib/log.sh`).
 - All usage errors should call `usage_error` which prints:
   - an error line (stderr)
   - usage text (stderr)
@@ -68,7 +76,7 @@ To avoid drift:
 ## Documentation sync
 
 Update/keep consistent:
-- `src/docs/bilu-cli.md` section `bilu board`:
+- `.bilu/cli/bilu-cli.md` section `bilu board`:
   - ensure examples match actual flags and aliases
   - avoid mentioning unimplemented flags until they exist
 
@@ -84,20 +92,20 @@ Run tests with `NO_COLOR=1` to keep output stable.
 ## Acceptance checks
 
 - Help output is concise, accurate, and matches the parser behavior.
-- Docs (`src/docs/bilu-cli.md`) match the CLI.
+- Docs (`.bilu/cli/bilu-cli.md`) match the CLI.
 - Tests prevent help/usage regressions.
 
 ## References
 
-- `src/board/tasks/02-05-help-and-usage-text.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
-- `src/cli/commands/board.sh`
-- `src/docs/bilu-cli.md`
+- `.bilu/board/tasks/02-05-help-and-usage-text.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/cli/commands/board.sh`
+- `.bilu/cli/bilu-cli.md`
 
 # Description
 Standardize bilu board help output (usage line, options with aliases, filter examples), ensure bilu help mentions board, and keep the CLI docs in sync as flags evolve.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -106,3 +114,11 @@ task
 - documentation
 - planning
 # depends_on
+
+---
+
+## Outcomes
+
+- Updated `bilu board --help` to include examples and keep options aligned with the parser (`.bilu/cli/commands/board.sh`).
+- Synced docs to include `--validate` and `--help` (`.bilu/cli/bilu-cli.md`).
+- Tests: `sh tests/run.sh`.
