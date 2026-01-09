@@ -29,3 +29,4 @@
 2026-01-09T14:28:00Z Phase 04 — Key input decoding: updated .bilu/board/default.json to IN_PROGRESS to reflect task file; tests: sh tests/run.sh
 2026-01-09T14:28:30Z BLOCKER: .bilu/board/config.json does not include 'IN_PROGRESS' as a valid status (it uses 'INPROGRESS'); tools warn and default to TODO. Consider adding mapping or using INPROGRESS in task files/default.json.
 2026-01-09T14:32:26Z Phase 04 — Layout and selection model: started work; default.json -> INPROGRESS; tests: ok
+2026-01-09T14:41:21.328Z NOTE: No .bilu/board found; no TODO tasks to work on. Tests passed (ok). Unable to update board/default.json or task files.
