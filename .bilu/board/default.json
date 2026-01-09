@@ -5,8 +5,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -22,8 +21,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -38,8 +36,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "documentation",
@@ -55,8 +52,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -72,8 +68,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "documentation",
@@ -89,8 +84,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "documentation",
@@ -107,8 +101,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -120,8 +113,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -133,8 +125,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -149,8 +140,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -162,8 +152,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "documentation",
       "planning",
@@ -177,8 +166,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -190,8 +178,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "documentation",
       "planning"
@@ -204,8 +191,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -220,8 +206,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -233,8 +218,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "devops",
       "documentation",
@@ -248,8 +232,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "documentation",
       "planning"
@@ -262,8 +245,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -278,8 +260,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "documentation",
       "planning",
@@ -293,8 +274,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -309,8 +289,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -325,8 +304,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -341,8 +319,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -357,8 +334,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -370,8 +346,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -387,8 +362,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -405,8 +379,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -421,8 +394,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "IN_PROGRESS",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -437,8 +409,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -453,8 +424,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -470,8 +440,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -486,8 +455,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -502,8 +470,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -518,8 +485,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "documentation",
@@ -535,8 +501,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "devops",
       "planning"
@@ -549,8 +514,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -566,8 +530,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -582,8 +545,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning"
     ],
@@ -595,8 +557,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "devops",
       "planning"
@@ -609,8 +570,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -627,8 +587,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -644,8 +603,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "documentation",
       "planning",
@@ -659,8 +617,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "planning",
       "testing"
@@ -673,8 +630,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",
@@ -690,8 +646,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "devops",
@@ -708,8 +663,7 @@
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
-    "depends_on": [
-    ],
+    "depends_on": [],
     "tags": [
       "design",
       "frontend",

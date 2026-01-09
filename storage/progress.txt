@@ -25,3 +25,5 @@
 2026-01-09T06:56:40Z Phase 03 — Renderer tests: added tests/board-render.test.sh to assert stable table/kanban markers (STATUS/TITLE + column headers) with deterministic width via COLUMNS and no-ANSI output via NO_COLOR/--no-color; marked task DONE; tests: sh tests/run.sh
 2026-01-09T07:01:35Z Phase 04 — Terminal setup and cleanup: added `bilu board --tui` bash entrypoint with idempotent terminal setup/cleanup (alt-screen, cursor hide/show, wrap off/on, stty save/restore) and `trap ... EXIT INT TERM`; marked task DONE in .bilu/board/default.json; tests: sh bilu/tests/run.sh
 [2026-01-09T14:25:31Z] Marked .bilu/board/tasks/04-02-key-input-decoding.md as IN_PROGRESS; reviewed plan; tests passing.
+2026-01-09T14:27:28.759Z Phase 04 — Key input decoding: implemented `tui_read_key` in `.bilu/cli/commands/board/render/tui.sh`; updated `.bilu/board/default.json` status to DONE; ran tests: sh tests/run.sh -> ok
+2026-01-09T14:28:00Z Phase 04 — Key input decoding: updated .bilu/board/default.json to IN_PROGRESS to reflect task file; tests: sh tests/run.sh
