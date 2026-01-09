@@ -4,11 +4,24 @@ Goal: a beautiful, keyboard-driven board viewer/editor in the terminal, implemen
 
 ## Constraints
 
-- Shell scripts only (POSIX `sh` for non-interactive; `bash` allowed for interactive keystroke handling).
-- No required third-party deps (no `fzf`, `gum`, `dialog`, `jq`).
-- Must work both:
-  - from the repo layout (`src/board/...`)
-  - from an installed layout (`.bilu/board/...`)
+- Shell-only:
+  - Non-interactive commands: **POSIX `sh`** (no bashisms).
+  - Interactive mode (`--tui`): **`bash` allowed** (assume macOS default bash is OK; avoid bash 4+ only features).
+- Runtime deps:
+  - No required third-party dependencies (no `fzf`, `gum`, `dialog`, `jq`, etc).
+  - OK baseline: POSIX shell + common Unix tools (`awk`, `sed`, `sort`, `cut`, `printf`, `stty`, `date`, `mktemp`).
+  - If JSON must be parsed at runtime, prefer schema-specific parsing; `python3` may be used only as an optional helper when present (never required).
+- Platforms: macOS and Linux (WSL is supported when the same assumptions hold).
+- Terminal assumptions:
+  - VT100/ANSI escape sequences available.
+  - Interactive mode may use alternate screen (`\\e[?1049h` / `\\e[?1049l`).
+  - Must not rely on GNU-only flags (`grep -P`, `sed -r`, etc).
+- Environment:
+  - `NO_COLOR` disables ANSI color when set and non-empty (and `--no-color` forces it off).
+  - If stdout is not a TTY, default to no color.
+  - `$EDITOR` is used for “open in editor”; if unset, fall back to `less` when available, else `more`.
+- Network: no network access at runtime (no `curl`, remote reads, or fetches).
+- Layouts: must work both from repo layout (`src/board/...`) and installed layout (`.bilu/board/...`).
 
 ## Inputs (current repo state)
 

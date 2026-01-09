@@ -4,7 +4,7 @@
     "description": "Lock the core constraints for the shell-only board UI: POSIX sh for non-interactive, bash allowed for --tui, no required third-party deps, and support both repo (src/board/...) and installed (.bilu/board/...) layouts.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

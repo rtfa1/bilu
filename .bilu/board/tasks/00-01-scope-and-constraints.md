@@ -15,18 +15,23 @@ Lock the project constraints and define what “shell-only board UI” means for
 
 ## Checklist
 
-- [ ] Confirm the minimum supported shells for each mode (POSIX `sh` for non-interactive; `bash` for `--tui`).
-- [ ] Confirm supported platforms (macOS/Linux/WSL) and any terminal assumptions (VT100 escapes).
-- [ ] Confirm required environment variables (`NO_COLOR`, `$EDITOR`) and default behavior when absent.
-- [ ] Confirm “no network” runtime requirement (UI must not fetch anything).
+- [x] Confirm the minimum supported shells for each mode (POSIX `sh` for non-interactive; `bash` for `--tui`).
+- [x] Confirm supported platforms (macOS/Linux/WSL) and any terminal assumptions (VT100 escapes).
+- [x] Confirm required environment variables (`NO_COLOR`, `$EDITOR`) and default behavior when absent.
+- [x] Confirm “no network” runtime requirement (UI must not fetch anything).
 
 ## Acceptance
 
 - A short summary of constraints is agreed and won’t change during implementation.
+- Canonical policy lives in `.bilu/board/phases/00-board-ui-overview.md` under “Constraints”.
+
+## Work done
+
+- Locked constraints policy in `.bilu/board/phases/00-board-ui-overview.md` (shell split, runtime deps, platforms/terminal assumptions, env vars, and no-network runtime).
 
 ## References
 
-- `src/board/phases/00-board-ui-overview.md`
+- `.bilu/board/phases/00-board-ui-overview.md`
 
 ---
 

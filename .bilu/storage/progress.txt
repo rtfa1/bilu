@@ -1,0 +1,3 @@
+2026-01-09
+- Completed Phase 00 task 00-01 (scope/constraints): expanded canonical constraints in `.bilu/board/phases/00-board-ui-overview.md` and checked off the task checklist.
+- Tests: `sh tests/run.sh` passes; running `tests/run.sh` directly failed due to interpreter/exec permissions (non-blocking).
