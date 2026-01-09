@@ -112,7 +112,7 @@
     "description": "Define the normalized task schema used internally for rendering/editing (required and optional fields), plus ID derivation and how paths/links work in repo vs installed layouts.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "planning"
