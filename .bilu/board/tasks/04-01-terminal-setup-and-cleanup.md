@@ -6,19 +6,19 @@ Safely enter/exit full-screen mode without breaking the user’s terminal.
 
 ## Checklist
 
-- [ ] Decide interactive script shell (`bash`) and document it.
-- [ ] Implement setup:
-  - [ ] alternate screen buffer on
-  - [ ] hide cursor
-  - [ ] disable line wrap
-  - [ ] disable input echo (`stty -echo`)
+- [x] Decide interactive script shell (`bash`) and document it.
+- [x] Implement setup:
+  - [x] alternate screen buffer on
+  - [x] hide cursor
+  - [x] disable line wrap
+  - [x] disable input echo (`stty -echo`)
   - [ ] optionally set scroll region
-- [ ] Implement cleanup:
-  - [ ] restore main screen buffer
-  - [ ] show cursor
-  - [ ] re-enable wrap
-  - [ ] re-enable echo
-- [ ] Add `trap` handlers for `EXIT INT TERM` to always cleanup.
+- [x] Implement cleanup:
+  - [x] restore main screen buffer
+  - [x] show cursor
+  - [x] re-enable wrap
+  - [x] re-enable echo
+- [x] Add `trap` handlers for `EXIT INT TERM` to always cleanup.
 
 ## Acceptance
 
@@ -131,7 +131,7 @@ These functions should not depend on global state except `STTY_SAVED`.
 # Description
 Implement safe terminal setup/cleanup for the bash TUI: alternate screen, cursor visibility, wrap, stty echo/canon settings, and trap-based cleanup so exit via q, Ctrl-C, or errors always restores the terminal.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -142,3 +142,11 @@ task
 - planning
 - usability
 # depends_on
+
+---
+
+## Outcomes
+
+- Implemented a bash-only `bilu board --tui` entrypoint that uses a shared terminal setup/cleanup contract and a minimal loop that exits on `q` or `Ctrl-C`.
+- Added idempotent cleanup via `trap ... EXIT INT TERM` and best-effort `stty` restore using `stty -g`.
+- Files: `.bilu/cli/commands/board.sh`, `.bilu/cli/commands/board/args.sh`, `.bilu/cli/commands/board/render/tui.sh`.

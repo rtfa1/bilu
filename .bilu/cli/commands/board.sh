@@ -5,12 +5,14 @@ board_usage() {
   cat <<'EOF'
 Usage:
   bilu board --list [--view <table|kanban>] [--filter <name> --filter-value <value>] [--no-color]
+  bilu board --tui [--no-color]
   bilu board --validate [--no-color]
   bilu board --migrate [--dry-run] [--no-color]
   bilu board --rebuild-index [--dry-run] [--no-color]
 
 Options:
   --list, -l                 List board items
+  --tui                      Interactive full-screen kanban UI (bash)
   --view <table|kanban>      Select list view (default: table)
   --filter, -f <name>        Filter field name (e.g. status)
   --filter-value, -fv <val>  Filter value (e.g. todo)
@@ -27,6 +29,7 @@ Examples:
   bilu board --list --view=kanban
   bilu board --list --filter=status --filter-value=todo
   bilu board --list -f status -fv todo
+  bilu board --tui
   bilu board --validate
 EOF
 }
@@ -57,6 +60,9 @@ fi
 case "$BOARD_ACTION" in
   validate)
     exec sh "$BOARD_LIB_DIR/validate.sh" "$BOARD_ROOT"
+    ;;
+  tui)
+    exec bash "$BOARD_LIB_DIR/render/tui.sh" "$BOARD_ROOT"
     ;;
   rebuild-index)
     exec sh "$BOARD_LIB_DIR/rebuild_index.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"

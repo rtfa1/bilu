@@ -404,7 +404,7 @@
     "description": "Implement safe terminal setup/cleanup for the bash TUI: alternate screen, cursor visibility, wrap, stty echo/canon settings, and trap-based cleanup so exit via q, Ctrl-C, or errors always restores the terminal.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

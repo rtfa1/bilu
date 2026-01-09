@@ -18,28 +18,35 @@ board_parse_args() {
         ;;
       --list|-l)
         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --rebuild-index, --migrate, or --validate)"
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
         fi
         BOARD_ACTION="list"
         shift
         ;;
+      --tui)
+        if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
+        fi
+        BOARD_ACTION="tui"
+        shift
+        ;;
       --validate)
         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --rebuild-index, --migrate, or --validate)"
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
         fi
         BOARD_ACTION="validate"
         shift
         ;;
       --rebuild-index)
         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --rebuild-index, --migrate, or --validate)"
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
         fi
         BOARD_ACTION="rebuild-index"
         shift
         ;;
       --migrate)
         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --rebuild-index, --migrate, or --validate)"
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
         fi
         BOARD_ACTION="migrate"
         shift
@@ -126,7 +133,7 @@ board_parse_args() {
   fi
 
   if [ -z "$BOARD_ACTION" ]; then
-    usage_error "missing action (use --list, --rebuild-index, --migrate, or --validate)"
+    usage_error "missing action (use --list, --tui, --rebuild-index, --migrate, or --validate)"
   fi
 
   if [ "$BOARD_ACTION" != "list" ]; then
@@ -141,6 +148,11 @@ board_parse_args() {
   if [ "$BOARD_ACTION" = "validate" ]; then
     if [ "$BOARD_DRY_RUN" -eq 1 ]; then
       usage_error "--dry-run is not valid with --validate"
+    fi
+  fi
+  if [ "$BOARD_ACTION" = "tui" ]; then
+    if [ "$BOARD_DRY_RUN" -eq 1 ]; then
+      usage_error "--dry-run is not valid with --tui"
     fi
   fi
 
