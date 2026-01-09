@@ -149,3 +149,18 @@ Those action modules implement:
 - `src/board/tasks/05-01-edit-status-in-markdown.md`
 - `src/board/tasks/05-02-edit-priority-in-markdown.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Define TUI actions for opening and editing: Enter opens the selected task (EDITOR else pager), e forces editor, S/P cycle status/priority and persist safely, and r refreshes from disk with the UI reflecting changes.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

@@ -127,3 +127,19 @@ Add a persistence test (05-06):
 - `src/board/tasks/05-01-edit-status-in-markdown.md`
 - `src/board/tasks/01-03-normalization-rules.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Implement safe priority updates by editing the # Priority section in task markdown, validating the normalized priority, and persisting changes via temp file + atomic mv so list/kanban output reflects edits reliably.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- frontend
+- planning
+- usability
+# depends_on

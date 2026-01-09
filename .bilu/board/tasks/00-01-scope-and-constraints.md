@@ -122,3 +122,19 @@ A short, stable, repo-wide constraints policy exists and is referenced by the bo
 - `src/board/phases/00-board-ui-overview.md`
 - `src/board/tasks/00-01-scope-and-constraints.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Lock the core constraints for the shell-only board UI: POSIX sh for non-interactive, bash allowed for --tui, no required third-party deps, and support both repo (.bilu/board/...) and installed (.bilu/board/...) layouts.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- frontend
+- planning
+- usability
+# depends_on

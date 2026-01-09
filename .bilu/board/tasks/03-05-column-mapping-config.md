@@ -152,3 +152,15 @@ Run tests with `NO_COLOR=1`.
 - `src/board/config.json`
 - `src/board/phases/03-rendering-table-and-kanban.md`
 - `src/board/tasks/03-03-kanban-layout-algorithm.md`
+
+# Description
+Define how status values map into displayed kanban columns (default Backlog/In Progress/Review/Done), whether mapping is hard-coded or read from config.json, and how to treat ARCHIVED/CANCELLED and showCompletedTasks.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

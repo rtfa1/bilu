@@ -152,3 +152,19 @@ Avoid `set -e` in the TUI loop:
 - `src/board/tasks/04-02-key-input-decoding.md`
 - `src/board/tasks/04-03-layout-and-selection-model.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Implement the TUI main loop (read key → update state → render), using a full-frame buffer printed once per redraw, handling WINCH resizes, and avoiding per-cell tput so updates stay responsive and flicker-free.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- frontend
+- planning
+- usability
+# depends_on

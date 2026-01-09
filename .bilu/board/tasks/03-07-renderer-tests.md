@@ -136,3 +136,20 @@ This separation keeps failures easy to interpret.
 - `src/board/tasks/03-04-kanban-narrow-fallback.md`
 - `src/board/tasks/03-02-color-theme-and-no-color.md`
 - `tests/board.test.sh`
+
+# Description
+Add stable tests for non-interactive renderers (table and kanban) that assert on deterministic markers/tokens, verify --no-color produces no ANSI escapes, and avoid terminal-width flakiness by forcing a fixed width when needed.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- frontend
+- planning
+- testing
+- usability
+# depends_on

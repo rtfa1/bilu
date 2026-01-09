@@ -104,3 +104,20 @@ If you choose to automate:
 - `src/docs/README.md`
 - `src/docs/bilu-cli.md`
 - `src/board/phases/06-testing-and-docs.md`
+
+# Description
+Keep documentation in sync with CLI behavior: ensure the docs index and CLI guide cover install flow, bilu board usage/flags, and eventual --tui keybindings, and verify phase docs link to their tasks.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- documentation
+- frontend
+- planning
+- usability
+# depends_on

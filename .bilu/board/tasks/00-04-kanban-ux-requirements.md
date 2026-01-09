@@ -209,3 +209,19 @@ General:
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/phases/03-rendering-table-and-kanban.md`
 - `src/board/phases/04-interactive-tui.md`
+
+# Description
+Define the UX/spec for non-interactive table+kanban output and the interactive --tui keymap (nav/search/filter/sort/open/edit), including visual requirements like colors, selected card highlight, header/footer, and NO_COLOR support.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- frontend
+- planning
+- usability
+# depends_on

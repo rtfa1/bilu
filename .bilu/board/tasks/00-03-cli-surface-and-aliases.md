@@ -178,3 +178,19 @@ Recommendation:
 - Documented the `bilu board` CLI contract (flags, aliases, supported syntaxes, and exit codes) in `.bilu/cli/bilu-cli.md`.
 - Tightened argument validation in `.bilu/cli/commands/board.sh` (single filter pair only, better usage output, and strict handling of extra args after `--`).
 - Expanded `tests/board.test.sh` to lock parsing/alias behavior and usage error exit codes.
+
+# Description
+Define the bilu board CLI contract: required commands, short/long flag aliases (-l/-f/-fv), and validation rules (e.g. missing filter value must exit 2), plus which extra flags are in-scope next.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- documentation
+- frontend
+- planning
+- usability
+# depends_on

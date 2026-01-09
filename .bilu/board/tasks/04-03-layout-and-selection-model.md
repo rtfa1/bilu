@@ -178,3 +178,18 @@ Avoid complex data structures:
 - `src/board/tasks/04-03-layout-and-selection-model.md`
 - `src/board/tasks/03-05-column-mapping-config.md`
 - `src/board/tasks/02-06-internal-record-format.md`
+
+# Description
+Define the TUI state model (columns with filtered card lists and a (column_index, card_index) selection) plus movement/scrolling rules so left/right preserves vertical position, up/down moves within a column, and selection stays visible.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

@@ -165,3 +165,18 @@ Avoid testing exact spacing; test stable tokens.
 - `src/board/tasks/03-02-color-theme-and-no-color.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/tasks/02-06-internal-record-format.md`
+
+# Description
+Define the exact table output contract for bilu board --list: default view name, column set/order, truncation/wrapping rules, header/totals behavior, missing-field display, and stability for scripting (future --format=tsv).
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

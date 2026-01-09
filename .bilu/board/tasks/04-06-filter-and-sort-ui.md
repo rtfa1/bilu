@@ -181,3 +181,18 @@ Status bar must show:
 - `src/board/tasks/04-03-layout-and-selection-model.md`
 - `src/board/tasks/04-08-help-overlay-and-status-bar.md`
 - `src/board/tasks/02-06-internal-record-format.md`
+
+# Description
+Add interactive filtering and sorting in the TUI: f opens a field/value filter prompt (status/priority/tag/kind), s opens sort prompt, status bar shows active modes, and a quick clear action resets filter/search/sort.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

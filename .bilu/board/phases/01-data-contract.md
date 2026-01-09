@@ -14,6 +14,11 @@ Pick one and enforce it in code and docs.
 
 **Policy (chosen):** Task metadata is sourced from `.bilu/board/tasks/*.md`. The board index (`.bilu/board/default.json`) is derived and may be regenerated at any time. All edits performed by the CLI write to task markdown files; index regeneration is explicit via a rebuild command. Renderers operate on normalized records produced from markdown.
 
+Migration and rebuild:
+
+- `bilu board --migrate` populates/normalizes the canonical metadata sections in each task markdown (`# Description`, `# Status`, `# Priority`, `# Kind`, `# Tags`, `# depends_on`) using the current index as input.
+- `bilu board --rebuild-index` regenerates `.bilu/board/default.json` deterministically from those markdown metadata sections.
+
 ### Option A (recommended)
 `tasks/*.md` is the source of truth. `default.json` is derived (generated/indexed).
 

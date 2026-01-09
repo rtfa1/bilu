@@ -116,3 +116,19 @@ Add:
 - `src/board/tasks/06-04-renderer-tests.md`
 - `src/board/tasks/03-07-renderer-tests.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Add stable renderer tests for non-interactive table and kanban views that assert key markers/titles/statuses, verify --no-color has no escape sequences, and force a deterministic width to avoid terminal-dependent flakes.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- testing
+- usability
+# depends_on

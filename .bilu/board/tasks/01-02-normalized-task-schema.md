@@ -154,3 +154,15 @@ Recommendation:
 
 - Aligned the normalized schema doc to the repo’s `.bilu/board/...` layout (no more `src/board/...` references).
 - Clarified `path` as an absolute filesystem path and `link` as `board/tasks/<filename>.md` for stable behavior across repo vs installed layouts.
+
+# Description
+Define the normalized task schema used internally for rendering/editing (required and optional fields), plus ID derivation and how paths/links work in repo vs installed layouts.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

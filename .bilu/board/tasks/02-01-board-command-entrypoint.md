@@ -102,3 +102,16 @@ Run tests with `NO_COLOR=1` to keep output stable.
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/cli/bilu`
 - `src/cli/commands/board.sh`
+
+# Description
+Make bilu board a first-class command by wiring .bilu/cli/bilu to a thin .bilu/cli/commands/board.sh dispatcher, documenting it in bilu help, and standardizing exit codes (2 usage, 1 runtime).
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- documentation
+- planning
+# depends_on

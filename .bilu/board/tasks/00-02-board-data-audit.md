@@ -209,3 +209,18 @@ If you keep `default.json` as the source of truth instead, strongly consider all
 - `.bilu/board/config.json`
 - `.bilu/board/default.json`
 - `.bilu/board/tasks/`
+
+# Description
+Audit .bilu/board/config.json, .bilu/board/default.json, and .bilu/board/tasks/*.md to identify inconsistencies (status/priority/kind, broken links, depends_on) and define the normalization rules the UI must apply.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

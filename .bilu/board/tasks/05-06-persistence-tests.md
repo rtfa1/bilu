@@ -140,3 +140,20 @@ Follow the existing test harness pattern:
 - `src/board/tasks/05-02-edit-priority-in-markdown.md`
 - `src/board/tasks/05-05-file-locking-and-concurrency.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Add non-interactive persistence tests that operate on a temp copy of task markdown, verify status/priority edits are scoped to the right section, confirm atomic write behavior, and ensure list output reflects persisted edits.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- devops
+- frontend
+- planning
+- testing
+- usability
+# depends_on

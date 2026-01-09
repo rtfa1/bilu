@@ -165,3 +165,19 @@ Prefer explicit checks over subtle `set -e` behavior in non-interactive code.
 
 - Documented an authoritative module tree under `src/cli/commands/board/` with clear POSIX `sh` vs `bash` boundaries (`render/tui.sh` only).
 - Defined loader/normalizer/renderer/action responsibilities and a strict internal TSV contract to keep data transforms awk-driven and testable.
+
+# Description
+Define the module structure for bilu board under .bilu/cli/commands/board/ (args/paths/loaders/normalize/renderers/actions) and which parts must stay POSIX sh vs which may use bash (TUI only).
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- documentation
+- frontend
+- planning
+- usability
+# depends_on

@@ -155,3 +155,15 @@ Keep tests deterministic:
 - `src/board/phases/05-persistence-and-editing.md`
 - `src/board/tasks/01-06-index-derivation-and-migration.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Add a deterministic rebuild-index command (bilu board --rebuild-index) that regenerates derived default.json from task markdown with stable ordering/formatting and explicit write behavior (no silent rewrites).
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

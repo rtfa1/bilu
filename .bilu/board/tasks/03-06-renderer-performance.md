@@ -124,3 +124,19 @@ If you want an explicit target:
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/tasks/03-03-kanban-layout-algorithm.md`
 - `src/board/tasks/02-06-internal-record-format.md`
+
+# Description
+Define performance rules for shell renderers: avoid per-cell tput calls, build one output buffer per frame, cache terminal size, and minimize external processes in hot loops so 100+ tasks render without lag.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- performance
+- planning
+- usability
+# depends_on

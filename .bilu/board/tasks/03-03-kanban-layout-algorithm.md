@@ -168,3 +168,18 @@ Avoid asserting exact spacing; prefer stable tokens.
 - `src/board/tasks/00-04-kanban-ux-requirements.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/tasks/02-06-internal-record-format.md`
+
+# Description
+Define the non-interactive kanban rendering algorithm: detect terminal size, choose columns and widths, define card layout (title/priority/desc preview/tags), and specify truncation/wrapping rules that keep output readable across common widths.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

@@ -146,3 +146,18 @@ Recommendation:
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/tasks/00-04-kanban-ux-requirements.md`
 - `src/board/tasks/03-01-table-view-spec.md`
+
+# Description
+Standardize ANSI styling for table and kanban output: define status/priority colors, selected/dimmed/warning styles, and ensure NO_COLOR=1 and --no-color reliably disable escapes for script-friendly output.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

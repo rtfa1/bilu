@@ -145,3 +145,19 @@ Planned additions (recommended file names):
 - `src/board/tasks/06-01-test-matrix.md`
 - `src/board/phases/06-testing-and-docs.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Define the test matrix for the shell-only board UI (CLI parsing, normalization, non-interactive rendering, persistence edits), explicitly excluding automated TUI interaction tests and listing the required tools (POSIX sh + coreutils).
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- testing
+- usability
+# depends_on

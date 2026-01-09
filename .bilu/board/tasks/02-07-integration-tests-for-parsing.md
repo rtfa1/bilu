@@ -107,3 +107,17 @@ Recommended:
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `tests/board.test.sh`
 - `tests/run.sh`
+
+# Description
+Add integration tests to prevent regressions in bilu board routing and argument parsing (help exits 0, unknown flags exit 2, paired filter enforcement, and alias forms like -l -f ... -fv ...), without depending on ANSI output.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- documentation
+- planning
+- testing
+# depends_on

@@ -99,3 +99,17 @@ This aligns with the spec and makes failures actionable.
 - `src/board/tasks/02-04-args-parser.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `tests/board.test.sh`
+
+# Description
+Add parser regression tests for bilu board covering help output, -l alias, unknown flags exiting 2, missing values exiting 2, and both long and short filter forms (--filter=status --filter-value=todo and -f status -fv todo).
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- documentation
+- planning
+- testing
+# depends_on

@@ -179,3 +179,18 @@ Run tests with `NO_COLOR=1` to keep output stable.
 
 - Implemented the normalization table in `.bilu/cli/commands/board/normalize.sh` (status/priority/kind + TSV escaping + tag warnings).
 - Added `tests/normalize.test.sh` to lock normalization behavior and warning format.
+
+# Description
+Define the normalization rules for status, priority, kind (including legacy keys), and tags so the board tolerates human input and historical inconsistencies with clear fallback + warning behavior.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

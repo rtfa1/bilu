@@ -6,15 +6,15 @@ Define how `default.json` is produced/maintained (if it’s derived) and how to 
 
 ## Checklist
 
-- [ ] If `default.json` is derived:
-  - [ ] define `bilu board --rebuild-index`
-  - [ ] define stable ordering
-  - [ ] define which fields come from markdown vs config defaults
-- [ ] Migration rules:
-  - [ ] normalize priority casing in existing JSON
-  - [ ] normalize kind fields (`bug`/`improvement` → `kind`)
-  - [ ] normalize status to config enum values
-- [ ] Decide whether migration is automatic or an explicit command.
+- [x] If `default.json` is derived:
+  - [x] define `bilu board --rebuild-index`
+  - [x] define stable ordering
+  - [x] define which fields come from markdown vs config defaults
+- [x] Migration rules:
+  - [x] normalize priority casing in existing JSON
+  - [x] normalize kind fields (`bug`/`improvement` → `kind`)
+  - [x] normalize status to config enum values
+- [x] Decide whether migration is automatic or an explicit command.
 
 ## Acceptance
 
@@ -150,3 +150,23 @@ Tests should operate on temp copies of markdown files, not on repo files in plac
 - `src/board/tasks/01-01-source-of-truth.md`
 - `src/board/tasks/01-04-json-and-markdown-parsing-strategy.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+---
+
+## Outcomes
+
+- Implemented opt-in migration (`bilu board --migrate [--dry-run]`) that writes canonical metadata sections into task markdown from the current index.
+- Implemented deterministic index rebuild (`bilu board --rebuild-index [--dry-run]`) that regenerates `.bilu/board/default.json` from the markdown metadata.
+- Updated docs to describe the migration + rebuild flow.
+
+# Description
+Define how default.json is derived/maintained (via bilu board --rebuild-index with stable ordering and clear field sources) and how to migrate old inconsistent data safely with no silent rewrites.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

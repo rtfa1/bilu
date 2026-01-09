@@ -127,3 +127,18 @@ These functions should not depend on global state except `STTY_SAVED`.
 - `src/board/tasks/04-01-terminal-setup-and-cleanup.md`
 - `src/board/phases/04-interactive-tui.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Implement safe terminal setup/cleanup for the bash TUI: alternate screen, cursor visibility, wrap, stty echo/canon settings, and trap-based cleanup so exit via q, Ctrl-C, or errors always restores the terminal.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

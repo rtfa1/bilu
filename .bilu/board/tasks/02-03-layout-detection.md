@@ -125,3 +125,15 @@ All tests run with `NO_COLOR=1` for stable output.
 - `src/board/tasks/02-02-module-skeleton.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/cli/bilu`
+
+# Description
+Define how bilu board locates the board root and files in both repo and installed layouts, reusing .bilu/cli/bilu layout detection where possible and exposing helpers for config/default/tasks paths.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

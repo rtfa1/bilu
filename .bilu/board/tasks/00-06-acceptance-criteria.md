@@ -144,3 +144,20 @@ To avoid flaky assertions:
 - Extended `tests/install.test.sh` to verify `bilu board --list` works after install.
 - Updated `.bilu/cli/commands/board.sh` to print usage on missing option values.
 - Verified with `sh tests/run.sh`.
+
+# Description
+Define measurable acceptance criteria for bilu board (list/filter/aliases/usage errors/layout support/no deps) so progress is testable and “done” is unambiguous.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- documentation
+- frontend
+- planning
+- testing
+- usability
+# depends_on

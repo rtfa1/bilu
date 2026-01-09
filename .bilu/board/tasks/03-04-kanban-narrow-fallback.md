@@ -131,3 +131,18 @@ Test expectations:
 - `src/board/tasks/03-03-kanban-layout-algorithm.md`
 - `src/board/tasks/03-07-renderer-tests.md`
 - `src/board/tasks/03-02-color-theme-and-no-color.md`
+
+# Description
+Define and implement a narrow-terminal fallback for --view=kanban (threshold, alternate rendering mode, and border/wrapping rules) so output stays readable on small widths without terminal glitches.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

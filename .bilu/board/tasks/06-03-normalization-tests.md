@@ -122,3 +122,16 @@ If you add a `--quiet`/`--no-warn` flag later, tests should cover both modes.
 - `src/board/tasks/01-03-normalization-rules.md`
 - `src/board/tasks/02-06-internal-record-format.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Add normalization tests to lock deterministic behavior for status/priority/kind variants (including legacy/missing fields), asserting stable normalized outputs and (optionally) warning messages routed to stderr.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+- testing
+# depends_on

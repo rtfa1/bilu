@@ -165,3 +165,15 @@ Add tests that verify parsing without relying on ANSI:
 
 - Chose the “no runtime JSON parsing in render paths” policy: markdown is authoritative, with small schema-specific `awk` extraction only where needed (no `jq`, no required `python3`).
 - Documented the authoritative markdown sections to parse and the warn-vs-error behavior for missing/broken references.
+
+# Description
+Define a safe, portable parsing strategy for config.json/default.json and tasks/*.md without jq (schema-specific awk/sed or optional python3), including how to handle missing files and broken links.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

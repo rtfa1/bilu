@@ -141,3 +141,18 @@ In macOS Terminal/iTerm2 and a Linux terminal:
 - `src/board/tasks/04-01-terminal-setup-and-cleanup.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/board/phases/04-interactive-tui.md`
+
+# Description
+Implement reliable key input decoding for the bash TUI: non-blocking single-key reads, escape-sequence decoding for arrows (optionally Home/End/Page), and fallback hjkl navigation across common terminals.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

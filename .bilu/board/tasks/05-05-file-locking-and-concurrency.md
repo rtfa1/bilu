@@ -147,3 +147,16 @@ Keep tests portable:
 - `src/board/phases/05-persistence-and-editing.md`
 - `src/board/tasks/05-04-rebuild-index-command.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Prevent concurrent edits from corrupting task files by introducing a board-level lock (mkdir-based, stored under board/storage or .bilu/storage) with trap-based release and defined timeout/stale-lock behavior.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- devops
+- planning
+# depends_on

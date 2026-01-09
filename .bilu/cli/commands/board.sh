@@ -13,12 +13,17 @@ usage() {
   cat <<'EOF'
 Usage:
   bilu board --list [--filter <name>|--filter=<name> --filter-value <value>|--filter-value=<value>]
+  bilu board --rebuild-index [--dry-run]
+  bilu board --migrate [--dry-run]
   bilu board --validate
 
 Options:
   --list, -l                 List board items
   --filter, -f <name>        Filter field name (e.g. status)
   --filter-value, -fv <val>  Filter value (e.g. todo)
+  --rebuild-index            Rebuild derived board index from markdown
+  --migrate                  Migrate existing data into markdown metadata sections
+  --dry-run                  Print changes without writing
   --validate                 Validate board config/data
   --                         End of options
   --help, -h                 Show this help
@@ -32,6 +37,9 @@ EOF
 
 list=0
 validate=0
+rebuild_index=0
+migrate=0
+dry_run=0
 filter=""
 filter_value=""
 
@@ -292,6 +300,18 @@ while [ $# -gt 0 ]; do
       validate=1
       shift
       ;;
+    --rebuild-index)
+      rebuild_index=1
+      shift
+      ;;
+    --migrate)
+      migrate=1
+      shift
+      ;;
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
     --filter|-f)
       shift
       if [ $# -lt 1 ]; then
@@ -369,8 +389,15 @@ if [ "$list" -eq 1 ] && [ "$validate" -eq 1 ]; then
   exit 2
 fi
 
-if [ "$list" -ne 1 ] && [ "$validate" -ne 1 ]; then
-  error "missing action (use --list or --validate)"
+actions=$((list + validate + rebuild_index + migrate))
+if [ "$actions" -gt 1 ]; then
+  error "choose a single action (--list, --rebuild-index, --migrate, or --validate)"
+  usage >&2
+  exit 2
+fi
+
+if [ "$actions" -eq 0 ]; then
+  error "missing action (use --list, --rebuild-index, --migrate, or --validate)"
   usage >&2
   exit 2
 fi
@@ -378,6 +405,11 @@ fi
 if [ "$validate" -eq 1 ]; then
   if [ -n "$filter" ] || [ -n "$filter_value" ]; then
     error "--filter/--filter-value are only valid with --list"
+    usage >&2
+    exit 2
+  fi
+  if [ "$dry_run" -eq 1 ]; then
+    error "--dry-run is not valid with --validate"
     usage >&2
     exit 2
   fi
@@ -407,6 +439,25 @@ if [ "$validate" -eq 1 ]; then
     exit 1
   fi
   exit 0
+fi
+
+if [ "$rebuild_index" -eq 1 ] || [ "$migrate" -eq 1 ]; then
+  if [ -n "$filter" ] || [ -n "$filter_value" ]; then
+    error "--filter/--filter-value are only valid with --list"
+    usage >&2
+    exit 2
+  fi
+
+  template_root=$(find_template_root || true)
+  if [ -z "$template_root" ]; then
+    error "could not locate bilu template root"
+    exit 1
+  fi
+
+  if [ "$rebuild_index" -eq 1 ]; then
+    exec sh "$SCRIPT_DIR/board/rebuild_index.sh" "$template_root" "$dry_run"
+  fi
+  exec sh "$SCRIPT_DIR/board/migrate.sh" "$template_root" "$dry_run"
 fi
 
 if [ -n "$filter" ] && [ -z "$filter_value" ]; then

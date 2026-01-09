@@ -146,3 +146,17 @@ Run tests with `NO_COLOR=1` for stable output.
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/cli/commands/board.sh`
 - `tests/board.test.sh`
+
+# Description
+Implement a robust bilu board flag parser supporting long/short aliases and both --flag value and --flag=value, enforcing paired filter flags, supporting -- end-of-options, and returning exit 2 on usage errors.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- devops
+- documentation
+- planning
+# depends_on

@@ -145,3 +145,18 @@ Define minimal function interfaces now so later tasks can fill them in without c
 - `src/board/tasks/00-05-module-layout-and-responsibilities.md`
 - `src/board/phases/02-cli-and-modules.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Create the board module skeleton under .bilu/cli/commands/board/ (render/actions/ui + core modules) and standardize sourcing/imports via SCRIPT_DIR so board.sh works from any working directory.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

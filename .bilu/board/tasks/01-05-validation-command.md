@@ -156,3 +156,17 @@ Run tests with `NO_COLOR=1` to keep output stable.
 - Implemented `bilu board --validate` in `.bilu/cli/commands/board.sh` with stable `ok` stdout + `warn:`/`error:` stderr and exit codes `0/1/2`.
 - Validates `.bilu/board/config.json` (required keys, unique status/priority numeric values) and `.bilu/board/default.json` entries (required fields, `link` target exists, `depends_on` targets exist; warn-only).
 - Added regression tests in `tests/board.test.sh` for success + fatal config error; tests: `sh tests/run.sh`.
+
+# Description
+Specify bilu board --validate behavior: stable output format and exit codes (0 ok, 1 data/config errors, 2 usage), plus what gets validated in config.json and tasks (normalization, depends_on, link targets).
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- documentation
+- planning
+- testing
+# depends_on

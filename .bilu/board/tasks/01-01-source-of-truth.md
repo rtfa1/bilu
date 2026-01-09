@@ -147,3 +147,15 @@ Run tests with `NO_COLOR=1` for stable assertions.
 - Chose Option A: `.bilu/board/tasks/*.md` is authoritative; `.bilu/board/default.json` is a derived index.
 - Defined precedence (markdown wins), edit targets (markdown only), and an explicit index rebuild contract (`bilu board --rebuild-index`).
 - Updated `.bilu/board/phases/01-data-contract.md` to reflect this policy and the correct `.bilu/board/...` paths.
+
+# Description
+Decide and document the single source of truth for task metadata (recommended: tasks/*.md with default.json derived) and define precedence and edit targets when both sources exist.
+# Status
+DONE
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- planning
+# depends_on

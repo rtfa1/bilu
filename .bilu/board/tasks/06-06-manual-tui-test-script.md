@@ -159,3 +159,19 @@ When reporting a failure, capture:
 - `src/board/phases/04-interactive-tui.md`
 - `src/board/tasks/04-01-terminal-setup-and-cleanup.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Provide a repeatable manual QA checklist for the interactive TUI covering terminal restore (q/Ctrl-C), navigation, search, filter/sort, open/edit with persistence verification, and resize redraw behavior.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- testing
+- usability
+# depends_on

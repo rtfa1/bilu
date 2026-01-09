@@ -141,3 +141,18 @@ If you add it later:
 - `src/board/tasks/04-05-search-ui.md`
 - `src/board/tasks/04-03-layout-and-selection-model.md`
 - `src/board/tasks/04-08-help-overlay-and-status-bar.md`
+
+# Description
+Implement interactive / search in the TUI: prompt for a query, filter visible tasks by title/description, support n/p navigation between matches, and show search state in the status bar without breaking selection.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

@@ -122,3 +122,18 @@ Add tests that:
 - `src/board/tasks/02-06-internal-record-format.md`
 - `src/board/tasks/01-02-normalized-task-schema.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Define the single internal TSV wire format (strict column order) used between loaders/normalizers and renderers, including explicit escaping rules for tabs/newlines so parsing is unambiguous everywhere.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

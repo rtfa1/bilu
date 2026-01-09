@@ -133,3 +133,16 @@ Add a persistence test (Phase 05-06):
 - `src/board/tasks/05-01-edit-status-in-markdown.md`
 - `src/board/tasks/01-03-normalization-rules.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Implement safe status updates by editing the # Status section in task markdown (replace only the value line), validating the normalized status, and writing via temp file + atomic mv so files remain valid.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- devops
+- planning
+# depends_on

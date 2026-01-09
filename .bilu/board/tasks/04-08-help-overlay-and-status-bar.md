@@ -147,3 +147,19 @@ Avoid cursor movement; keep “full-frame redraw” strategy.
 - `src/board/tasks/04-05-search-ui.md`
 - `src/board/tasks/04-06-filter-and-sort-ui.md`
 - `src/board/tasks/04-07-open-and-edit-actions.md`
+
+# Description
+Add a discoverable TUI help overlay (? toggle) and a status bar showing active filter/search/sort, counts, and quick hints (q quit, ? help), while keeping layout stable on narrow terminals.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- documentation
+- frontend
+- planning
+- usability
+# depends_on

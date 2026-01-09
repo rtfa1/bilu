@@ -118,3 +118,18 @@ If you keep tests shell-only and minimal, you can skip full automation and rely 
 - `src/board/tasks/04-07-open-and-edit-actions.md`
 - `src/board/tasks/04-01-terminal-setup-and-cleanup.md`
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+# Description
+Provide a consistent open action for tasks: use $EDITOR when set (or a pager fallback like less/more) and ensure the TUI restores terminal state before/after opening so it returns cleanly.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- design
+- frontend
+- planning
+- usability
+# depends_on

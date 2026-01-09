@@ -93,3 +93,16 @@ Run tests with `NO_COLOR=1` to keep output stable.
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/cli/commands/board.sh`
 - `src/docs/bilu-cli.md`
+
+# Description
+Standardize bilu board help output (usage line, options with aliases, filter examples), ensure bilu help mentions board, and keep the CLI docs in sync as flags evolve.
+# Status
+TODO
+# Priority
+MEDIUM
+# Kind
+task
+# Tags
+- documentation
+- planning
+# depends_on
