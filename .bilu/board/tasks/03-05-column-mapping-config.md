@@ -9,7 +9,7 @@ Define how statuses map into displayed columns and how to configure it.
 - [ ] Define default mapping (Backlog/In Progress/Review/Done).
 - [ ] Decide whether mapping is:
   - [ ] hard-coded initially, or
-  - [ ] read from `src/board/config.json` (recommended later)
+  - [ ] read from `.bilu/board/config.json` (recommended later)
 - [ ] Decide how to treat:
   - [ ] `ARCHIVED`
   - [ ] `CANCELLED`
@@ -24,7 +24,7 @@ Define how statuses map into displayed columns and how to configure it.
 
 # Phase 03 Task Implementation Plan — Column mapping and configuration
 
-Task: `src/board/tasks/03-05-column-mapping-config.md`
+Task: `.bilu/board/tasks/03-05-column-mapping-config.md`
 
 This implementation plan defines a single, documented mapping from task statuses to displayed kanban columns, including how `ARCHIVED`, `CANCELLED`, and `showCompletedTasks` are handled. The mapping must be shared by all renderers (non-interactive kanban and later the TUI) so users see consistent grouping.
 
@@ -33,11 +33,11 @@ This implementation plan defines a single, documented mapping from task statuses
 1) A default mapping is defined and documented.
 2) The mapping is implemented in one place and reused everywhere.
 3) The treatment of `ARCHIVED` and `CANCELLED` is explicit and configurable.
-4) The mapping integrates with `src/board/config.json.ui.showCompletedTasks`.
+4) The mapping integrates with `.bilu/board/config.json.ui.showCompletedTasks`.
 
 ## Default column set (v1)
 
-Use the 4 columns already present in `src/board/config.json.ui.columns`:
+Use the 4 columns already present in `.bilu/board/config.json.ui.columns`:
 - `Backlog`
 - `In Progress`
 - `Review`
@@ -45,7 +45,7 @@ Use the 4 columns already present in `src/board/config.json.ui.columns`:
 
 ## Default status → column mapping (authoritative)
 
-Using canonical statuses from `src/board/config.json.statuses`:
+Using canonical statuses from `.bilu/board/config.json.statuses`:
 
 - **Backlog**:
   - `BACKLOG`
@@ -104,15 +104,14 @@ If you keep Option A:
 Hard-code the mapping in code (single source of truth) to avoid runtime JSON parsing complexity.
 
 Where to implement:
-- `src/cli/commands/board/ui/layout.sh` or a dedicated `columns.sh` module that exports:
-  - `COLUMN_TITLES`
-  - `COLUMN_*_STATUSES` sets
-  - visibility flags
+- `.bilu/cli/commands/board/ui/columns.sh` that exports:
+  - `BOARD_COLUMN_*_STATUSES` sets
+  - `BOARD_UI_SHOW_COMPLETED_TASKS` and related visibility flags
 
 ### Later (config-driven)
 
 Once you have a safe parsing/compilation strategy:
-- read mapping from `src/board/config.json` or a compiled config TSV generated at `--rebuild-index`.
+- read mapping from `.bilu/board/config.json` or a compiled config TSV generated at `--rebuild-index`.
 
 ## Implementation steps
 
@@ -146,17 +145,23 @@ Run tests with `NO_COLOR=1`.
 - `ARCHIVED`/`CANCELLED` behavior is not ambiguous.
 - The `showCompletedTasks` interaction is explicit (even if config-driven reading is deferred).
 
+## Outcomes
+
+- Implemented shared status→column mapping and visibility controls in `.bilu/cli/commands/board/ui/columns.sh` (reads `ui.showCompletedTasks` from `.bilu/board/config.json`; defaults to hiding `ARCHIVED`/`CANCELLED`).
+- Updated `.bilu/cli/commands/board/render/kanban.sh` to use the shared mapping and to hide `DONE` tasks when `ui.showCompletedTasks=false`.
+- Tests: `sh tests/run.sh`.
+
 ## References
 
-- `src/board/tasks/03-05-column-mapping-config.md`
-- `src/board/config.json`
-- `src/board/phases/03-rendering-table-and-kanban.md`
-- `src/board/tasks/03-03-kanban-layout-algorithm.md`
+- `.bilu/board/tasks/03-05-column-mapping-config.md`
+- `.bilu/board/config.json`
+- `.bilu/board/phases/03-rendering-table-and-kanban.md`
+- `.bilu/board/tasks/03-03-kanban-layout-algorithm.md`
 
 # Description
 Define how status values map into displayed kanban columns (default Backlog/In Progress/Review/Done), whether mapping is hard-coded or read from config.json, and how to treat ARCHIVED/CANCELLED and showCompletedTasks.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

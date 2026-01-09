@@ -9,6 +9,12 @@ board_render_kanban() {
 
   # shellcheck disable=SC1091
   . "$SCRIPT_DIR/../ui/ansi.sh" 2>/dev/null || true
+  # shellcheck disable=SC1091
+  . "$SCRIPT_DIR/../ui/columns.sh" 2>/dev/null || true
+
+  if command -v board_columns_init >/dev/null 2>&1; then
+    board_columns_init
+  fi
 
   ANSI_RESET=""
   ANSI_PR_CRITICAL=""
@@ -69,6 +75,13 @@ board_render_kanban() {
     -v PR_MEDIUM="$ANSI_PR_MEDIUM" \
     -v PR_LOW="$ANSI_PR_LOW" \
     -v PR_TRIVIAL="$ANSI_PR_TRIVIAL" \
+    -v BACKLOG_STATUSES="${BOARD_COLUMN_BACKLOG_STATUSES:-BACKLOG TODO}" \
+    -v INPROGRESS_STATUSES="${BOARD_COLUMN_INPROGRESS_STATUSES:-INPROGRESS BLOCKED}" \
+    -v REVIEW_STATUSES="${BOARD_COLUMN_REVIEW_STATUSES:-REVIEW}" \
+    -v DONE_STATUSES="${BOARD_COLUMN_DONE_STATUSES:-DONE}" \
+    -v SHOW_COMPLETED="${BOARD_UI_SHOW_COMPLETED_TASKS:-1}" \
+    -v SHOW_ARCHIVED="${BOARD_UI_SHOW_ARCHIVED:-0}" \
+    -v SHOW_CANCELLED="${BOARD_UI_SHOW_CANCELLED:-0}" \
     '
     function repeat(ch, n,    out, i) {
       out=""
@@ -94,10 +107,11 @@ board_render_kanban() {
       return index(" " list " ", " " status " ") > 0
     }
     function status_to_col(status) {
-      if (in_list(status, "BACKLOG TODO")) return 1
-      if (in_list(status, "INPROGRESS BLOCKED")) return 2
-      if (in_list(status, "REVIEW")) return 3
-      if (in_list(status, "DONE ARCHIVED CANCELLED")) return 4
+      if (in_list(status, BACKLOG_STATUSES)) return 1
+      if (in_list(status, INPROGRESS_STATUSES)) return 2
+      if (in_list(status, REVIEW_STATUSES)) return 3
+      if (status == "ARCHIVED" || status == "CANCELLED") return 4
+      if (in_list(status, DONE_STATUSES)) return 4
       return 1
     }
     function prio_pre(prio) {
@@ -191,6 +205,10 @@ board_render_kanban() {
       prio=$4
       title=$6
       tags=$8
+
+      if (status == "DONE" && SHOW_COMPLETED != 1) next
+      if (status == "ARCHIVED" && SHOW_ARCHIVED != 1) next
+      if (status == "CANCELLED" && SHOW_CANCELLED != 1) next
 
       col = status_to_col(status)
       idx = ++col_count[col]

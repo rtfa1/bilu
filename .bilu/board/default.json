@@ -356,7 +356,7 @@
     "description": "Define how status values map into displayed kanban columns (default Backlog/In Progress/Review/Done), whether mapping is hard-coded or read from config.json, and how to treat ARCHIVED/CANCELLED and showCompletedTasks.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
