@@ -1,6 +1,6 @@
 ---
 name: task-executer
-description: Execute tasks from the bilu board (src/board/tasks + src/board/default.json), following the embedded implementation plan and keeping the board status updated.
+description: Execute tasks from the bilu board (.bilu/board/tasks + .bilu/board/default.json), following the embedded implementation plan and keeping the board status updated.
 metadata:
   short-description: Execute tasks from board located in .bilu/board/default.json
 ---
@@ -9,7 +9,7 @@ metadata:
 
 ## Goal
 
-Execute a specific bilu “board task” end-to-end (research/design/implementation), using the task markdown as the source of truth for requirements and the embedded “Implementation plan” section as the procedure.
+Execute a specific bilu “board task” end-to-end using the task markdown as the source of truth for requirements and the embedded “Implementation plan” section as the procedure.
 
 Board tasks live as Markdown files under:
 - `.bilu/board/tasks/*.md`
@@ -52,6 +52,16 @@ Execute in small, verifiable steps:
 - keep everything shell-only (POSIX `sh` for non-interactive; bash only where explicitly allowed, e.g. TUI)
 - avoid runtime deps not allowed by the project (no jq/fzf/gum/dialog)
 - run the relevant tests (`sh tests/run.sh`) when changes affect behavior
+
+Testing guideline (when it will pay off):
+- If the change affects CLI parsing, output format, or persistence behavior: add/update a test under `tests/` and ensure `sh tests/run.sh` covers it.
+- Prefer deterministic tests: set `NO_COLOR=1`, avoid terminal-size dependence, assert on stable tokens rather than alignment.
+- If the change is interactive-only (`--tui`), keep automated tests minimal and add/expand a manual checklist in the task markdown.
+
+If you get blocked by an unknown bug or need high-signal external references:
+- Use the `web-search` skill (shell-only) to find links and excerpts:
+  - `sh .bilu/skills/web-search/scripts/web-search.sh "<query>"`
+  - `sh .bilu/skills/web-search/scripts/web-fetch.sh "<url>"`
 
 ### 4) Update the board status (default.json)
 
