@@ -26,6 +26,12 @@ trap cleanup EXIT INT TERM
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list)"
 printf "%s" "$out" | grep -F "board listing" >/dev/null
 
+out="$(
+  cd "$REPO_ROOT/storage"
+  NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list
+)"
+printf "%s" "$out" | grep -F "board listing" >/dev/null
+
 out="$(NO_COLOR=1 sh "$REPO_ROOT/.bilu/cli/bilu" board --list --filter=status --filter-value=todo)"
 printf "%s" "$out" | grep -F "status=todo" >/dev/null
 
@@ -86,6 +92,19 @@ set -e
 test "$status" -eq 1
 test ! -s "$tmp/out"
 grep -F "config statuses values must be unique" "$tmp/err" >/dev/null
+
+# Layout detection should prefer a local project .bilu over the caller's script_dir.
+mkdir -p "$tmp/proj/sub"
+cp -R "$REPO_ROOT/.bilu" "$tmp/proj/.bilu"
+default_json_path="$(
+  cd "$tmp/proj/sub"
+  sh -c '
+    . "$1/.bilu/cli/commands/board/paths.sh"
+    board_detect_paths "$1/.bilu/cli/commands"
+    board_default_json_path
+  ' sh "$REPO_ROOT"
+)"
+test "$default_json_path" = "$tmp/proj/.bilu/board/default.json"
 
 # Smoke check: board CLI should not require extra deps.
 if grep -R -n -E '(^|[^[:alnum:]_])(jq|fzf|gum|dialog|whiptail)([^[:alnum:]_]|$)' "$REPO_ROOT/.bilu/cli" >/dev/null 2>&1; then

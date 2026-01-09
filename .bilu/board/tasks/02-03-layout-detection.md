@@ -6,14 +6,14 @@ Make board file discovery work in both repo and installed layouts.
 
 ## Checklist
 
-- [ ] Define how to locate board root:
-  - [ ] repo layout: `$BILU_ROOT/src/board`
-  - [ ] installed layout: `$BILU_ROOT/board`
-- [ ] Define how `BILU_ROOT` is discovered (reuse `src/cli/bilu` layout logic if possible).
-- [ ] Provide helpers that return absolute paths:
-  - [ ] `board_config_path`
-  - [ ] `board_default_json_path`
-  - [ ] `board_tasks_dir`
+- [x] Define how to locate board root:
+  - [x] repo layout: `$BILU_ROOT/src/board`
+  - [x] installed layout: `$BILU_ROOT/board`
+- [x] Define how `BILU_ROOT` is discovered (reuse `src/cli/bilu` layout logic if possible).
+- [x] Provide helpers that return absolute paths:
+  - [x] `board_config_path`
+  - [x] `board_default_json_path`
+  - [x] `board_tasks_dir`
 
 ## Acceptance
 
@@ -126,10 +126,17 @@ All tests run with `NO_COLOR=1` for stable output.
 - `src/storage/research/shell-only-cli-advanced-notes.md`
 - `src/cli/bilu`
 
+# Outcomes
+
+- Implemented project-local `.bilu`-first detection with a safe fallback to template-root detection in `.bilu/cli/commands/board/paths.sh`.
+- Exported `BOARD_LAYOUT` and `BOARD_PROJECT_ROOT` (when applicable), plus added `board_config_path`, `board_default_json_path`, and `board_tasks_dir` helpers.
+- Updated `.bilu/cli/commands/board.sh` to emit the canonical “could not locate board root (expected .bilu/board or src/board)” error.
+- Added a regression test ensuring a local project `.bilu` takes precedence over the caller's `script_dir`; tests: `sh tests/run.sh`.
+
 # Description
 Define how bilu board locates the board root and files in both repo and installed layouts, reusing .bilu/cli/bilu layout detection where possible and exposing helpers for config/default/tasks paths.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

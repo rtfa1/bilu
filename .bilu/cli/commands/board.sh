@@ -46,7 +46,7 @@ if [ "$BOARD_ACTION" = "help" ]; then
 fi
 
 if ! board_detect_paths "$SCRIPT_DIR"; then
-  die "could not locate bilu template root"
+  die "could not locate board root (expected .bilu/board or src/board)"
 fi
 
 case "$BOARD_ACTION" in

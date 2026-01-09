@@ -219,7 +219,7 @@
     "description": "Define how bilu board locates the board root and files in both repo and installed layouts, reusing .bilu/cli/bilu layout detection where possible and exposing helpers for config/default/tasks paths.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [
