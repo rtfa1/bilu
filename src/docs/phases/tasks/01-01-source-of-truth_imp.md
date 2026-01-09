@@ -1,0 +1,115 @@
+# Phase 01 Task Implementation Plan — Choose source of truth
+
+Task: `src/docs/phases/tasks/01-01-source-of-truth.md`
+
+This implementation plan selects and codifies a single authoritative source for task metadata so rendering/editing is deterministic. It follows `src/docs/research/shell-only-cli-advanced-notes.md`, which strongly recommends “md is source-of-truth” and avoiding runtime JSON parsing in shell.
+
+## Outcome (what “done” means)
+
+1) A one-paragraph “source of truth” policy is written (in this file + referenced docs).
+2) The CLI behavior enforces that policy (read path + write path are unambiguous).
+3) The repo has a clear migration/rebuild story so existing inconsistent data does not block the UI.
+
+## Recommendation (pick Option A)
+
+Choose **Option A**:
+- `src/board/tasks/*.md` is the source of truth.
+- `src/board/default.json` is derived (generated/indexed) and treated as cache/index, not authoritative.
+
+Rationale (from the research note):
+- Editing markdown safely in shell is straightforward (section replacement + atomic `mv`).
+- Parsing JSON safely without `jq` is fragile; avoid runtime JSON parsing where possible.
+- A compiled internal format (TSV) keeps runtime fast and portable.
+
+## Policy text (copy-paste into docs)
+
+“Task metadata is sourced from `src/board/tasks/*.md`. The board index (`src/board/default.json`) is derived and may be regenerated at any time. All edits performed by the CLI write to task markdown files; index regeneration is explicit via a rebuild command. Renderers operate on normalized records produced from markdown.”
+
+## Field ownership (what comes from where)
+
+### Owned by markdown (authoritative)
+
+- `title` (`# Title`)
+- `description` (`# Description`)
+- `priority` (`# Priority`)
+- `status` (`# Status`)
+- `depends_on` (`# depends_on`)
+
+### Optional / future in markdown
+
+- `tags` (can be added later as `# Tags` or inline format)
+- `kind` (can be added later as `# Kind`)
+
+### Derived / computed by CLI
+
+- `id` (from filename)
+- `path` (absolute/relative filesystem path)
+- `link` (computed from path when building index)
+
+## Write path (edits)
+
+All edits update markdown only:
+- `set_status` edits the `# Status` section.
+- `set_priority` edits the `# Priority` section.
+- (future) kind/tags edits target markdown sections if added.
+
+Edits must be:
+- validated (normalize to canonical enums)
+- written via temp file + atomic `mv`
+- optionally protected with a lock (mkdir-based) during writes
+
+## Read path (rendering)
+
+Primary:
+- parse markdown → normalize → internal TSV → render
+
+Optional optimization (cache):
+- `--rebuild-index` generates:
+  - `default.json` (human-ish index)
+  - and/or `.bilu/storage/board.tsv` (fast runtime read)
+
+If the cache exists, you may choose to read the TSV directly for speed, but the source of truth remains markdown.
+
+## Index regeneration contract
+
+Introduce (or confirm) an explicit command:
+- `bilu board --rebuild-index`
+
+Rules:
+- Never rewrite indexes silently during `--list` (avoid surprises).
+- Rebuild output must be deterministic (stable ordering).
+- Rebuild can also perform migration/normalization (optional flag if you want strict separation):
+  - `--rebuild-index` (pure rebuild, no edits to markdown)
+  - `--migrate` (normalize markdown sections if you decide to offer it)
+
+## Migration plan for existing data
+
+Current repo inconsistency: markdown has `Status: Done` while config expects `DONE`.
+
+With Option A:
+- renderer normalizes `Done` → `DONE` at runtime (no migration required to render).
+- editing operations should write canonical values (e.g. `DONE`) back to markdown.
+
+If you want markdown to remain human-cased, document that as a rule and normalize on write accordingly (but then you must map back on persistence). The simplest approach is: write canonical enums.
+
+## Tests to lock the policy
+
+Add/extend tests so the policy can’t regress:
+- Rendering reads markdown even if `default.json` is missing (or warn and continue).
+- `--rebuild-index` produces `default.json` and/or TSV deterministically.
+- Edit operations change markdown and are reflected in `--list` output.
+
+Run tests with `NO_COLOR=1` for stable assertions.
+
+## Acceptance checks
+
+- Policy text is added to `src/docs/phases/01-data-contract.md` (or a dedicated policy doc) and referenced by the CLI docs.
+- Implementation writes edits only to markdown.
+- Index regeneration is explicit and documented.
+
+## References
+
+- `src/docs/phases/tasks/01-01-source-of-truth.md`
+- `src/docs/phases/01-data-contract.md`
+- `src/docs/research/shell-only-cli-advanced-notes.md`
+

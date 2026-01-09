@@ -1,5 +1,7 @@
 # bilu CLI
 
+See `src/docs/README.md` for the docs index.
+
 ## `bilu init`
 
 Runs in the current folder:
@@ -8,6 +10,14 @@ Runs in the current folder:
 - Copies the bundled bilu template into `./.bilu/` (`board/`, `core/`, `docs/`, `prompts/`, `skills/`, `storage/`).
 - If `./.bilu` already exists, it refuses to overwrite and exits.
 - Marks bilu as installed by writing `./.bilu/storage/config.json`.
+
+## `bilu board`
+
+Board commands (shell only):
+
+- `bilu board --list` (`-l`)
+- `bilu board --list --filter=status --filter-value=todo`
+- `bilu board --list -f status -fv todo`
 
 ## Cross-platform (macOS/Linux/Windows)
 
