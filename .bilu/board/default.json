@@ -1,7 +1,7 @@
 [
   {
     "title": "Phase 00 — Scope and constraints",
-    "description": "Lock the core constraints for the shell-only board UI: POSIX sh for non-interactive, bash allowed for --tui, no required third-party deps, and support both repo (src/board/...) and installed (.bilu/board/...) layouts.",
+    "description": "Lock the core constraints for the shell-only board UI: POSIX sh for non-interactive, bash allowed for --tui, no required third-party deps, and support both repo (.bilu/board/...) and installed (.bilu/board/...) layouts.",
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
@@ -17,7 +17,7 @@
   },
   {
     "title": "Phase 00 — Board data audit",
-    "description": "Audit src/board/config.json, src/board/default.json, and src/board/tasks/*.md to identify inconsistencies (status/priority/kind, broken links, depends_on) and define the normalization rules the UI must apply.",
+    "description": "Audit .bilu/board/config.json, .bilu/board/default.json, and .bilu/board/tasks/*.md to identify inconsistencies (status/priority/kind, broken links, depends_on) and define the normalization rules the UI must apply.",
     "priority": "MEDIUM",
     "kind": "task",
     "status": "DONE",
@@ -64,7 +64,7 @@
   },
   {
     "title": "Phase 00 — Module layout and responsibilities",
-    "description": "Define the module structure for bilu board under src/cli/commands/board/ (args/paths/loaders/normalize/renderers/actions) and which parts must stay POSIX sh vs which may use bash (TUI only).",
+    "description": "Define the module structure for bilu board under .bilu/cli/commands/board/ (args/paths/loaders/normalize/renderers/actions) and which parts must stay POSIX sh vs which may use bash (TUI only).",
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
@@ -174,7 +174,7 @@
   },
   {
     "title": "Phase 02 — Board command entrypoint",
-    "description": "Make bilu board a first-class command by wiring src/cli/bilu to a thin src/cli/commands/board.sh dispatcher, documenting it in bilu help, and standardizing exit codes (2 usage, 1 runtime).",
+    "description": "Make bilu board a first-class command by wiring .bilu/cli/bilu to a thin .bilu/cli/commands/board.sh dispatcher, documenting it in bilu help, and standardizing exit codes (2 usage, 1 runtime).",
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
@@ -187,7 +187,7 @@
   },
   {
     "title": "Phase 02 — Module skeleton",
-    "description": "Create the board module skeleton under src/cli/commands/board/ (render/actions/ui + core modules) and standardize sourcing/imports via SCRIPT_DIR so board.sh works from any working directory.",
+    "description": "Create the board module skeleton under .bilu/cli/commands/board/ (render/actions/ui + core modules) and standardize sourcing/imports via SCRIPT_DIR so board.sh works from any working directory.",
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
@@ -202,7 +202,7 @@
   },
   {
     "title": "Phase 02 — Layout detection",
-    "description": "Define how bilu board locates the board root and files in both repo and installed layouts, reusing src/cli/bilu layout detection where possible and exposing helpers for config/default/tasks paths.",
+    "description": "Define how bilu board locates the board root and files in both repo and installed layouts, reusing .bilu/cli/bilu layout detection where possible and exposing helpers for config/default/tasks paths.",
     "priority": "MEDIUM",
     "kind": "task",
     "status": "TODO",
