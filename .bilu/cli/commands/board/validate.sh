@@ -228,6 +228,42 @@ validate_index() {
   return 0
 }
 
+validate_tsv_records() {
+  template_root=$1
+
+  records_sh="$(dirname -- "$0")/records_tsv.sh"
+  if [ ! -f "$records_sh" ]; then
+    warn "missing TSV records script; skipping TSV invariants check"
+    return 0
+  fi
+
+  tmp=$(mktemp_file)
+  if ! sh "$records_sh" "$template_root" >"$tmp"; then
+    rm -f "$tmp" 2>/dev/null || true
+    error "failed to generate TSV records"
+    return 1
+  fi
+
+  awk -F '\t' '
+    BEGIN { fatal=0 }
+    {
+      if (NF != 10) {
+        print "bilu board: error: TSV v1 requires exactly 10 fields (got " NF "): " $0 >"/dev/stderr"
+        fatal=1
+        next
+      }
+      if ($1=="" || $2=="" || $4=="" || $6=="" || $7=="" || $10=="") {
+        print "bilu board: error: TSV v1 missing required fields: " $0 >"/dev/stderr"
+        fatal=1
+      }
+    }
+    END { exit fatal ? 1 : 0 }
+  ' "$tmp"
+  ok=$?
+  rm -f "$tmp" 2>/dev/null || true
+  return "$ok"
+}
+
 template_root=${1:-}
 if [ -z "$template_root" ]; then
   error "missing template_root"
@@ -248,6 +284,12 @@ if [ "$fatal" -eq 0 ]; then
   fi
 else
   if ! validate_index "$template_root" "$index_path" "$config_path" >/dev/null; then
+    fatal=1
+  fi
+fi
+
+if [ "$fatal" -eq 0 ]; then
+  if ! validate_tsv_records "$template_root"; then
     fatal=1
   fi
 fi

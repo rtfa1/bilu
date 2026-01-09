@@ -261,7 +261,7 @@
     "description": "Define the single internal TSV wire format (strict column order) used between loaders/normalizers and renderers, including explicit escaping rules for tabs/newlines so parsing is unambiguous everywhere.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [
     ],
     "tags": [

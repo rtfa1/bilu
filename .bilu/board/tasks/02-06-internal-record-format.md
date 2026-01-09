@@ -6,11 +6,11 @@ Define the internal “wire format” passed from loaders/normalizers into rende
 
 ## Checklist
 
-- [ ] Choose a line format (recommended TSV) with a strict column order, e.g.:
+- [x] Choose a line format (recommended TSV) with a strict column order, e.g.:
   - `id<TAB>status<TAB>prioWeight<TAB>priority<TAB>kind<TAB>title<TAB>path<TAB>tagsCsv<TAB>dependsCsv`
-- [ ] Define escaping rules:
-  - [ ] how tabs/newlines in fields are handled (strip or replace)
-- [ ] Ensure every renderer consumes the same format.
+- [x] Define escaping rules:
+  - [x] how tabs/newlines in fields are handled (strip or replace)
+- [x] Ensure every renderer consumes the same format.
 
 ## Acceptance
 
@@ -126,7 +126,7 @@ Add tests that:
 # Description
 Define the single internal TSV wire format (strict column order) used between loaders/normalizers and renderers, including explicit escaping rules for tabs/newlines so parsing is unambiguous everywhere.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -137,3 +137,12 @@ task
 - planning
 - usability
 # depends_on
+
+---
+
+## Outcomes
+
+- Added a single TSV v1 producer: `.bilu/cli/commands/board/records_tsv.sh` (10 fields, strict order, tab/newline escaping, priority weight derived from config).
+- Updated renderers to consume TSV v1: `.bilu/cli/commands/board/render/{table.sh,kanban.sh}` and wired list output through the TSV pipeline in `.bilu/cli/commands/board/list.sh`.
+- Extended `bilu board --validate` with TSV invariants checks in `.bilu/cli/commands/board/validate.sh`.
+- Added regression test for TSV invariants: `tests/tsv.test.sh`.
