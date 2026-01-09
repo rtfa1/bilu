@@ -182,7 +182,10 @@ Avoid complex data structures:
 # Description
 Define the TUI state model (columns with filtered card lists and a (column_index, card_index) selection) plus movement/scrolling rules so left/right preserves vertical position, up/down moves within a column, and selection stays visible.
 # Status
-TODO
+INPROGRESS
+
+## Progress
+- 2026-01-09T14:32:26Z: Began implementation — drafted selection/scroll model and movement rules; updated .bilu/board/default.json status to INPROGRESS; tests run: ok.
 # Priority
 MEDIUM
 # Kind
