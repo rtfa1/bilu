@@ -6,18 +6,18 @@ Make the board tolerant to human input and historical inconsistencies.
 
 ## Checklist
 
-- [ ] Status normalization:
-  - [ ] Accept `Done/done/DONE` → `DONE`
-  - [ ] Accept `in progress/in-progress/INPROGRESS` → `INPROGRESS`
-  - [ ] Accept unknown values → warning + fallback
-- [ ] Priority normalization:
-  - [ ] Case-insensitive (`High/HIGH/high`) → `HIGH`
-  - [ ] Unknown values → warning + fallback
-- [ ] Kind normalization:
-  - [ ] Prefer `kind`
-  - [ ] Map legacy keys (`bug`, `improvement`) into `kind`
-- [ ] Tag normalization:
-  - [ ] Canonicalize casing if needed (or keep as-is and only label via `config.json`)
+- [x] Status normalization:
+  - [x] Accept `Done/done/DONE` → `DONE`
+  - [x] Accept `in progress/in-progress/INPROGRESS` → `INPROGRESS`
+  - [x] Accept unknown values → warning + fallback
+- [x] Priority normalization:
+  - [x] Case-insensitive (`High/HIGH/high`) → `HIGH`
+  - [x] Unknown values → warning + fallback
+- [x] Kind normalization:
+  - [x] Prefer `kind`
+  - [x] Map legacy keys (`bug`, `improvement`) into `kind`
+- [x] Tag normalization:
+  - [x] Canonicalize casing if needed (or keep as-is and only label via `config.json`)
 
 ## Acceptance
 
@@ -28,7 +28,7 @@ Make the board tolerant to human input and historical inconsistencies.
 
 # Phase 01 Task Implementation Plan — Normalization rules
 
-Task: `src/board/tasks/01-03-normalization-rules.md`
+Task: `.bilu/board/tasks/01-03-normalization-rules.md`
 
 This implementation plan defines the normalization table and the exact runtime behavior for unknown/missing values. It is consistent with:
 - the board audit (`src/board/tasks/00-02-board-data-audit.md`)
@@ -43,7 +43,7 @@ This implementation plan defines the normalization table and the exact runtime b
 - normalization issues warn and continue by default
 - `--validate` can elevate certain issues later (Phase 01-05)
 
-## Canonical enums (from `src/board/config.json`)
+## Canonical enums (from `.bilu/board/config.json`)
 
 ### Status (canonical)
 
@@ -167,8 +167,15 @@ Run tests with `NO_COLOR=1` to keep output stable.
 
 ## References
 
-- `src/board/tasks/01-03-normalization-rules.md`
-- `src/board/tasks/00-02-board-data-audit.md`
-- `src/board/tasks/01-02-normalized-task-schema.md`
-- `src/storage/research/shell-only-cli-advanced-notes.md`
-- `src/board/config.json`
+- `.bilu/board/tasks/01-03-normalization-rules.md`
+- `.bilu/board/tasks/00-02-board-data-audit.md`
+- `.bilu/board/tasks/01-02-normalized-task-schema.md`
+- `.bilu/storage/research/shell-only-cli-advanced-notes.md`
+- `.bilu/board/config.json`
+
+---
+
+## Outcomes
+
+- Implemented the normalization table in `.bilu/cli/commands/board/normalize.sh` (status/priority/kind + TSV escaping + tag warnings).
+- Added `tests/normalize.test.sh` to lock normalization behavior and warning format.

@@ -124,7 +124,7 @@
     "description": "Define the normalization rules for status, priority, kind (including legacy keys), and tags so the board tolerates human input and historical inconsistencies with clear fallback + warning behavior.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
