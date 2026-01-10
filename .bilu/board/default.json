@@ -602,7 +602,7 @@
     "description": "Add parser regression tests for bilu board covering help output, -l alias, unknown flags exiting 2, missing values exiting 2, and both long and short filter forms (--filter=status --filter-value=todo and -f status -fv todo).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "INPROGRESS",
     "depends_on": [],
     "tags": [
       "documentation",

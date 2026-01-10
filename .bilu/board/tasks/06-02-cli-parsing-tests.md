@@ -6,13 +6,13 @@ Prevent regressions in flags and aliases.
 
 ## Checklist
 
-- [ ] Add tests for:
-  - [ ] `bilu board --help` exits `0`
-  - [ ] `bilu board -l` works
-  - [ ] unknown flags exit `2`
-  - [ ] missing required flag values exit `2`
-  - [ ] `--filter=status --filter-value=todo` works
-  - [ ] `-f status -fv todo` works
+- [x] Add tests for:
+  - [x] `bilu board --help` exits `0`
+  - [x] `bilu board -l` works
+  - [x] unknown flags exit `2`
+  - [x] missing required flag values exit `2`
+  - [x] `--filter=status --filter-value=todo` works
+  - [x] `-f status -fv todo` works
 
 ## Acceptance
 
@@ -103,7 +103,7 @@ This aligns with the spec and makes failures actionable.
 # Description
 Add parser regression tests for bilu board covering help output, -l alias, unknown flags exiting 2, missing values exiting 2, and both long and short filter forms (--filter=status --filter-value=todo and -f status -fv todo).
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
