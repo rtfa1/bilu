@@ -551,19 +551,19 @@
      ],
      "link": "board/tasks/05-04-rebuild-index-command.md"
    },
-  {
-    "title": "Phase 05 — File locking and concurrency",
-    "description": "Prevent concurrent edits from corrupting task files by introducing a board-level lock (mkdir-based, stored under board/storage or .bilu/storage) with trap-based release and defined timeout/stale-lock behavior.",
-    "priority": "MEDIUM",
-    "kind": "task",
-    "status": "TODO",
-    "depends_on": [],
-    "tags": [
-      "devops",
-      "planning"
-    ],
-    "link": "board/tasks/05-05-file-locking-and-concurrency.md"
-  },
+   {
+     "title": "Phase 05 — File locking and concurrency",
+     "description": "Prevent concurrent edits from corrupting task files by introducing a board-level lock (mkdir-based, stored under board/storage or .bilu/storage) with trap-based release and defined timeout/stale-lock behavior.",
+     "priority": "MEDIUM",
+     "kind": "task",
+     "status": "DONE",
+     "depends_on": [],
+     "tags": [
+       "devops",
+       "planning"
+     ],
+     "link": "board/tasks/05-05-file-locking-and-concurrency.md"
+   },
   {
     "title": "Phase 05 — Persistence tests",
     "description": "Add non-interactive persistence tests that operate on a temp copy of task markdown, verify status/priority edits are scoped to the right section, confirm atomic write behavior, and ensure list output reflects persisted edits.",

@@ -37,6 +37,9 @@ tasks_dir="$template_root/board/tasks"
 config_path="$template_root/board/config.json"
 index_path="$template_root/board/default.json"
 normalize_sh="$(dirname -- "$0")/normalize.sh"
+lock_sh="$(dirname -- "$0")/lib/lock.sh"
+
+. "$lock_sh" 2>/dev/null || true
 
 if [ ! -d "$tasks_dir" ]; then
   error "missing tasks dir: $tasks_dir"
@@ -244,6 +247,8 @@ if [ "$fatal" -ne 0 ]; then
   exit 1
 fi
 
+LOCK_DIR="$template_root/storage/lock"
+
 if [ "$dry_run" -eq 1 ]; then
   changed=1
   if [ -f "$index_path" ] && cmp -s "$index_path" "$out_tmp"; then
@@ -257,11 +262,17 @@ if [ "$dry_run" -eq 1 ]; then
   exit 0
 fi
 
+board_lock_acquire "$LOCK_DIR" 10 || { rm -f "$out_tmp"; exit 1; }
+trap 'board_lock_release "$LOCK_DIR"' EXIT INT TERM HUP
+
 if ! mv "$out_tmp" "$index_path"; then
   rm -f "$out_tmp" 2>/dev/null || true
   error "failed to write: $index_path"
   exit 1
 fi
+
+board_lock_release "$LOCK_DIR"
+trap - EXIT
 
 printf "%s\n" "ok"
 printf "%s\n" "tasks: $total"

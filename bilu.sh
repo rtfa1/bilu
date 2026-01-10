@@ -11,7 +11,7 @@ fi
 
 
 PROMPT="ONLY WORK ON ONE TASK AT A TIME. 
-1. Find the first task in the board .bilu/board/default.json with status TODO to work on and focus solely on that task until completion.
+1. Read all the board .bilu/board/default.json and find the first task in the with status TODO to work on and focus solely on that task until completion.
 2. Check if the tests are passing.
 3. Update the task status in the board to INPROGRESS when starting work.
 4. Update the task file with the work that was done.

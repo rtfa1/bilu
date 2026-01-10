@@ -6,12 +6,12 @@ Avoid corrupting task files when multiple commands run concurrently.
 
 ## Checklist
 
-- [ ] Decide whether a lock is needed (recommended if edits are supported).
-- [ ] If implementing a lock:
-  - [ ] lock file under `board/storage/` or `.bilu/storage/`
-  - [ ] lock acquisition is atomic (mkdir-based lock)
-  - [ ] lock release on exit via `trap`
-  - [ ] lock timeout or stale lock handling
+- [x] Decide whether a lock is needed (recommended if edits are supported).
+- [x] If implementing a lock:
+  - [x] lock file under `board/storage/` or `.bilu/storage/`
+  - [x] lock acquisition is atomic (mkdir-based lock)
+  - [x] lock release on exit via `trap`
+  - [x] lock timeout or stale lock handling
 
 ## Acceptance
 
@@ -151,7 +151,7 @@ Keep tests portable:
 # Description
 Prevent concurrent edits from corrupting task files by introducing a board-level lock (mkdir-based, stored under board/storage or .bilu/storage) with trap-based release and defined timeout/stale-lock behavior.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
