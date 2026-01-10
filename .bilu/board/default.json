@@ -645,7 +645,7 @@
     "description": "Keep documentation in sync with CLI behavior: ensure the docs index and CLI guide cover install flow, bilu board usage/flags, and eventual --tui keybindings, and verify phase docs link to their tasks.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "INPROGRESS",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
@@ -662,7 +662,7 @@
     "description": "Provide a repeatable manual QA checklist for the interactive TUI covering terminal restore (q/Ctrl-C), navigation, search, filter/sort, open/edit with persistence verification, and resize redraw behavior.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "INPROGRESS",
     "depends_on": [],
     "tags": [
       "design",
