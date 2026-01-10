@@ -524,33 +524,33 @@
      ],
      "link": "board/tasks/05-02-edit-priority-in-markdown.md"
    },
-  {
-    "title": "Phase 05 — Open task in editor",
-    "description": "Provide a consistent open action for tasks: use $EDITOR when set (or a pager fallback like less/more) and ensure the TUI restores terminal state before/after opening so it returns cleanly.",
-    "priority": "MEDIUM",
-    "kind": "task",
-    "status": "TODO",
-    "depends_on": [],
-    "tags": [
-      "design",
-      "frontend",
-      "planning",
-      "usability"
-    ],
-    "link": "board/tasks/05-03-open-task-in-editor.md"
-  },
-  {
-    "title": "Phase 05 — Rebuild index command",
-    "description": "Add a deterministic rebuild-index command (bilu board --rebuild-index) that regenerates derived default.json from task markdown with stable ordering/formatting and explicit write behavior (no silent rewrites).",
-    "priority": "MEDIUM",
-    "kind": "task",
-    "status": "TODO",
-    "depends_on": [],
-    "tags": [
-      "planning"
-    ],
-    "link": "board/tasks/05-04-rebuild-index-command.md"
-  },
+   {
+     "title": "Phase 05 — Open task in editor",
+     "description": "Provide a consistent open action for tasks: use $EDITOR when set (or a pager fallback like less/more) and ensure the TUI restores terminal state before/after opening so it returns cleanly.",
+     "priority": "MEDIUM",
+     "kind": "task",
+     "status": "DONE",
+     "depends_on": [],
+     "tags": [
+       "design",
+       "frontend",
+       "planning",
+       "usability"
+     ],
+     "link": "board/tasks/05-03-open-task-in-editor.md"
+   },
+   {
+     "title": "Phase 05 — Rebuild index command",
+     "description": "Add a deterministic rebuild-index command (bilu board --rebuild-index) that regenerates derived default.json from task markdown with stable ordering/formatting and explicit write behavior (no silent rewrites).",
+     "priority": "MEDIUM",
+     "kind": "task",
+     "status": "DONE",
+     "depends_on": [],
+     "tags": [
+       "planning"
+     ],
+     "link": "board/tasks/05-04-rebuild-index-command.md"
+   },
   {
     "title": "Phase 05 — File locking and concurrency",
     "description": "Prevent concurrent edits from corrupting task files by introducing a board-level lock (mkdir-based, stored under board/storage or .bilu/storage) with trap-based release and defined timeout/stale-lock behavior.",

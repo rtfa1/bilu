@@ -6,15 +6,23 @@ If `default.json` is derived, provide a command to regenerate it deterministical
 
 ## Checklist
 
-- [ ] Define command name: `bilu board --rebuild-index` (or similar).
-- [ ] Define which fields are sourced from markdown vs config defaults.
-- [ ] Define ordering rules (stable).
-- [ ] Define JSON output formatting (stable and minimal).
-- [ ] Ensure rebuild is explicit (no silent rewrites).
+- [x] Define command name: `bilu board --rebuild-index` (or similar).
+- [x] Define which fields are sourced from markdown vs config defaults.
+- [x] Define ordering rules (stable).
+- [x] Define JSON output formatting (stable and minimal).
+- [x] Ensure rebuild is explicit (no silent rewrites).
 
 ## Acceptance
 
 - Rebuild produces consistent output and can be used to normalize old data.
+
+## Outcomes
+
+- `bilu board --rebuild-index` command implemented in .bilu/cli/commands/board/rebuild_index.sh
+- Command supports --dry-run to preview changes without writing
+- Rebuilds default.json from task markdown with stable ordering and formatting
+- Uses normalization for status, priority, kind, tags
+- Atomic writes to prevent corruption
 ---
 
 ## Implementation plan
@@ -159,7 +167,7 @@ Keep tests deterministic:
 # Description
 Add a deterministic rebuild-index command (bilu board --rebuild-index) that regenerates derived default.json from task markdown with stable ordering/formatting and explicit write behavior (no silent rewrites).
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
