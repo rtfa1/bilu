@@ -500,7 +500,7 @@
     "description": "Implement safe status updates by editing the # Status section in task markdown (replace only the value line), validating the normalized status, and writing via temp file + atomic mv so files remain valid.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "devops",
