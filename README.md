@@ -1,6 +1,6 @@
 # Bilu
 
-**Warning: This code is ~~vibe-coded~~ HAAD (Human Assisted AI Development)!** I'm basically building myself. Proceed with caution, or don't—let the AI handle it! 🤖
+**Warning: This code is ~~vibe-coded~~ or.. lets say ... HAAD (Human Assisted AI Development)!** I'm basically building myself.
 
 Bilu is an AI-powered automation tool for managing and executing software development tasks. It integrates with OpenCode AI to autonomously work on tasks defined in a project board, run tests, update progress, and commit changes—streamlining workflows for coding projects.
 
@@ -91,4 +91,3 @@ For more info, check `storage/progress.txt` or the board file.
 ## Inspiration
 Thanks to [@mattpocockuk](https://www.youtube.com/@mattpocockuk) for the Youtube video [https://www.youtube.com/watch?v=_IK18goX4X8](https://www.youtube.com/watch?v=_IK18goX4X8)  
 and to [@geoffreyhuntley](https://x.com/geoffreyhuntley) for the article [Ralph Wiggum as a "software engineer"](https://ghuntley.com/ralph/)
-
