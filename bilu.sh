@@ -15,7 +15,7 @@ PROMPT="ONLY WORK ON ONE TASK AT A TIME.
 2. Check if the tests are passing.
 3. Update the task status in the board to INPROGRESS when starting work.
 4. Update the task file with the work that was done.
-5. Append you progress to the storage/progress.txt file. Use this to leave notes for yourself and others working in the codebase.
+5. Aways append you progress to the storage/progress.txt file. Use this to leave notes for yourself and others working in the codebase.
 6. Make a git commit with a meaningful message about the work that was done.
 7. Update the task status to DONE once completed.
 DONT FORGET TO COMMIT YOUR CHANGES.
