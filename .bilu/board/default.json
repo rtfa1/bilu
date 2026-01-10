@@ -586,7 +586,7 @@
     "description": "Define the test matrix for the shell-only board UI (CLI parsing, normalization, non-interactive rendering, persistence edits), explicitly excluding automated TUI interaction tests and listing the required tools (POSIX sh + coreutils).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "INPROGRESS",
     "depends_on": [],
     "tags": [
       "design",

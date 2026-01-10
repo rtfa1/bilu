@@ -6,13 +6,13 @@ Define what gets tested (and what doesn’t) for a shell-only board UI.
 
 ## Checklist
 
-- [ ] Define test categories:
-  - [ ] CLI parsing
-  - [ ] data normalization
-  - [ ] rendering (table/kanban) in non-interactive mode
-  - [ ] persistence edits (status/priority)
-- [ ] Explicitly exclude TUI interaction testing (manual-only) unless a stable harness is introduced.
-- [ ] Define required tools for tests (POSIX `sh`, coreutils).
+- [x] Define test categories:
+  - [x] CLI parsing
+  - [x] data normalization
+  - [x] rendering (table/kanban) in non-interactive mode
+  - [x] persistence edits (status/priority)
+- [x] Explicitly exclude TUI interaction testing (manual-only) unless a stable harness is introduced.
+- [x] Define required tools for tests (POSIX `sh`, coreutils).
 
 ## Acceptance
 
@@ -149,7 +149,7 @@ Planned additions (recommended file names):
 # Description
 Define the test matrix for the shell-only board UI (CLI parsing, normalization, non-interactive rendering, persistence edits), explicitly excluding automated TUI interaction tests and listing the required tools (POSIX sh + coreutils).
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
