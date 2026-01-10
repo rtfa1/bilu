@@ -6,13 +6,13 @@ Keep docs in sync with the implementation as the CLI evolves.
 
 ## Checklist
 
-- [ ] Ensure `src/docs/README.md` lists all docs and phases.
-- [ ] Ensure `src/docs/bilu-cli.md` documents:
-  - [ ] install flow
-  - [ ] `bilu board` commands and examples
-  - [ ] flags/aliases
-  - [ ] `--tui` keybindings (once implemented)
-- [ ] Ensure phase docs link to their task files.
+- [x] Ensure `src/docs/README.md` lists all docs and phases.
+- [x] Ensure `src/docs/bilu-cli.md` documents:
+  - [x] install flow
+  - [x] `bilu board` commands and examples
+  - [x] flags/aliases
+  - [x] `--tui` keybindings (once implemented)
+- [x] Ensure phase docs link to their task files.
 
 ## Acceptance
 
@@ -108,7 +108,7 @@ If you choose to automate:
 # Description
 Keep documentation in sync with CLI behavior: ensure the docs index and CLI guide cover install flow, bilu board usage/flags, and eventual --tui keybindings, and verify phase docs link to their tasks.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

@@ -45,6 +45,23 @@ Contract:
 - Supported syntaxes: `--flag value`, `--flag=value`, and `--` to end option parsing.
 - Exit codes: `0` success, `1` runtime/data/config error, `2` usage error.
 
+## `bilu board --tui`
+
+Interactive TUI keybindings:
+
+- `q`: quit
+- `?`: toggle help overlay
+- Arrow keys or `h`/`j`/`k`/`l`: navigate
+- `Enter`: open task in editor
+- `e`: open task in editor
+- `S`: cycle status
+- `P`: cycle priority
+- `/`: search
+- `f`: filter
+- `s`: sort
+- `a`: clear filter/search/sort
+- `r`: refresh from disk
+
 ## Cross-platform (macOS/Linux/Windows)
 
 This CLI is a POSIX shell script. On Windows, use a shell environment like Git Bash, MSYS2, Cygwin, or WSL.
