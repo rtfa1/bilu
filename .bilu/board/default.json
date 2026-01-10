@@ -508,22 +508,22 @@
     ],
     "link": "board/tasks/05-01-edit-status-in-markdown.md"
   },
-  {
-    "title": "Phase 05 — Edit priority in markdown",
-    "description": "Implement safe priority updates by editing the # Priority section in task markdown, validating the normalized priority, and persisting changes via temp file + atomic mv so list/kanban output reflects edits reliably.",
-    "priority": "MEDIUM",
-    "kind": "task",
-    "status": "TODO",
-    "depends_on": [],
-    "tags": [
-      "design",
-      "devops",
-      "frontend",
-      "planning",
-      "usability"
-    ],
-    "link": "board/tasks/05-02-edit-priority-in-markdown.md"
-  },
+   {
+     "title": "Phase 05 — Edit priority in markdown",
+     "description": "Implement safe priority updates by editing the # Priority section in task markdown, validating the normalized priority, and persisting changes via temp file + atomic mv so list/kanban output reflects edits reliably.",
+     "priority": "MEDIUM",
+     "kind": "task",
+     "status": "DONE",
+     "depends_on": [],
+     "tags": [
+       "design",
+       "devops",
+       "frontend",
+       "planning",
+       "usability"
+     ],
+     "link": "board/tasks/05-02-edit-priority-in-markdown.md"
+   },
   {
     "title": "Phase 05 — Open task in editor",
     "description": "Provide a consistent open action for tasks: use $EDITOR when set (or a pager fallback like less/more) and ensure the TUI restores terminal state before/after opening so it returns cleanly.",

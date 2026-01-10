@@ -6,16 +6,24 @@ Implement safe priority updates by editing `src/board/tasks/*.md`.
 
 ## Checklist
 
-- [ ] Define the exact markdown section to edit:
-  - [ ] `# Priority` followed by a single-line value
-- [ ] Implement update logic with temp file + atomic move.
-- [ ] Handle missing `# Priority` section (insert vs error).
-- [ ] Validate normalized priority before writing.
+- [x] Define the exact markdown section to edit:
+  - [x] `# Priority` followed by a single-line value
+- [x] Implement update logic with temp file + atomic move.
+- [x] Handle missing `# Priority` section (insert vs error).
+- [x] Validate normalized priority before writing.
 
 ## Acceptance
 
 - Priority edits persist safely and are reflected in list/kanban output.
 ---
+
+## Outcomes
+
+- Implemented `board_set_priority` action in `.bilu/cli/commands/board/actions/set_priority.sh` (mirrors set_status.sh).
+- Validates/normalizes priority inputs using `normalize.sh`.
+- Updates only the `# Priority` section value via temp file + atomic mv.
+- Errors on missing `# Priority` section (Option A per plan).
+- Tested basic functionality (persists changes without corrupting markdown).
 
 ## Implementation plan
 
@@ -131,7 +139,7 @@ Add a persistence test (05-06):
 # Description
 Implement safe priority updates by editing the # Priority section in task markdown, validating the normalized priority, and persisting changes via temp file + atomic mv so list/kanban output reflects edits reliably.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
