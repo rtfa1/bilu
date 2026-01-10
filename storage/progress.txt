@@ -32,3 +32,4 @@
 2026-01-09T14:41:21.328Z NOTE: No .bilu/board found; no TODO tasks to work on. Tests passed (ok). Unable to update board/default.json or task files.
 [2026-01-09T14:47:54.408996Z] Phase 04 — Key input decoding -> IN_PROGRESS; updated .bilu/board/tasks/04-02-key-input-decoding.md
 [2026-01-09T14:48:27.745265Z] Warning: 'IN_PROGRESS' status is unrecognized by board code; tests warn and default to TODO.
+2026-01-10T??:??:?? Phase 04 — Help overlay and status bar: implemented help overlay toggle with ?, status bar with visible/total counts, search/filter/sort state, and hints; added transient message support; updated tui.sh; tests: sh tests/run.sh -> ok

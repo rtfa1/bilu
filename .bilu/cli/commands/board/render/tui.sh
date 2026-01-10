@@ -33,6 +33,16 @@ TUI_SORT_ORDER="desc"
 TUI_SORT_MODE=0  # 0=normal, 1=key selection, 2=order selection
 TUI_SORT_PROMPT=""
 
+# Help overlay state
+TUI_HELP_VISIBLE=0
+
+# Status bar state
+TUI_STATUS_MSG=""
+TUI_STATUS_MSG_TTL=0
+
+# Total tasks count
+TUI_TOTAL_ALL=0
+
 # Column data (will be populated from TSV)
 declare -a TUI_COLUMNS=("Backlog" "In Progress" "Review" "Done")
 declare -a TUI_COLUMN_STATS=("BACKLOG TODO" "INPROGRESS BLOCKED" "REVIEW" "DONE")
@@ -127,10 +137,16 @@ tui_load_tasks() {
     done < "$temp_file"
     
     # Clean up temp file
-    rm -f "$temp_file"
-  fi
-  
-  # Set initial selection if not set
+     rm -f "$temp_file"
+   fi
+
+   # Calculate total all tasks
+   TUI_TOTAL_ALL=0
+   for ((i=0; i<4; i++)); do
+     TUI_TOTAL_ALL=$((TUI_TOTAL_ALL + TUI_CARD_COUNTS[i]))
+   done
+
+   # Set initial selection if not set
   if [[ -z "$TUI_SEL_ID" ]]; then
     tui_select_first_available
   fi
@@ -223,13 +239,82 @@ tui_update_scroll() {
   local col=$TUI_SEL_COL
   local row=$TUI_SEL_ROW
   local scroll="${TUI_SCROLL_OFFSETS[$col]:-0}"
-  
+
   # Ensure selection is within visible range
   if [[ $row -lt $scroll ]]; then
     TUI_SCROLL_OFFSETS[$col]=$row
   elif [[ $row -ge $((scroll + TUI_VISIBLE_ROWS)) ]]; then
     TUI_SCROLL_OFFSETS[$col]=$((row - TUI_VISIBLE_ROWS + 1))
   fi
+}
+
+# Build help overlay panel
+tui_build_help_panel() {
+  local panel=""
+  local help_lines
+  local cols=${COLUMNS:-80}
+  local rows=${LINES:-24}
+  local panel_width=$((cols - 4))
+  local panel_height=$((rows - 6))
+  local start_row=4
+  local start_col=3
+
+  if [[ $panel_width -lt 40 ]]; then
+    # Too narrow, show minimal message
+    panel+=$'\n\n\n'
+    panel+="Terminal too small for help. Resize."
+    printf '%s' "$panel"
+    return
+  fi
+
+  # Help content
+  help_lines=(
+    "bilu board --tui Help"
+    ""
+    "Navigation:"
+    "  ↑/↓/←/→ / hjkl — move selection"
+    ""
+    "Search:"
+    "  / — search"
+    "  n / p — next/prev match"
+    ""
+    "Filter/Sort:"
+    "  f — filter"
+    "  s — sort"
+    ""
+    "Open/Edit:"
+    "  Enter — open task"
+    "  e — open in \$EDITOR"
+    "  S — cycle status"
+    "  P — cycle priority"
+    "  r — refresh"
+    ""
+    "General:"
+    "  q — quit"
+    "  ? — toggle help"
+    "  c — clear search/filter"
+  )
+
+  # Calculate panel dimensions
+  local content_height=${#help_lines[@]}
+  if [[ $content_height -gt $panel_height ]]; then
+    content_height=$panel_height
+  fi
+
+  # Draw border and content
+  local i=0
+  for ((row=start_row; row<start_row+content_height && i<${#help_lines[@]}; row++)); do
+    panel+=$(printf "\e[%d;%dH" $row $start_col)
+    local line="${help_lines[i]}"
+    # Truncate line if too long
+    if [[ ${#line} -gt $panel_width ]]; then
+      line="${line:0:$((panel_width-3))}..."
+    fi
+    panel+=$(printf "%-*s" $panel_width "$line")
+    ((i++))
+  done
+
+  printf '%s' "$panel"
 }
 
 # Apply search filter to tasks
@@ -681,12 +766,12 @@ tui_build_frame() {
   local total_tasks visible_tasks
   local line
   
-  # Calculate totals
-  total_tasks=0
-  for ((i=0; i<4; i++)); do
-    total_tasks=$((total_tasks + TUI_CARD_COUNTS[i]))
-  done
-  visible_tasks=$total_tasks  # For now, no filtering
+   # Calculate totals
+   total_tasks=$TUI_TOTAL_ALL
+   visible_tasks=0
+   for ((i=0; i<4; i++)); do
+     visible_tasks=$((visible_tasks + TUI_CARD_COUNTS[i]))
+   done
   
   # Header
   frame+=$'\e[H\e[2J'  # Clear screen and home cursor
@@ -695,10 +780,13 @@ tui_build_frame() {
   frame+="\e[0m\n"
   frame+="\e[1;37;44m"
   frame+=$(printf " Tasks: %d visible / %d total%*s " "$visible_tasks" "$total_tasks" $((COLUMNS - 35)) "")
-  frame+="\e[0m\n"
-  frame+="\n"
-  
-  # Column headers
+   frame+="\e[0m\n"
+   frame+="\n"
+
+   if [[ $TUI_HELP_VISIBLE -eq 1 ]]; then
+     frame+=$(tui_build_help_panel)
+   else
+     # Column headers
   local col_start=1
   for ((i=0; i<4; i++)); do
     local title="${TUI_COLUMNS[i]}"
@@ -757,10 +845,11 @@ tui_build_frame() {
       col_start=$((col_start + TUI_COL_WIDTH + 2))
     done
     
-    line_num=$((line_num + 1))
-  done
-  
-  # Footer/status bar
+     line_num=$((line_num + 1))
+   done
+   fi
+
+   # Footer/status bar
   local footer_line=$((LINES))
   frame+=$(printf "\e[%d;H" $footer_line)
   frame+="\e[1;37;44m"
@@ -780,43 +869,48 @@ tui_build_frame() {
   elif [[ $TUI_SEARCH_MODE -eq 1 ]]; then
     # Show search prompt
     frame+=$(printf " Search: %s%s %*s " "$TUI_SEARCH_PROMPT" "_" $((COLUMNS - 15 - ${#TUI_SEARCH_PROMPT})) "")
-  else
-    # Show normal status with search, filter, and sort info
-    local status_text=" q:quit ↑↓←→:navigate /:search f:filter s:sort c:clear ?:help"
-    
-    # Show filter info
-    if [[ $TUI_FILTER_ACTIVE -eq 1 && -n "$TUI_FILTER_FIELD" && -n "$TUI_FILTER_VALUE" ]]; then
-      status_text="$status_text Filter: $TUI_FILTER_FIELD=$TUI_FILTER_VALUE"
-    fi
-    
-    # Show sort info
-    if [[ -n "$TUI_SORT_KEY" && -n "$TUI_SORT_ORDER" ]]; then
-      status_text="$status_text Sort: $TUI_SORT_KEY $TUI_SORT_ORDER"
-    fi
-    
-    # Show search info
-    if [[ $TUI_SEARCH_ACTIVE -eq 1 && -n "$TUI_SEARCH_QUERY" ]]; then
-      local match_count=0
-      if [[ -n "$TUI_SEARCH_MATCHES" ]]; then
-        IFS=',' read -ra matches_array <<< "$TUI_SEARCH_MATCHES"
-        match_count=${#matches_array[@]}
-        if [[ $match_count -gt 0 ]]; then
-          status_text="$status_text Search: \"$TUI_SEARCH_QUERY\" $((TUI_SEARCH_INDEX + 1))/$match_count"
-        else
-          status_text="$status_text Search: \"$TUI_SEARCH_QUERY\" 0 matches"
-        fi
-      fi
-    fi
-    
-    frame+=$(printf "%s %*s " "$status_text" $((COLUMNS - ${#status_text} - 20)) "")
-    
-    if [[ -n "$TUI_SEL_ID" ]]; then
-      frame+=" Selected: $TUI_SEL_ID"
-    fi
-  fi
+   else
+     # Show normal status
+     local status_parts=()
+     if [[ -n "$TUI_STATUS_MSG" && $TUI_STATUS_MSG_TTL -gt 0 ]]; then
+       status_parts+=("$TUI_STATUS_MSG")
+     else
+       status_parts+=("Visible: $visible_tasks/$total_tasks")
+       if [[ $TUI_SEARCH_ACTIVE -eq 1 && -n "$TUI_SEARCH_QUERY" ]]; then
+         local match_count=0
+         if [[ -n "$TUI_SEARCH_MATCHES" ]]; then
+           IFS=',' read -ra matches_array <<< "$TUI_SEARCH_MATCHES"
+           match_count=${#matches_array[@]}
+           status_parts+=("Search: \"$TUI_SEARCH_QUERY\" ($((TUI_SEARCH_INDEX + 1))/$match_count)")
+         else
+           status_parts+=("Search: \"$TUI_SEARCH_QUERY\" (0 matches)")
+         fi
+       else
+         status_parts+=("Search: -")
+       fi
+       if [[ $TUI_FILTER_ACTIVE -eq 1 ]]; then
+         status_parts+=("Filter: $TUI_FILTER_FIELD=$TUI_FILTER_VALUE")
+       else
+         status_parts+=("Filter: -")
+       fi
+       if [[ "$TUI_SORT_KEY" != "priority" || "$TUI_SORT_ORDER" != "desc" ]]; then
+         status_parts+=("Sort: $TUI_SORT_KEY $TUI_SORT_ORDER")
+       else
+         status_parts+=("Sort: -")
+       fi
+       status_parts+=("q quit  ? help")
+     fi
+     local status_text=$(IFS='  '; echo "${status_parts[*]}")
+     frame+=$(printf "%s%*s" "$status_text" $((COLUMNS - ${#status_text})) "")
+   fi
   
   frame+="\e[0m"
-  
+
+  # Decrement status message TTL
+  if [[ $TUI_STATUS_MSG_TTL -gt 0 ]]; then
+    ((TUI_STATUS_MSG_TTL--))
+  fi
+
   printf '%b' "$frame"
 }
 
@@ -829,7 +923,15 @@ board_tui_draw() {
 
 board_tui_handle_key() {
   local key=$1
-  
+
+  # If help is visible, handle help-specific keys
+  if [[ $TUI_HELP_VISIBLE -eq 1 ]]; then
+    case "$key" in
+      \?|ESC) TUI_HELP_VISIBLE=0; TUI_NEEDS_REDRAW=1; return 0 ;;
+      *) return 0 ;;  # Ignore other keys when help is shown
+    esac
+  fi
+
   # Handle filter mode
   if [[ $TUI_FILTER_MODE -gt 0 ]]; then
     case "$key" in
@@ -998,15 +1100,20 @@ board_tui_handle_key() {
       ;;
     n) tui_handle_search_navigation "next" ;;
     p) tui_handle_search_navigation "prev" ;;
-    c) 
-      # Clear search and filters
-      TUI_SEARCH_QUERY=""
-      TUI_FILTER_ACTIVE=0
-      TUI_FILTER_FIELD=""
-      TUI_FILTER_VALUE=""
-      tui_apply_filter_and_sort
-      TUI_NEEDS_REDRAW=1
-      ;;
+     c)
+       # Clear search and filters
+       TUI_SEARCH_QUERY=""
+       TUI_FILTER_ACTIVE=0
+       TUI_FILTER_FIELD=""
+       TUI_FILTER_VALUE=""
+       tui_apply_filter_and_sort
+       TUI_NEEDS_REDRAW=1
+       ;;
+     \?)
+       # Toggle help overlay
+       TUI_HELP_VISIBLE=$((1 - TUI_HELP_VISIBLE))
+       TUI_NEEDS_REDRAW=1
+       ;;
     UP|k) tui_handle_movement "UP" ;;
     DOWN|j) tui_handle_movement "DOWN" ;;
     LEFT|h) tui_handle_movement "LEFT" ;;
