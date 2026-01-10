@@ -1,0 +1,46 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.bak
+*.cache
+
+# Build and distribution directories
+dist/
+build/
+out/
+
+# Package managers
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment and config files (uncomment if needed)
+# .env
+# config.local.*
+
+# Docker (if applicable)
+# docker-compose.override.yml
+
+# Project-specific
+# Ignore generated or temporary data in storage if not meant to be tracked
+# storage/temp/
+# .bilu/cache/
