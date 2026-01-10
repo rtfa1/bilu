@@ -1,0 +1,24 @@
+{
+  "image": "ghcr.io/openai/codex-universal:latest",
+  "rm": true,
+  "env": {
+    "CODEX_ENV_PYTHON_VERSION": "3.12",
+    "CODEX_ENV_NODE_VERSION": "20",
+    "CODEX_ENV_RUST_VERSION": "1.87.0",
+    "CODEX_ENV_GO_VERSION": "1.23.8",
+    "CODEX_ENV_SWIFT_VERSION": "6.2",
+    "CODEX_ENV_RUBY_VERSION": "3.4.4",
+    "CODEX_ENV_PHP_VERSION": "8.4"
+  },
+  "volumes": [
+    "$(pwd):/workspace/$(basename \"$PWD\")",
+    "$HOME/.codex:/root/.codex",
+    "$HOME/.gitconfig:/root/.gitconfig:ro"
+  ],
+  "workingDir": "/workspace/$(basename \"$PWD\")",
+  "network": "bridge",
+  "command": [
+    "-lc",
+    "npm install -g @openai/codex && codex exec --sandbox workspace-write --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check --cd /workspace '$PROMPT'"
+  ]
+}

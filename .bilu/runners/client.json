@@ -1,0 +1,26 @@
+{
+  "image": "ghcr.io/openai/codex-universal:latest",
+  "rm": true,
+  "interactive": false,
+  "env": {
+    "CODEX_ENV_PYTHON_VERSION": "3.12",
+    "CODEX_ENV_NODE_VERSION": "22",
+    "CODEX_ENV_RUST_VERSION": "1.87.0",
+    "CODEX_ENV_GO_VERSION": "1.23.8",
+    "CODEX_ENV_SWIFT_VERSION": "6.2",
+    "CODEX_ENV_RUBY_VERSION": "3.4.4",
+    "CODEX_ENV_PHP_VERSION": "8.4"
+  },
+  "volumes": [
+    "$(pwd):/workspace/$(basename \"$PWD\")",
+    "$HOME/.gitconfig-bilu:/root/.gitconfig:ro",
+    "$HOME/.ssh-bilu:/root/.ssh:ro",
+    "$HOME/.local/share/opencode/auth.json:/.local/share/opencode/auth.json:ro"
+  ],
+  "workingDir": "/workspace/$(basename \"$PWD\")",
+  "network": "bridge",
+  "command": [
+    "-lc",
+    "npm i -g opencode-ai && opencode run '$PROMPT' --model grok-code-fast-1 --stream on --allow-all-tools --allow-all-urls --attach http://opencode-server:4096"
+  ]
+}

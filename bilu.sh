@@ -1,14 +1,50 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ -z "${1-}" ]; then
-  echo "Usage: $0 <iterations>"
+# Default values
+iterations=1
+coder="opencode"
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --max-iterations|-i)
+      iterations="$2"
+      shift 2
+      ;;
+    --coder|-c)
+      coder="$2"
+      shift 2
+      ;;
+    --help|-h)
+      echo "Usage: $0 [--max-iterations|-i <number>] [--coder|-c <opencode|codex|claude>]"
+      echo "  --max-iterations, -i: Number of iterations (default: 1)"
+      echo "  --coder, -c: Coder to use (default: opencode)"
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      echo "Use --help for usage"
+      exit 1
+      ;;
+  esac
+done
+
+# Validate iterations
+if ! [[ "$iterations" =~ ^[0-9]+$ ]]; then
+  echo "Error: --max-iterations must be a positive integer"
   exit 1
 fi
 
-for ((i=1; i<=$1; i++)); do
+# Validate coder
+if [[ "$coder" != "opencode" && "$coder" != "codex" && "$coder" != "claude" ]]; then
+  echo "Error: --coder must be one of: opencode, codex, claude"
+  exit 1
+fi
+
+for ((i=1; i<=$iterations; i++)); do
   read -r -d '' PROMPT <<'EOF' || true
-1. Find the first task with status TODO to work on and focus solely on that task until completion.
+1. Find the first task with status TODO to work located in .bilu/board/default.js and focus solely on that task until completion.
 2. Check if the tests are passing. 
 3. Update the board/default.json file to reflect the current status of tasks.
 4. Update the task file with the work that was done.
@@ -19,23 +55,22 @@ If, while implementing a task, you find that there is a blocking issue (e.g., a 
 If, while working on a board, you notice the status is done for all tasks, output <board>DONE</board> and exit.
 EOF
 
-  result=$(docker run --rm \
-    -e CODEX_ENV_PYTHON_VERSION=3.12 \
-    -e CODEX_ENV_NODE_VERSION=22 \
-    -e CODEX_ENV_RUST_VERSION=1.87.0 \
-    -e CODEX_ENV_GO_VERSION=1.23.8 \
-    -e CODEX_ENV_SWIFT_VERSION=6.2 \
-    -e CODEX_ENV_RUBY_VERSION=3.4.4 \
-    -e CODEX_ENV_PHP_VERSION=8.4 \
-    -v "$(pwd):/workspace/$(basename "$PWD")" -w "/workspace/$(basename "$PWD")" \
-    -v "$HOME/.copilot:/root/.copilot" \
-    -v "$HOME/.config/gh:/root/.config/gh" \
-    -v "$HOME/.gitconfig:/root/.gitconfig:ro" \
-    -v "$HOME/.ssh:/root/.ssh:ro" \
-    --network=bridge \
-    ghcr.io/openai/codex-universal:latest \
-    -lc "npm install -g @github/copilot && copilot -p '$PROMPT' \
-    --model gpt-5-mini --allow-all-tools --allow-all-urls")
+  # Start the opencode server in background
+  SERVER_CMD=$(.bilu/runners/docker.sh .bilu/runners/server.json)
+  echo "Starting server: $SERVER_CMD"
+  eval "$SERVER_CMD" &
+  SERVER_PID=$!
+
+  # Wait for server to start
+  sleep 5
+
+  # Run the client
+  CLIENT_CMD=$(.bilu/runners/docker.sh .bilu/runners/client.json)
+  echo "Running client: $CLIENT_CMD"
+  result=$(eval "$CLIENT_CMD")
+
+  # Clean up server
+  kill $SERVER_PID 2>/dev/null || true
 
   echo "$result"
 
