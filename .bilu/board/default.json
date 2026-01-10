@@ -662,7 +662,7 @@
     "description": "Provide a repeatable manual QA checklist for the interactive TUI covering terminal restore (q/Ctrl-C), navigation, search, filter/sort, open/edit with persistence verification, and resize redraw behavior.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "INPROGRESS",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
