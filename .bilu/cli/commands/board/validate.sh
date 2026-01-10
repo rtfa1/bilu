@@ -62,8 +62,11 @@ validate_config() {
       if (match(line, /^[[:space:]]*"priorities"[[:space:]]*:[[:space:]]*{[[:space:]]*$/)) in_priorities=1
       if (in_statuses) {
         if (match(line, /^[[:space:]]*}[[:space:]]*,?[[:space:]]*$/)) in_statuses=0
-        if (match(line, /^[[:space:]]*"([^"]+)"[[:space:]]*:[[:space:]]*([0-9]+)[[:space:]]*,?[[:space:]]*$/, m)) {
-          v=m[2]
+        if (line ~ /^[[:space:]]*"[^"]+"[[:space:]]*:[[:space:]]*[0-9]+[[:space:]]*,?[[:space:]]*$/) {
+          tmp=line
+          sub(/^.*:[[:space:]]*/, "", tmp)
+          sub(/[[:space:]]*,?[[:space:]]*$/, "", tmp)
+          v=tmp
           if (seen_status[v]++) {
             print "bilu board: error: config statuses values must be unique (duplicate: " v ")" >"/dev/stderr"
             fatal=1
@@ -72,8 +75,11 @@ validate_config() {
       }
       if (in_priorities) {
         if (match(line, /^[[:space:]]*}[[:space:]]*,?[[:space:]]*$/)) in_priorities=0
-        if (match(line, /^[[:space:]]*"([^"]+)"[[:space:]]*:[[:space:]]*([0-9]+)[[:space:]]*,?[[:space:]]*$/, m)) {
-          v=m[2]
+        if (line ~ /^[[:space:]]*"[^"]+"[[:space:]]*:[[:space:]]*[0-9]+[[:space:]]*,?[[:space:]]*$/) {
+          tmp=line
+          sub(/^.*:[[:space:]]*/, "", tmp)
+          sub(/[[:space:]]*,?[[:space:]]*$/, "", tmp)
+          v=tmp
           if (seen_prio[v]++) {
             print "bilu board: error: config priorities values must be unique (duplicate: " v ")" >"/dev/stderr"
             fatal=1
@@ -135,20 +141,21 @@ validate_index() {
     !in_obj { next }
     {
       line=$0
-      if (match(line, /^[[:space:]]*"title"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) title=m[1]
-      if (match(line, /^[[:space:]]*"status"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) status=m[1]
-      if (match(line, /^[[:space:]]*"priority"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) priority=m[1]
-      if (match(line, /^[[:space:]]*"kind"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) kind=m[1]
-      if (match(line, /^[[:space:]]*"link"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) link=m[1]
+      if (line ~ /^[[:space:]]*"title"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"title"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); title=v }
+      if (line ~ /^[[:space:]]*"status"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"status"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); status=v }
+      if (line ~ /^[[:space:]]*"priority"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"priority"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); priority=v }
+      if (line ~ /^[[:space:]]*"kind"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"kind"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); kind=v }
+      if (line ~ /^[[:space:]]*"link"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"link"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); link=v }
 
       if (match(line, /^[[:space:]]*"depends_on"[[:space:]]*:[[:space:]]*[[]/)) {
         in_dep=1
         if (index(line, "]") > 0) in_dep=0
         next
       }
-      if (in_dep && match(line, /"([^"]+)"/, m)) {
-        if (deps == "") deps=m[1]
-        else deps=deps "," m[1]
+      if (in_dep && match(line, /"[^"]+"/)) {
+        v=substr(line, RSTART+1, RLENGTH-2)
+        if (deps == "") deps=v
+        else deps=deps "," v
       }
       if (in_dep && index(line, "]") > 0) { in_dep=0 }
     }
@@ -159,7 +166,12 @@ validate_index() {
     BEGIN { in_obj=0 }
     /^[[:space:]]*{[[:space:]]*$/ { in_obj=1; next }
     in_obj && /^[[:space:]]*}[[:space:]]*,?[[:space:]]*$/ { in_obj=0; next }
-    in_obj && match($0, /^[[:space:]]*"link"[[:space:]]*:[[:space:]]*"([^"]+)"/, m) { print m[1] }
+    in_obj && $0 ~ /^[[:space:]]*"link"[[:space:]]*:/ {
+      v=$0
+      sub(/^[[:space:]]*"link"[[:space:]]*:[[:space:]]*"/, "", v)
+      sub(/".*$/, "", v)
+      print v
+    }
   ' "$index_path" >"$links_file" || return 1
 
   index_fatal=0

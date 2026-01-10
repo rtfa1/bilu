@@ -78,21 +78,22 @@ awk '
   !in_obj { next }
   {
     line=$0
-    if (match(line, /^[[:space:]]*"title"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) title=m[1]
-    if (match(line, /^[[:space:]]*"description"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) desc=m[1]
-    if (match(line, /^[[:space:]]*"status"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) status=m[1]
-    if (match(line, /^[[:space:]]*"priority"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) priority=m[1]
-    if (match(line, /^[[:space:]]*"kind"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) kind=m[1]
-    if (match(line, /^[[:space:]]*"link"[[:space:]]*:[[:space:]]*"([^"]*)"/, m)) link=m[1]
+    if (line ~ /^[[:space:]]*"title"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"title"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); title=v }
+    if (line ~ /^[[:space:]]*"description"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"description"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); desc=v }
+    if (line ~ /^[[:space:]]*"status"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"status"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); status=v }
+    if (line ~ /^[[:space:]]*"priority"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"priority"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); priority=v }
+    if (line ~ /^[[:space:]]*"kind"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"kind"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); kind=v }
+    if (line ~ /^[[:space:]]*"link"[[:space:]]*:/) { v=line; sub(/^[[:space:]]*"link"[[:space:]]*:[[:space:]]*"/, "", v); sub(/".*$/, "", v); link=v }
 
     if (match(line, /^[[:space:]]*"tags"[[:space:]]*:[[:space:]]*[[]/)) {
       in_tags=1
       if (index(line, "]") > 0) in_tags=0
       next
     }
-    if (in_tags && match(line, /"([^"]+)"/, m)) {
-      if (tags == "") tags=m[1]
-      else tags=tags "," m[1]
+    if (in_tags && match(line, /"[^"]+"/)) {
+      v=substr(line, RSTART+1, RLENGTH-2)
+      if (tags == "") tags=v
+      else tags=tags "," v
     }
     if (in_tags && index(line, "]") > 0) { in_tags=0 }
 
@@ -101,9 +102,10 @@ awk '
       if (index(line, "]") > 0) in_dep=0
       next
     }
-    if (in_dep && match(line, /"([^"]+)"/, m)) {
-      if (deps == "") deps=m[1]
-      else deps=deps "," m[1]
+    if (in_dep && match(line, /"[^"]+"/)) {
+      v=substr(line, RSTART+1, RLENGTH-2)
+      if (deps == "") deps=v
+      else deps=deps "," v
     }
     if (in_dep && index(line, "]") > 0) { in_dep=0 }
   }
@@ -180,9 +182,11 @@ while IFS='	' read -r idx link title desc status priority kind tags_csv deps_csv
         }
       }
 
-      function is_managed_header(line,    h) {
-        if (match(line, /^# (Description|Status|Priority|Kind|Tags|depends_on)[[:space:]]*$/, h)) {
-          managed=h[1]
+      function is_managed_header(line) {
+        if (line ~ /^# (Description|Status|Priority|Kind|Tags|depends_on)[[:space:]]*$/) {
+          managed=line
+          sub(/^# /, "", managed)
+          sub(/[[:space:]]*$/, "", managed)
           return 1
         }
         managed=""

@@ -17,8 +17,15 @@ priority_weight() {
       BEGIN { in_prio=0 }
       /^[[:space:]]*"priorities"[[:space:]]*:[[:space:]]*{[[:space:]]*$/ { in_prio=1; next }
       in_prio && /^[[:space:]]*}[[:space:]]*,?[[:space:]]*$/ { in_prio=0; next }
-      in_prio && match($0, /^[[:space:]]*"([^"]+)"[[:space:]]*:[[:space:]]*([0-9]+)[[:space:]]*,?[[:space:]]*$/, m) {
-        if (m[1] == KEY) { print m[2]; exit }
+      in_prio && $0 ~ /^[[:space:]]*"[^"]+"[[:space:]]*:[[:space:]]*[0-9]+[[:space:]]*,?[[:space:]]*$/ {
+        line=$0
+        sub(/^[[:space:]]*"/, "", line)
+        k=line
+        sub(/".*$/, "", k)
+        v=line
+        sub(/^.*:[[:space:]]*/, "", v)
+        sub(/[[:space:]]*,?[[:space:]]*$/, "", v)
+        if (k == KEY) { print v; exit }
       }
     ' "$config_path" 2>/dev/null || true
   )
@@ -61,7 +68,7 @@ board_load_tasks_from_md() {
       id=${base%.md}
       link="board/tasks/$base"
 
-      title=$(awk 'NR==1 && match($0, /^#[[:space:]]+(.*)$/, m) { print m[1]; exit }' "$path")
+      title=$(awk 'NR==1 { sub(/^#[[:space:]]+/, "", $0); print; exit }' "$path")
       status=$(awk '
         BEGIN { in_section=0 }
         /^#[[:space:]]+Status[[:space:]]*$/ { in_section=1; next }
@@ -97,8 +104,10 @@ board_load_tasks_from_md() {
         /^#[[:space:]]+Tags[[:space:]]*$/ { in_section=1; next }
         in_section {
           if ($0 ~ /^# /) exit
-          if (match($0, /^[[:space:]]*-[[:space:]]*(.+)[[:space:]]*$/, m)) {
-            v=m[1]
+          if ($0 ~ /^[[:space:]]*-[[:space:]]*/ ) {
+            v=$0
+            sub(/^[[:space:]]*-[[:space:]]*/, "", v)
+            sub(/[[:space:]]*$/, "", v)
             if (out=="") out=v
             else out=out "," v
           }
@@ -110,8 +119,10 @@ board_load_tasks_from_md() {
         /^#[[:space:]]+depends_on[[:space:]]*$/ { in_section=1; next }
         in_section {
           if ($0 ~ /^# /) exit
-          if (match($0, /^[[:space:]]*-[[:space:]]*(.+)[[:space:]]*$/, m)) {
-            v=m[1]
+          if ($0 ~ /^[[:space:]]*-[[:space:]]*/ ) {
+            v=$0
+            sub(/^[[:space:]]*-[[:space:]]*/, "", v)
+            sub(/[[:space:]]*$/, "", v)
             if (out=="") out=v
             else out=out "," v
           }

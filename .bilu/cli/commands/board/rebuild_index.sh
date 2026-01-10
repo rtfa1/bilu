@@ -60,8 +60,8 @@ awk -v TD="$tasks_dir/" '
     gsub(TD, "", f)
     base=f
     nkey="999999"
-    if (match(base, /^([0-9]+)-/, m)) {
-      nkey=sprintf("%06d", m[1] + 0)
+    if (match(base, /^[0-9]+/)) {
+      nkey=sprintf("%06d", substr(base, RSTART, RLENGTH) + 0)
     }
     printf "%s\t%s\n", nkey, base
   }
@@ -86,7 +86,7 @@ while IFS= read -r base; do
   path="$tasks_dir/$base"
   link="board/tasks/$base"
 
-  title=$(awk 'NR==1 && match($0, /^#[[:space:]]+(.*)$/, m) { print m[1]; exit }' "$path")
+  title=$(awk 'NR==1 { sub(/^#[[:space:]]+/, "", $0); print; exit }' "$path")
   desc=$(awk '
     BEGIN { in_section=0 }
     /^#[[:space:]]+Description[[:space:]]*$/ { in_section=1; next }
@@ -132,8 +132,10 @@ while IFS= read -r base; do
     /^#[[:space:]]+Tags[[:space:]]*$/ { in_section=1; next }
     in_section {
       if ($0 ~ /^# /) exit
-      if (match($0, /^[[:space:]]*-[[:space:]]*(.+)[[:space:]]*$/, m)) {
-        v=m[1]
+      if ($0 ~ /^[[:space:]]*-[[:space:]]*/) {
+        v=$0
+        sub(/^[[:space:]]*-[[:space:]]*/, "", v)
+        sub(/[[:space:]]*$/, "", v)
         if (out=="") out=v
         else out=out "," v
       }
@@ -145,8 +147,10 @@ while IFS= read -r base; do
     /^#[[:space:]]+depends_on[[:space:]]*$/ { in_section=1; next }
     in_section {
       if ($0 ~ /^# /) exit
-      if (match($0, /^[[:space:]]*-[[:space:]]*(.+)[[:space:]]*$/, m)) {
-        v=m[1]
+      if ($0 ~ /^[[:space:]]*-[[:space:]]*/) {
+        v=$0
+        sub(/^[[:space:]]*-[[:space:]]*/, "", v)
+        sub(/[[:space:]]*$/, "", v)
         if (out=="") out=v
         else out=out "," v
       }

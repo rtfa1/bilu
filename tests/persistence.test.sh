@@ -74,7 +74,15 @@ NO_COLOR=1 sh ".bilu/cli/bilu" board --set-status 01-01-test-task DONE
 after=$(cat ".bilu/board/tasks/01-01-test-task.md")
 
 # Check status changed
-printf "%s" "$after" | grep -F "# Status" | grep -F "DONE" >/dev/null
+printf "%s\n" "$after" | awk '
+  BEGIN { found=0 }
+  /^# Status$/ {
+    getline
+    found=1
+    exit ($0=="DONE") ? 0 : 1
+  }
+  END { if (!found) exit 1 }
+'
 
 # Check other parts unchanged (normalize by removing status line)
 before_normalized=$(printf "%s" "$before" | awk '/^# Status$/ {getline; next} 1')
@@ -86,10 +94,29 @@ NO_COLOR=1 sh ".bilu/cli/bilu" board --set-priority 01-01-test-task HIGH
 after_priority=$(cat ".bilu/board/tasks/01-01-test-task.md")
 
 # Check priority changed
-printf "%s" "$after_priority" | grep -F "# Priority" | grep -F "HIGH" >/dev/null
+printf "%s\n" "$after_priority" | awk '
+  BEGIN { found=0 }
+  /^# Priority$/ {
+    getline
+    found=1
+    exit ($0=="HIGH") ? 0 : 1
+  }
+  END { if (!found) exit 1 }
+'
 
 # Check status still DONE
-printf "%s" "$after_priority" | grep -F "# Status" | grep -F "DONE" >/dev/null
+printf "%s\n" "$after_priority" | awk '
+  BEGIN { found=0 }
+  /^# Status$/ {
+    getline
+    found=1
+    exit ($0=="DONE") ? 0 : 1
+  }
+  END { if (!found) exit 1 }
+'
+
+# Rebuild derived index so list reflects markdown edits
+NO_COLOR=1 sh ".bilu/cli/bilu" board --rebuild-index >/dev/null
 
 # Test list reflects changes
 out=$(NO_COLOR=1 sh ".bilu/cli/bilu" board --list)

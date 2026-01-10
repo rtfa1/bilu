@@ -46,6 +46,13 @@ board_parse_args() {
          BOARD_ACTION="rebuild-index"
          shift
          ;;
+      --rebuild-cache)
+        if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --rebuild-cache, --migrate, --validate, --set-status, or --set-priority)"
+        fi
+        BOARD_ACTION="rebuild-cache"
+        shift
+        ;;
        --migrate)
          if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
            usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
@@ -205,3 +212,4 @@ board_parse_args() {
 
   export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE BOARD_NO_COLOR BOARD_VIEW BOARD_SET_TASK_ID BOARD_SET_VALUE
 }
+

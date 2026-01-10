@@ -108,7 +108,12 @@ extract_known_tags_from_config() {
     /^[[:space:]]*"tags"[[:space:]]*:[[:space:]]*{[[:space:]]*$/ { in_tags=1; next }
     in_tags && /^[[:space:]]*}[[:space:]]*,?[[:space:]]*$/ { in_tags=0; next }
     in_tags {
-      if (match($0, /^[[:space:]]*"([^"]+)"[[:space:]]*:/, m)) print m[1]
+      if ($0 ~ /^[[:space:]]*"[^"]+"[[:space:]]*:/) {
+        line=$0
+        sub(/^[[:space:]]*"/, "", line)
+        sub(/".*$/, "", line)
+        print line
+      }
     }
   ' "$config_path"
 }

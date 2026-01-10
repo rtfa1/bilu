@@ -9,6 +9,7 @@ Usage:
   bilu board --validate [--no-color]
   bilu board --migrate [--dry-run] [--no-color]
   bilu board --rebuild-index [--dry-run] [--no-color]
+  bilu board --rebuild-cache [--dry-run] [--no-color]
   bilu board --set-status <task-id> <status> [--dry-run] [--no-color]
   bilu board --set-priority <task-id> <priority> [--dry-run] [--no-color]
 
@@ -22,6 +23,7 @@ Options:
   --validate                 Validate board config/data
   --migrate                  Migrate task markdown metadata sections
   --rebuild-index            Rebuild derived board index from markdown
+  --rebuild-cache            Rebuild derived TSV cache (board/records.tsv)
   --set-status               Set status of a task
   --set-priority             Set priority of a task
   --dry-run                  Print changes without writing
@@ -71,6 +73,9 @@ case "$BOARD_ACTION" in
     ;;
   rebuild-index)
     exec sh "$BOARD_LIB_DIR/rebuild_index.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"
+    ;;
+  rebuild-cache)
+    exec sh "$BOARD_LIB_DIR/rebuild_cache.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"
     ;;
    migrate)
      exec sh "$BOARD_LIB_DIR/migrate.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"
