@@ -44,24 +44,9 @@ tui_load_tasks() {
   records_sh="$board_lib_dir/records_tsv.sh"
   
   # Load and process TSV data
-  echo "DEBUG: records_sh=$records_sh, BOARD_ROOT=${BOARD_ROOT:-empty}" >&2
   if [[ -f "$records_sh" ]] && [[ -n "${BOARD_ROOT:-}" ]]; then
-    echo "DEBUG: About to run records script..." >&2
     tsv_data=$(bash "$records_sh" "$BOARD_ROOT" 2>/dev/null || true)
-    echo "DEBUG: Got TSV data, first few lines:" >&2
-    echo "$tsv_data" | head -3 >&2
-    echo "DEBUG: Total TSV lines: $(echo "$tsv_data" | wc -l)" >&2
-    local line_num=0
-    echo "DEBUG: About to enter while loop..." >&2
     while IFS=$'\t' read -r id status priority_weight priority kind title path tags deps link; do
-      echo "DEBUG: In while loop, line_num=$line_num" >&2
-      ((line_num++))
-      if [[ $line_num -gt 3 ]]; then
-        echo "DEBUG: Breaking after 3 lines for testing" >&2
-        break
-      fi
-      echo "DEBUG: Processing line $line_num: id=$id, status=$status" >&2
-      
       # Determine column based on status
       local col_idx=-1
       case "$status" in
@@ -79,11 +64,31 @@ tui_load_tasks() {
           TUI_CARDS[$col_idx]="$id"
         fi
         ((TUI_CARD_COUNTS[$col_idx]++))
-        if [[ $line_num -le 3 ]]; then
-          echo "DEBUG: Added to column $col_idx, count now ${TUI_CARD_COUNTS[$col_idx]}" >&2
-        fi
       fi
-    done <<< "$(printf '%s' "$tsv_data")"
+    done <<< "$tsv_data"
+  fi
+  
+  # Set initial selection if not set
+  if [[ -z "$TUI_SEL_ID" ]]; then
+    tui_select_first_available
+  fi
+}
+        BACKLOG|TODO) col_idx=0 ;;
+        INPROGRESS|BLOCKED) col_idx=1 ;;
+        REVIEW) col_idx=2 ;;
+        DONE) col_idx=3 ;;
+      esac
+      
+      if [[ $col_idx -ge 0 ]]; then
+        local current_cards="${TUI_CARDS[$col_idx]:-}"
+        if [[ -n "$current_cards" ]]; then
+          TUI_CARDS[$col_idx]="$current_cards,$id"
+        else
+          TUI_CARDS[$col_idx]="$id"
+        fi
+        ((TUI_CARD_COUNTS[$col_idx]++))
+      fi
+    done < <(echo "$tsv_data")
   fi
   
   # Set initial selection if not set

@@ -156,7 +156,7 @@ Avoid `set -e` in the TUI loop:
 # Description
 Implement the TUI main loop (read key → update state → render), using a full-frame buffer printed once per redraw, handling WINCH resizes, and avoiding per-cell tput so updates stay responsive and flicker-free.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -167,4 +167,10 @@ task
 - frontend
 - planning
 - usability
+## Work
+- Implemented frame buffer rendering in `.bilu/cli/commands/board/render/tui.sh`
+- Added main loop with non-blocking input → state update → render pattern
+- Implemented column layout with card selection and scrolling
+- Added resize handling via WINCH trap
+- Verified frame buffer avoids per-cell tput calls and builds full frame strings
 # depends_on

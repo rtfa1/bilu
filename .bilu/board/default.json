@@ -393,7 +393,7 @@
     "description": "Implement reliable key input decoding for the bash TUI: non-blocking single-key reads, escape-sequence decoding for arrows (optionally Home/End/Page), and fallback hjkl navigation across common terminals.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
@@ -408,7 +408,7 @@
     "description": "Define the TUI state model (columns with filtered card lists and a (column_index, card_index) selection) plus movement/scrolling rules so left/right preserves vertical position, up/down moves within a column, and selection stays visible.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
@@ -423,7 +423,7 @@
     "description": "Implement the TUI main loop (read key → update state → render), using a full-frame buffer printed once per redraw, handling WINCH resizes, and avoiding per-cell tput so updates stay responsive and flicker-free.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
