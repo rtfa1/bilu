@@ -6,12 +6,12 @@ Ensure inconsistent data normalizes deterministically.
 
 ## Checklist
 
-- [ ] Add fixtures or inline test data for:
-  - [ ] status variants (`Done`, `done`, `INPROGRESS`, `in-progress`)
-  - [ ] priority variants (`High`, `HIGH`, `medium`)
-  - [ ] kind variants (missing `kind`, legacy keys)
-- [ ] Assert stable normalized outputs.
-- [ ] Assert warnings go to stderr (optional).
+- [x] Add fixtures or inline test data for:
+  - [x] status variants (`Done`, `done`, `INPROGRESS`, `in-progress`)
+  - [x] priority variants (`High`, `HIGH`, `medium`)
+  - [x] kind variants (missing `kind`, legacy keys)
+- [x] Assert stable normalized outputs.
+- [x] Assert warnings go to stderr (optional).
 
 ## Acceptance
 
@@ -126,7 +126,7 @@ If you add a `--quiet`/`--no-warn` flag later, tests should cover both modes.
 # Description
 Add normalization tests to lock deterministic behavior for status/priority/kind variants (including legacy/missing fields), asserting stable normalized outputs and (optionally) warning messages routed to stderr.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

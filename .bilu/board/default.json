@@ -586,7 +586,7 @@
     "description": "Define the test matrix for the shell-only board UI (CLI parsing, normalization, non-interactive rendering, persistence edits), explicitly excluding automated TUI interaction tests and listing the required tools (POSIX sh + coreutils).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "INPROGRESS",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
@@ -602,7 +602,7 @@
     "description": "Add parser regression tests for bilu board covering help output, -l alias, unknown flags exiting 2, missing values exiting 2, and both long and short filter forms (--filter=status --filter-value=todo and -f status -fv todo).",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "INPROGRESS",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "documentation",
@@ -616,7 +616,7 @@
     "description": "Add normalization tests to lock deterministic behavior for status/priority/kind variants (including legacy/missing fields), asserting stable normalized outputs and (optionally) warning messages routed to stderr.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "INPROGRESS",
     "depends_on": [],
     "tags": [
       "planning",
