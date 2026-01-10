@@ -42,22 +42,26 @@ declare -A TUI_SCROLL_OFFSETS  # [col_index]=scroll_row
 declare -A TUI_TASK_TITLES  # [task_id]=title
 declare -A TUI_TASK_STATUS  # [task_id]=status
 declare -A TUI_TASK_PRIORITIES  # [task_id]=priority_weight
+declare -A TUI_TASK_PRIORITY_STRINGS  # [task_id]=priority_string
 declare -A TUI_TASK_KINDS  # [task_id]=kind
 declare -A TUI_TASK_TAGS  # [task_id]=tags
+declare -A TUI_TASK_PATHS  # [task_id]=path
 
 # Load task data into TUI structures
 tui_load_tasks() {
   local records_sh tsv_data id status priority_weight priority kind title path tags deps link
   
-  # Clear existing data
-  TUI_CARDS=()
-  TUI_CARD_COUNTS=()
-  TUI_SCROLL_OFFSETS=()
-  TUI_TASK_TITLES=()
-  TUI_TASK_STATUS=()
-  TUI_TASK_PRIORITIES=()
-  TUI_TASK_KINDS=()
-  TUI_TASK_TAGS=()
+   # Clear existing data
+   TUI_CARDS=()
+   TUI_CARD_COUNTS=()
+   TUI_SCROLL_OFFSETS=()
+   TUI_TASK_TITLES=()
+   TUI_TASK_STATUS=()
+   TUI_TASK_PRIORITIES=()
+   TUI_TASK_PRIORITY_STRINGS=()
+   TUI_TASK_KINDS=()
+   TUI_TASK_TAGS=()
+   TUI_TASK_PATHS=()
   
   # Initialize empty columns
   for ((i=0; i<4; i++)); do
@@ -102,12 +106,14 @@ tui_load_tasks() {
         DONE) col_idx=3 ;;
       esac
       
-      # Always store task metadata for search, regardless of column
-      TUI_TASK_TITLES[$id]="$title"
-      TUI_TASK_STATUS[$id]="$status"
-      TUI_TASK_PRIORITIES[$id]="$priority_weight"
-      TUI_TASK_KINDS[$id]="$kind"
-      TUI_TASK_TAGS[$id]="$tags"
+       # Always store task metadata for search, regardless of column
+       TUI_TASK_TITLES[$id]="$title"
+       TUI_TASK_STATUS[$id]="$status"
+       TUI_TASK_PRIORITIES[$id]="$priority_weight"
+       TUI_TASK_PRIORITY_STRINGS[$id]="$priority"
+       TUI_TASK_KINDS[$id]="$kind"
+       TUI_TASK_TAGS[$id]="$tags"
+       TUI_TASK_PATHS[$id]="$path"
       
       if [[ $col_idx -ge 0 ]]; then
         local current_cards="${TUI_CARDS[$col_idx]:-}"
@@ -1044,36 +1050,126 @@ board_tui_main_loop() {
   done
 }
 
+tui_handle_enter() {
+  if [[ -z "$TUI_SEL_ID" ]]; then
+    return 0
+  fi
+  local path="${TUI_TASK_PATHS[$TUI_SEL_ID]}"
+  if [[ -z "$path" ]]; then
+    return 0
+  fi
+  board_tui_cleanup_terminal
+  if "$actions_dir/open.sh" "$path"; then
+    board_tui_setup_terminal
+    TUI_NEEDS_REDRAW=1
+  else
+    board_tui_setup_terminal
+    TUI_NEEDS_REDRAW=1
+  fi
+}
+
+tui_handle_open_editor() {
+  if [[ -z "${EDITOR:-}" ]]; then
+    return 0
+  fi
+  if [[ -z "$TUI_SEL_ID" ]]; then
+    return 0
+  fi
+  local path="${TUI_TASK_PATHS[$TUI_SEL_ID]}"
+  if [[ -z "$path" ]]; then
+    return 0
+  fi
+  board_tui_cleanup_terminal
+  if "$actions_dir/open.sh" "$path"; then
+    board_tui_setup_terminal
+    TUI_NEEDS_REDRAW=1
+  else
+    board_tui_setup_terminal
+    TUI_NEEDS_REDRAW=1
+  fi
+}
+
+tui_handle_cycle_status() {
+  if [[ -z "$TUI_SEL_ID" ]]; then
+    return 0
+  fi
+  local path="${TUI_TASK_PATHS[$TUI_SEL_ID]}"
+  local current="${TUI_TASK_STATUS[$TUI_SEL_ID]}"
+  local next
+  case "$current" in
+    TODO) next="INPROGRESS" ;;
+    INPROGRESS) next="REVIEW" ;;
+    REVIEW) next="DONE" ;;
+    DONE) next="TODO" ;;
+    *) next="TODO" ;;
+  esac
+  if "$actions_dir/set_status.sh" "$path" "$next"; then
+    tui_load_tasks
+    TUI_NEEDS_REDRAW=1
+  else
+    TUI_NEEDS_REDRAW=1
+  fi
+}
+
+tui_handle_cycle_priority() {
+  if [[ -z "$TUI_SEL_ID" ]]; then
+    return 0
+  fi
+  local path="${TUI_TASK_PATHS[$TUI_SEL_ID]}"
+  local current="${TUI_TASK_PRIORITY_STRINGS[$TUI_SEL_ID]}"
+  local next
+  case "$current" in
+    TRIVIAL) next="LOW" ;;
+    LOW) next="MEDIUM" ;;
+    MEDIUM) next="HIGH" ;;
+    HIGH) next="CRITICAL" ;;
+    CRITICAL) next="TRIVIAL" ;;
+    *) next="MEDIUM" ;;
+  esac
+  if "$actions_dir/set_priority.sh" "$path" "$next"; then
+    tui_load_tasks
+    TUI_NEEDS_REDRAW=1
+  else
+    TUI_NEEDS_REDRAW=1
+  fi
+}
+
+tui_handle_refresh() {
+  tui_load_tasks
+  TUI_NEEDS_REDRAW=1
+}
+
 board_tui_main() {
-  if [[ ! -t 0 || ! -t 1 ]]; then
-    printf "%s\n" "bilu board --tui requires a TTY" >&2
-    return 1
-  fi
+   if [[ ! -t 0 || ! -t 1 ]]; then
+     printf "%s\n" "bilu board --tui requires a TTY" >&2
+     return 1
+   fi
 
-  # Source required libraries
-  local script_dir
-  script_dir="$(dirname -- "$0")"
-  
-  # Source paths detection
-  if [[ -f "$script_dir/../paths.sh" ]]; then
-    # shellcheck source=../paths.sh
-    . "$script_dir/../paths.sh"
-  fi
-  
-  # Source column configuration
-  if [[ -f "$script_dir/../ui/columns.sh" ]]; then
-    # shellcheck source=../ui/columns.sh
-    . "$script_dir/../ui/columns.sh" "__lib__"
-    board_columns_init
-  fi
+   # Source required libraries
+   local script_dir
+   script_dir="$(dirname -- "$0")"
+   local actions_dir="$script_dir/actions"
+   
+   # Source paths detection
+   if [[ -f "$script_dir/../paths.sh" ]]; then
+     # shellcheck source=../paths.sh
+     . "$script_dir/../paths.sh"
+   fi
+   
+   # Source column configuration
+   if [[ -f "$script_dir/../ui/columns.sh" ]]; then
+     # shellcheck source=../ui/columns.sh
+     . "$script_dir/../ui/columns.sh" "__lib__"
+     board_columns_init
+   fi
 
-  # Set up traps
-  trap board_tui_cleanup_terminal EXIT INT TERM
-  trap 'tui_on_resize; TUI_NEEDS_REDRAW=1' WINCH
-  
-  # Initialize terminal and start main loop
-  board_tui_setup_terminal
-  board_tui_main_loop
+   # Set up traps
+   trap board_tui_cleanup_terminal EXIT INT TERM
+   trap 'tui_on_resize; TUI_NEEDS_REDRAW=1' WINCH
+   
+   # Initialize terminal and start main loop
+   board_tui_setup_terminal
+   board_tui_main_loop
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

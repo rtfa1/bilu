@@ -469,7 +469,7 @@
     "description": "Define TUI actions for opening and editing: Enter opens the selected task (EDITOR else pager), e forces editor, S/P cycle status/priority and persist safely, and r refreshes from disk with the UI reflecting changes.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

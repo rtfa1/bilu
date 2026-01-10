@@ -6,9 +6,11 @@ if [ -z "${1-}" ]; then
   exit 1
 fi
 
-for ((i=1; i<=$1; i++)); do
-  read -r -d '' PROMPT <<'EOF' || true
-ONLY WORK ON ONE TASK AT A TIME. 
+# declare PROMPT variable
+
+
+
+PROMPT="ONLY WORK ON ONE TASK AT A TIME. 
 1. Find the first task in the board .bilu/board/default.json with status TODO to work on and focus solely on that task until completion.
 2. Check if the tests are passing.
 3. Update the task status in the board to INPROGRESS when starting work.
@@ -20,9 +22,9 @@ DONT FORGET TO COMMIT YOUR CHANGES.
 ONLY WORK ON ONE TASK AT A TIME.
 If, while working on a task, and you need more information, look for relevant information in storage/progress.txt, other task files, board files and research files.
 If, while implementing a task, you find that there is a blocking issue (e.g., a dependency that needs to be resolved, or a question that needs answering), make a note of it in progress.txt and move on to the next priority task.
-If, while working on a board, you notice the status is done for all tasks, output <board>DONE</board> and exit.
-EOF
+If, while working on a board, you notice the status is done for all tasks, output <board>DONE</board> and exit."
 
+for ((i=1; i<=$1; i++)); do
   result=$(docker run --rm \
     -e CODEX_ENV_PYTHON_VERSION=3.12 \
     -e CODEX_ENV_NODE_VERSION=22 \
@@ -31,6 +33,7 @@ EOF
     -e CODEX_ENV_SWIFT_VERSION=6.2 \
     -e CODEX_ENV_RUBY_VERSION=3.4.4 \
     -e CODEX_ENV_PHP_VERSION=8.4 \
+    -e PROMPT="$PROMPT" \
     -v "$(pwd):/workspace/$(basename "$PWD")" -w "/workspace/$(basename "$PWD")" \
     -v "$HOME/.gitconfig-bilu:/root/.gitconfig:ro" \
     -v "$HOME/.ssh-bilu:/root/.ssh:ro" \
@@ -38,7 +41,7 @@ EOF
     -v "$(pwd)/.bilu/skills:/root/.opencode/skill:ro" \
     --network=bridge \
     ghcr.io/openai/codex-universal:latest \
-    -lc 'npm install -g opencode-ai && opencode run '"$PROMPT"' --model opencode/grok-code')
+    -c 'npm install -g opencode-ai && opencode run "$PROMPT" --model opencode/grok-code')
 
   echo "$result"
 

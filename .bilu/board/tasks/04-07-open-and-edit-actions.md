@@ -6,12 +6,17 @@ Let users open a card and perform minimal edits from the TUI.
 
 ## Checklist
 
-- [ ] `Enter` opens selected task:
-  - [ ] `$EDITOR` if set, else `less`/`more`
-- [ ] `e` opens in `$EDITOR`.
-- [ ] `S` cycles status and persists.
-- [ ] `P` cycles priority and persists.
-- [ ] `r` refresh from disk.
+- [x] `Enter` opens selected task:
+
+  - [x] `$EDITOR` if set, else `less`/`more`
+
+- [x] `e` opens in `$EDITOR`.
+
+- [x] `S` cycles status and persists.
+
+- [x] `P` cycles priority and persists.
+
+- [x] `r` refresh from disk.
 
 ## Acceptance
 
@@ -146,9 +151,20 @@ Those action modules implement:
 ## References
 
 - `src/board/tasks/04-07-open-and-edit-actions.md`
+
 - `src/board/tasks/05-01-edit-status-in-markdown.md`
+
 - `src/board/tasks/05-02-edit-priority-in-markdown.md`
+
 - `src/storage/research/shell-only-cli-advanced-notes.md`
+
+## Outcomes
+
+Implemented TUI key handlers for ENTER (open task), e (open in editor), S (cycle status), P (cycle priority), and r (refresh). Created action scripts for opening files and updating status/priority in markdown using atomic writes. Added TUI state for task paths and priority strings.
+
+Decisions made: Deferred full markdown parsing to Phase 5, implemented basic section replacement for status and priority. Used temp files and mv for atomic updates.
+
+Remaining work: None for this task; Phase 5 can enhance the edit implementations.
 
 # Description
 Define TUI actions for opening and editing: Enter opens the selected task (EDITOR else pager), e forces editor, S/P cycle status/priority and persist safely, and r refreshes from disk with the UI reflecting changes.
