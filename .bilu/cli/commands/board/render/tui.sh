@@ -1120,9 +1120,11 @@ board_tui_handle_key() {
     RIGHT|l) tui_handle_movement "RIGHT" ;;
     HOME) tui_handle_movement "HOME" ;;
     END) tui_handle_movement "END" ;;
-    PAGEUP) tui_handle_movement "PAGEUP" ;;
-    PAGEDOWN) tui_handle_movement "PAGEDOWN" ;;
-    ENTER|NONE) ;;  # No action needed
+     PAGEUP) tui_handle_movement "PAGEUP" ;;
+     PAGEDOWN) tui_handle_movement "PAGEDOWN" ;;
+     ENTER) tui_handle_enter ;;
+     e) tui_handle_open_editor ;;
+     NONE) ;;  # No action needed
     *) TUI_NEEDS_REDRAW=1 ;;  # Unknown key, mark for redraw
   esac
   
@@ -1176,9 +1178,6 @@ tui_handle_enter() {
 }
 
 tui_handle_open_editor() {
-  if [[ -z "${EDITOR:-}" ]]; then
-    return 0
-  fi
   if [[ -z "$TUI_SEL_ID" ]]; then
     return 0
   fi
@@ -1187,7 +1186,7 @@ tui_handle_open_editor() {
     return 0
   fi
   board_tui_cleanup_terminal
-  if "$actions_dir/open.sh" "$path"; then
+  if "$actions_dir/open.sh" "$path" "editor"; then
     board_tui_setup_terminal
     TUI_NEEDS_REDRAW=1
   else

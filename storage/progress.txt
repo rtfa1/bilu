@@ -35,3 +35,4 @@
  2026-01-10T??:??:?? Phase 04 — Help overlay and status bar: implemented help overlay toggle with ?, status bar with visible/total counts, search/filter/sort state, and hints; added transient message support; updated tui.sh; tests: sh tests/run.sh -> ok
 2026-01-10T??:??:?? Phase 05 — Edit priority in markdown: implemented board_set_priority action in .bilu/cli/commands/board/actions/set_priority.sh with normalization/validation/temp file atomic write; updated task file with outcomes; marked task DONE in .bilu/board/default.json; tests: sh tests/run.sh -> ok
 
+2026-01-10T??:??:?? Phase 05 — Open task in editor: started work; updated .bilu/board/tasks/05-03-open-task-in-editor.md to INPROGRESS; need to modify actions/open.sh to support mode parameter and wire ENTER/e keys in TUI
