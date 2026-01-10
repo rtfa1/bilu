@@ -145,7 +145,7 @@ If you add it later:
 # Description
 Implement interactive / search in the TUI: prompt for a query, filter visible tasks by title/description, support n/p navigation between matches, and show search state in the status bar without breaking selection.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

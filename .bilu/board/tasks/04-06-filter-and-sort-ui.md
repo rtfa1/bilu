@@ -185,7 +185,7 @@ Status bar must show:
 # Description
 Add interactive filtering and sorting in the TUI: f opens a field/value filter prompt (status/priority/tag/kind), s opens sort prompt, status bar shows active modes, and a quick clear action resets filter/search/sort.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

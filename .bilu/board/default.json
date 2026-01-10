@@ -439,7 +439,7 @@
     "description": "Implement interactive / search in the TUI: prompt for a query, filter visible tasks by title/description, support n/p navigation between matches, and show search state in the status bar without breaking selection.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",
@@ -454,7 +454,7 @@
     "description": "Add interactive filtering and sorting in the TUI: f opens a field/value filter prompt (status/priority/tag/kind), s opens sort prompt, status bar shows active modes, and a quick clear action resets filter/search/sort.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "design",

@@ -39,9 +39,7 @@ echo "   Visible rows: $TUI_VISIBLE_ROWS"
 echo "   Column width: $TUI_COL_WIDTH"
 
 echo "2. Loading tasks..."
-echo "DEBUG: About to call tui_load_tasks..."
 tui_load_tasks
-echo "DEBUG: tui_load_tasks completed"
 echo "   Tasks loaded successfully"
 echo "   Columns loaded: ${#TUI_COLUMNS[@]}"
 

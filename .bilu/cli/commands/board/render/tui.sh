@@ -12,12 +12,38 @@ TUI_NEEDS_REDRAW=1
 TUI_VISIBLE_ROWS=5
 TUI_COL_WIDTH=20
 
+# Search state
+TUI_SEARCH_ACTIVE=0
+TUI_SEARCH_QUERY=""
+TUI_SEARCH_PROMPT=""
+TUI_SEARCH_MODE=0  # 0=normal, 1=prompt input
+TUI_SEARCH_MATCHES=""  # Comma-separated list of matching task IDs
+TUI_SEARCH_INDEX=0  # Current match index
+
+# Filter state
+TUI_FILTER_ACTIVE=0
+TUI_FILTER_FIELD=""
+TUI_FILTER_VALUE=""
+TUI_FILTER_MODE=0  # 0=normal, 1=field selection, 2=value selection
+TUI_FILTER_PROMPT=""
+
+# Sort state
+TUI_SORT_KEY="priority"
+TUI_SORT_ORDER="desc"
+TUI_SORT_MODE=0  # 0=normal, 1=key selection, 2=order selection
+TUI_SORT_PROMPT=""
+
 # Column data (will be populated from TSV)
 declare -a TUI_COLUMNS=("Backlog" "In Progress" "Review" "Done")
 declare -a TUI_COLUMN_STATS=("BACKLOG TODO" "INPROGRESS BLOCKED" "REVIEW" "DONE")
 declare -A TUI_CARDS  # [col_index]="card1,card2,..."  (comma-separated IDs)
 declare -A TUI_CARD_COUNTS  # [col_index]=count
 declare -A TUI_SCROLL_OFFSETS  # [col_index]=scroll_row
+declare -A TUI_TASK_TITLES  # [task_id]=title
+declare -A TUI_TASK_STATUS  # [task_id]=status
+declare -A TUI_TASK_PRIORITIES  # [task_id]=priority_weight
+declare -A TUI_TASK_KINDS  # [task_id]=kind
+declare -A TUI_TASK_TAGS  # [task_id]=tags
 
 # Load task data into TUI structures
 tui_load_tasks() {
@@ -27,6 +53,11 @@ tui_load_tasks() {
   TUI_CARDS=()
   TUI_CARD_COUNTS=()
   TUI_SCROLL_OFFSETS=()
+  TUI_TASK_TITLES=()
+  TUI_TASK_STATUS=()
+  TUI_TASK_PRIORITIES=()
+  TUI_TASK_KINDS=()
+  TUI_TASK_TAGS=()
   
   # Initialize empty columns
   for ((i=0; i<4; i++)); do
@@ -44,23 +75,23 @@ tui_load_tasks() {
   records_sh="$board_lib_dir/records_tsv.sh"
   
   # Load and process TSV data
-  echo "DEBUG: records_sh=$records_sh, BOARD_ROOT=${BOARD_ROOT:-empty}" >&2
   if [[ -f "$records_sh" ]] && [[ -n "${BOARD_ROOT:-}" ]]; then
-    echo "DEBUG: About to run records script..." >&2
-    tsv_data=$(bash "$records_sh" "$BOARD_ROOT" 2>/dev/null || true)
-    echo "DEBUG: Got TSV data, first few lines:" >&2
-    echo "$tsv_data" | head -3 >&2
-    echo "DEBUG: Total TSV lines: $(echo "$tsv_data" | wc -l)" >&2
+    # Use temp file to avoid pipe/subshell issues
+    local temp_file=$(mktemp)
+    if ! bash "$records_sh" "$BOARD_ROOT" 2>/dev/null > "$temp_file"; then
+      echo "ERROR: Failed to load TSV data" >&2
+      rm -f "$temp_file"
+      return 1
+    fi
+    
     local line_num=0
-    echo "DEBUG: About to enter while loop..." >&2
-    while IFS=$'\t' read -r id status priority_weight priority kind title path tags deps link; do
-      echo "DEBUG: In while loop, line_num=$line_num" >&2
+    while IFS=$'\t' read -r id status priority_weight priority kind title path tags deps link rest || [[ -n "$id" ]]; do
       ((line_num++))
-      if [[ $line_num -gt 3 ]]; then
-        echo "DEBUG: Breaking after 3 lines for testing" >&2
-        break
+      
+      # Skip empty lines
+      if [[ -z "$id" ]]; then
+        continue
       fi
-      echo "DEBUG: Processing line $line_num: id=$id, status=$status" >&2
       
       # Determine column based on status
       local col_idx=-1
@@ -71,6 +102,13 @@ tui_load_tasks() {
         DONE) col_idx=3 ;;
       esac
       
+      # Always store task metadata for search, regardless of column
+      TUI_TASK_TITLES[$id]="$title"
+      TUI_TASK_STATUS[$id]="$status"
+      TUI_TASK_PRIORITIES[$id]="$priority_weight"
+      TUI_TASK_KINDS[$id]="$kind"
+      TUI_TASK_TAGS[$id]="$tags"
+      
       if [[ $col_idx -ge 0 ]]; then
         local current_cards="${TUI_CARDS[$col_idx]:-}"
         if [[ -n "$current_cards" ]]; then
@@ -79,11 +117,11 @@ tui_load_tasks() {
           TUI_CARDS[$col_idx]="$id"
         fi
         ((TUI_CARD_COUNTS[$col_idx]++))
-        if [[ $line_num -le 3 ]]; then
-          echo "DEBUG: Added to column $col_idx, count now ${TUI_CARD_COUNTS[$col_idx]}" >&2
-        fi
       fi
-    done <<< "$(printf '%s' "$tsv_data")"
+    done < "$temp_file"
+    
+    # Clean up temp file
+    rm -f "$temp_file"
   fi
   
   # Set initial selection if not set
@@ -185,6 +223,336 @@ tui_update_scroll() {
     TUI_SCROLL_OFFSETS[$col]=$row
   elif [[ $row -ge $((scroll + TUI_VISIBLE_ROWS)) ]]; then
     TUI_SCROLL_OFFSETS[$col]=$((row - TUI_VISIBLE_ROWS + 1))
+  fi
+}
+
+# Apply search filter to tasks
+tui_apply_search() {
+  local query_lower col cards card_array filtered_cards all_matches
+  
+  if [[ -z "$TUI_SEARCH_QUERY" ]]; then
+    # Clear search - reset to show all tasks
+    TUI_SEARCH_ACTIVE=0
+    TUI_SEARCH_MATCHES=""
+    TUI_SEARCH_INDEX=0
+    # Reload all tasks without filtering
+    tui_load_tasks
+    return 0
+  fi
+  
+  # Convert query to lowercase for case-insensitive matching
+  query_lower=$(echo "$TUI_SEARCH_QUERY" | tr '[:upper:]' '[:lower:]')
+  
+  TUI_SEARCH_ACTIVE=1
+  all_matches=""
+  
+  # Filter each column
+  for ((col=0; col<4; col++)); do
+    cards="${TUI_CARDS[$col]:-}"
+    filtered_cards=""
+    
+    if [[ -n "$cards" ]]; then
+      IFS=',' read -ra card_array <<< "$cards"
+      for card_id in "${card_array[@]}"; do
+        local title="${TUI_TASK_TITLES[$card_id]:-}"
+        local title_lower=$(echo "$title" | tr '[:upper:]' '[:lower:]')
+        
+        # Check if query matches title (case-insensitive substring)
+        if [[ "$title_lower" == *"$query_lower"* ]]; then
+          if [[ -n "$filtered_cards" ]]; then
+            filtered_cards="$filtered_cards,$card_id"
+          else
+            filtered_cards="$card_id"
+          fi
+          
+          # Add to matches list
+          if [[ -n "$all_matches" ]]; then
+            all_matches="$all_matches,$card_id"
+          else
+            all_matches="$card_id"
+          fi
+        fi
+      done
+    fi
+    
+    # Update column with filtered results
+    TUI_CARDS[$col]="$filtered_cards"
+    # Update count
+    IFS=',' read -ra filtered_array <<< "$filtered_cards"
+    TUI_CARD_COUNTS[$col]="${#filtered_array[@]}"
+    # Reset scroll for this column
+    TUI_SCROLL_OFFSETS[$col]=0
+  done
+  
+  # Update matches tracking
+  TUI_SEARCH_MATCHES="$all_matches"
+  TUI_SEARCH_INDEX=0
+  
+  # Try to maintain selection in filtered results
+  if [[ -n "$TUI_SEL_ID" ]]; then
+    local found=0
+    for ((col=0; col<4; col++)); do
+      cards="${TUI_CARDS[$col]:-}"
+      if [[ -n "$cards" ]]; then
+        IFS=',' read -ra card_array <<< "$cards"
+        local row=0
+        for card_id in "${card_array[@]}"; do
+          if [[ "$card_id" == "$TUI_SEL_ID" ]]; then
+            TUI_SEL_COL=$col
+            TUI_SEL_ROW=$row
+            found=1
+            
+            # Find this match in the matches list
+            IFS=',' read -ra matches_array <<< "$all_matches"
+            for ((i=0; i<${#matches_array[@]}; i++)); do
+              if [[ "${matches_array[i]}" == "$TUI_SEL_ID" ]]; then
+                TUI_SEARCH_INDEX=$i
+                break
+              fi
+            done
+            break 2
+          fi
+          ((row++))
+        done
+      fi
+    done
+    
+    # If current selection not found, select first available
+    if [[ $found -eq 0 ]]; then
+      tui_select_first_available
+    fi
+  else
+    tui_select_first_available
+  fi
+}
+
+# Navigate search matches
+tui_handle_search_navigation() {
+  local direction=$1 matches_array match_count target_idx target_id
+  
+  if [[ -z "$TUI_SEARCH_MATCHES" ]]; then
+    return 0
+  fi
+  
+  IFS=',' read -ra matches_array <<< "$TUI_SEARCH_MATCHES"
+  match_count=${#matches_array[@]}
+  
+  if [[ $match_count -eq 0 ]]; then
+    return 0
+  fi
+  
+  case "$direction" in
+    "next")
+      target_idx=$((TUI_SEARCH_INDEX + 1))
+      if [[ $target_idx -ge $match_count ]]; then
+        target_idx=0  # Wrap around
+      fi
+      ;;
+    "prev")
+      target_idx=$((TUI_SEARCH_INDEX - 1))
+      if [[ $target_idx -lt 0 ]]; then
+        target_idx=$((match_count - 1))  # Wrap around
+      fi
+      ;;
+  esac
+  
+  target_id="${matches_array[$target_idx]}"
+  
+  # Find the column and row for this task ID
+  local found=0
+  for ((col=0; col<4; col++)); do
+    local cards="${TUI_CARDS[$col]:-}"
+    if [[ -n "$cards" ]]; then
+      IFS=',' read -ra card_array <<< "$cards"
+      local row=0
+      for card_id in "${card_array[@]}"; do
+        if [[ "$card_id" == "$target_id" ]]; then
+          TUI_SEL_COL=$col
+          TUI_SEL_ROW=$row
+          TUI_SEL_ID="$target_id"
+          TUI_SEARCH_INDEX=$target_idx
+          found=1
+          break 2
+        fi
+        ((row++))
+      done
+    fi
+  done
+  
+  if [[ $found -eq 1 ]]; then
+    tui_update_scroll
+    TUI_NEEDS_REDRAW=1
+  fi
+}
+
+# Apply filter and sort to tasks
+tui_apply_filter_and_sort() {
+  local cards filtered_cards sorted_cards all_task_ids temp_array
+  declare -a task_ids_array
+  
+  # If no filter or sort is active, just reload tasks
+  if [[ $TUI_FILTER_ACTIVE -eq 0 && "$TUI_SORT_KEY" == "priority" && "$TUI_SORT_ORDER" == "desc" ]]; then
+    tui_load_tasks
+    return 0
+  fi
+  
+  # First, reload all tasks to get fresh data
+  tui_load_tasks
+  
+  # Collect all task IDs from all columns
+  all_task_ids=""
+  for ((col=0; col<4; col++)); do
+    cards="${TUI_CARDS[$col]:-}"
+    if [[ -n "$cards" ]]; then
+      if [[ -n "$all_task_ids" ]]; then
+        all_task_ids="$all_task_ids,$cards"
+      else
+        all_task_ids="$cards"
+      fi
+    fi
+  done
+  
+  if [[ -z "$all_task_ids" ]]; then
+    return 0
+  fi
+  
+  # Convert to array for processing
+  IFS=',' read -ra task_ids_array <<< "$all_task_ids"
+  
+  # Apply filter
+  filtered_tasks=()
+  for task_id in "${task_ids_array[@]}"; do
+    local include_task=1
+    
+    if [[ $TUI_FILTER_ACTIVE -eq 1 ]]; then
+      case "$TUI_FILTER_FIELD" in
+        status)
+          local task_status="${TUI_TASK_STATUS[$task_id]:-}"
+          [[ "$task_status" != "$TUI_FILTER_VALUE" ]] && include_task=0
+          ;;
+        priority)
+          local task_priority="${TUI_TASK_PRIORITIES[$task_id]:-}"
+          # Normalize priority comparison
+          local filter_priority
+          case "$TUI_FILTER_VALUE" in
+            CRITICAL) filter_priority=10 ;;
+            HIGH) filter_priority=8 ;;
+            MEDIUM) filter_priority=5 ;;
+            LOW) filter_priority=3 ;;
+            TRIVIAL) filter_priority=1 ;;
+            *) filter_priority="$TUI_FILTER_VALUE" ;;
+          esac
+          [[ "$task_priority" != "$filter_priority" ]] && include_task=0
+          ;;
+        kind)
+          local task_kind="${TUI_TASK_KINDS[$task_id]:-}"
+          [[ "${task_kind,,}" != "${TUI_FILTER_VALUE,,}" ]] && include_task=0
+          ;;
+        tag)
+          local task_tags="${TUI_TASK_TAGS[$task_id]:-}"
+          local filter_tag_lower="${TUI_FILTER_VALUE,,}"
+          local found=0
+          IFS=',' read -ra tags_array <<< "$task_tags"
+          for tag in "${tags_array[@]}"; do
+            [[ "${tag,,}" == "$filter_tag_lower" ]] && found=1 && break
+          done
+          [[ $found -eq 0 ]] && include_task=0
+          ;;
+      esac
+    fi
+    
+    if [[ $include_task -eq 1 ]]; then
+      filtered_tasks+=("$task_id")
+    fi
+  done
+  
+  # Apply sort using a temporary file
+  if [[ ${#filtered_tasks[@]} -gt 0 ]]; then
+    local temp_sort_file=$(mktemp)
+    
+    # Create sort key + task_id pairs
+    for id in "${filtered_tasks[@]}"; do
+      case "$TUI_SORT_KEY" in
+        priority)
+          echo "${TUI_TASK_PRIORITIES[$id]:-0}$'\t'$id" >> "$temp_sort_file"
+          ;;
+        title)
+          echo "${TUI_TASK_TITLES[$id]:-}$'\t'$id" >> "$temp_sort_file"
+          ;;
+        status)
+          echo "${TUI_TASK_STATUS[$id]:-}$'\t'$id" >> "$temp_sort_file"
+          ;;
+      esac
+    done
+    
+    # Sort and extract task IDs
+    local sort_flags="-f"
+    [[ "$TUI_SORT_ORDER" == "desc" ]] && sort_flags="-rf"
+    
+    filtered_tasks=()
+    while IFS=$'\t' read -r sort_key task_id; do
+      filtered_tasks+=("$task_id")
+    done < <(sort $sort_flags -k1,1 "$temp_sort_file" | cut -f2)
+    
+    rm -f "$temp_sort_file"
+  fi
+  
+  # Clear current columns
+  for ((i=0; i<4; i++)); do
+    TUI_CARDS[$i]=""
+    TUI_CARD_COUNTS[$i]=0
+    TUI_SCROLL_OFFSETS[$i]=0
+  done
+  
+  # Redistribute tasks to columns based on their status
+  for task_id in "${filtered_tasks[@]}"; do
+    local task_status="${TUI_TASK_STATUS[$task_id]:-}"
+    local col_idx=-1
+    
+    case "$task_status" in
+      BACKLOG|TODO) col_idx=0 ;;
+      INPROGRESS|BLOCKED) col_idx=1 ;;
+      REVIEW) col_idx=2 ;;
+      DONE) col_idx=3 ;;
+    esac
+    
+    if [[ $col_idx -ge 0 ]]; then
+      local current_cards="${TUI_CARDS[$col_idx]:-}"
+      if [[ -n "$current_cards" ]]; then
+        TUI_CARDS[$col_idx]="$current_cards,$task_id"
+      else
+        TUI_CARDS[$col_idx]="$task_id"
+      fi
+      ((TUI_CARD_COUNTS[col_idx]++))
+    fi
+  done
+  
+  # Maintain selection
+  if [[ -n "$TUI_SEL_ID" ]]; then
+    local found=0
+    for ((col=0; col<4; col++)); do
+      cards="${TUI_CARDS[$col]:-}"
+      if [[ -n "$cards" ]]; then
+        IFS=',' read -ra card_array <<< "$cards"
+        local row=0
+        for card_id in "${card_array[@]}"; do
+          if [[ "$card_id" == "$TUI_SEL_ID" ]]; then
+            TUI_SEL_COL=$col
+            TUI_SEL_ROW=$row
+            found=1
+            break 2
+          fi
+          ((row++))
+        done
+      fi
+    done
+    
+    # If current selection not found, select first available
+    if [[ $found -eq 0 ]]; then
+      tui_select_first_available
+    fi
+  else
+    tui_select_first_available
   fi
 }
 
@@ -390,10 +758,57 @@ tui_build_frame() {
   local footer_line=$((LINES))
   frame+=$(printf "\e[%d;H" $footer_line)
   frame+="\e[1;37;44m"
-  frame+=$(printf " q:quit ↑↓←→:navigate ?:help %*s " $((COLUMNS - 35)) "")
-  if [[ -n "$TUI_SEL_ID" ]]; then
-    frame+=" Selected: $TUI_SEL_ID"
+  
+  if [[ $TUI_FILTER_MODE -eq 1 ]]; then
+    # Show filter field selection prompt
+    frame+=$(printf " Filter field (status/priority/tag/kind): %s %*s " "$TUI_FILTER_PROMPT" $((COLUMNS - 45 - ${#TUI_FILTER_PROMPT})) "")
+  elif [[ $TUI_FILTER_MODE -eq 2 ]]; then
+    # Show filter value selection prompt
+    frame+=$(printf " Filter $TUI_FILTER_FIELD: %s%s %*s " "$TUI_FILTER_PROMPT" "_" $((COLUMNS - 15 - ${#TUI_FILTER_FIELD} - ${#TUI_FILTER_PROMPT})) "")
+  elif [[ $TUI_SORT_MODE -eq 1 ]]; then
+    # Show sort key selection prompt
+    frame+=$(printf " Sort key (priority/title/status): %s %*s " "$TUI_SORT_PROMPT" $((COLUMNS - 35 - ${#TUI_SORT_PROMPT})) "")
+  elif [[ $TUI_SORT_MODE -eq 2 ]]; then
+    # Show sort order selection prompt
+    frame+=$(printf " Order (asc/desc): %s %*s " "$TUI_SORT_PROMPT" $((COLUMNS - 20 - ${#TUI_SORT_PROMPT})) "")
+  elif [[ $TUI_SEARCH_MODE -eq 1 ]]; then
+    # Show search prompt
+    frame+=$(printf " Search: %s%s %*s " "$TUI_SEARCH_PROMPT" "_" $((COLUMNS - 15 - ${#TUI_SEARCH_PROMPT})) "")
+  else
+    # Show normal status with search, filter, and sort info
+    local status_text=" q:quit ↑↓←→:navigate /:search f:filter s:sort c:clear ?:help"
+    
+    # Show filter info
+    if [[ $TUI_FILTER_ACTIVE -eq 1 && -n "$TUI_FILTER_FIELD" && -n "$TUI_FILTER_VALUE" ]]; then
+      status_text="$status_text Filter: $TUI_FILTER_FIELD=$TUI_FILTER_VALUE"
+    fi
+    
+    # Show sort info
+    if [[ -n "$TUI_SORT_KEY" && -n "$TUI_SORT_ORDER" ]]; then
+      status_text="$status_text Sort: $TUI_SORT_KEY $TUI_SORT_ORDER"
+    fi
+    
+    # Show search info
+    if [[ $TUI_SEARCH_ACTIVE -eq 1 && -n "$TUI_SEARCH_QUERY" ]]; then
+      local match_count=0
+      if [[ -n "$TUI_SEARCH_MATCHES" ]]; then
+        IFS=',' read -ra matches_array <<< "$TUI_SEARCH_MATCHES"
+        match_count=${#matches_array[@]}
+        if [[ $match_count -gt 0 ]]; then
+          status_text="$status_text Search: \"$TUI_SEARCH_QUERY\" $((TUI_SEARCH_INDEX + 1))/$match_count"
+        else
+          status_text="$status_text Search: \"$TUI_SEARCH_QUERY\" 0 matches"
+        fi
+      fi
+    fi
+    
+    frame+=$(printf "%s %*s " "$status_text" $((COLUMNS - ${#status_text} - 20)) "")
+    
+    if [[ -n "$TUI_SEL_ID" ]]; then
+      frame+=" Selected: $TUI_SEL_ID"
+    fi
   fi
+  
   frame+="\e[0m"
   
   printf '%b' "$frame"
@@ -409,8 +824,183 @@ board_tui_draw() {
 board_tui_handle_key() {
   local key=$1
   
+  # Handle filter mode
+  if [[ $TUI_FILTER_MODE -gt 0 ]]; then
+    case "$key" in
+      ENTER)
+        if [[ $TUI_FILTER_MODE -eq 1 ]]; then
+          # Field selection step
+          case "$TUI_FILTER_PROMPT" in
+            s|S) TUI_FILTER_FIELD="status" ;;
+            p|P) TUI_FILTER_FIELD="priority" ;;
+            t|T) TUI_FILTER_FIELD="tag" ;;
+            k|K) TUI_FILTER_FIELD="kind" ;;
+            *) return 0 ;;  # Invalid field, ignore
+          esac
+          # Move to value selection step
+          TUI_FILTER_MODE=2
+          TUI_FILTER_PROMPT=""
+          TUI_NEEDS_REDRAW=1
+        else
+          # Value selection step
+          if [[ -n "$TUI_FILTER_PROMPT" ]]; then
+            TUI_FILTER_VALUE="$TUI_FILTER_PROMPT"
+            TUI_FILTER_ACTIVE=1
+            TUI_FILTER_MODE=0
+            tui_apply_filter_and_sort
+            TUI_NEEDS_REDRAW=1
+          fi
+        fi
+        ;;
+      ESC)
+        # Cancel filter prompt
+        TUI_FILTER_MODE=0
+        TUI_FILTER_PROMPT=""
+        TUI_NEEDS_REDRAW=1
+        ;;
+      BACKSPACE)
+        # Remove last character from prompt
+        if [[ -n "$TUI_FILTER_PROMPT" ]]; then
+          TUI_FILTER_PROMPT="${TUI_FILTER_PROMPT%?}"
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+      NONE) ;;  # No action needed
+      *)
+        # Add character to prompt
+        if [[ $TUI_FILTER_MODE -eq 1 && ${#key} -eq 1 && "$key" =~ [spktSPKT] ]]; then
+          TUI_FILTER_PROMPT="$key"
+          TUI_NEEDS_REDRAW=1
+        elif [[ $TUI_FILTER_MODE -eq 2 && ${#key} -eq 1 && "$key" =~ [a-zA-Z0-9\ \.\-\_] ]]; then
+          TUI_FILTER_PROMPT="${TUI_FILTER_PROMPT}${key}"
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+    esac
+    return 0
+  fi
+  
+  # Handle sort mode
+  if [[ $TUI_SORT_MODE -gt 0 ]]; then
+    case "$key" in
+      ENTER)
+        if [[ $TUI_SORT_MODE -eq 1 ]]; then
+          # Key selection step
+          case "$TUI_SORT_PROMPT" in
+            p|P) TUI_SORT_KEY="priority" ;;
+            t|T) TUI_SORT_KEY="title" ;;
+            s|S) TUI_SORT_KEY="status" ;;
+            *) return 0 ;;  # Invalid key, ignore
+          esac
+          # Move to order selection step
+          TUI_SORT_MODE=2
+          TUI_SORT_PROMPT=""
+          TUI_NEEDS_REDRAW=1
+        else
+          # Order selection step
+          case "$TUI_SORT_PROMPT" in
+            a|A) TUI_SORT_ORDER="asc" ;;
+            d|D) TUI_SORT_ORDER="desc" ;;
+            *) return 0 ;;  # Invalid order, ignore
+          esac
+          TUI_SORT_MODE=0
+          tui_apply_filter_and_sort
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+      ESC)
+        # Cancel sort prompt
+        TUI_SORT_MODE=0
+        TUI_SORT_PROMPT=""
+        TUI_NEEDS_REDRAW=1
+        ;;
+      BACKSPACE)
+        # Remove last character from prompt
+        if [[ -n "$TUI_SORT_PROMPT" ]]; then
+          TUI_SORT_PROMPT="${TUI_SORT_PROMPT%?}"
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+      NONE) ;;  # No action needed
+      *)
+        # Add character to prompt
+        if [[ $TUI_SORT_MODE -eq 1 && ${#key} -eq 1 && "$key" =~ [ptsPTS] ]]; then
+          TUI_SORT_PROMPT="$key"
+          TUI_NEEDS_REDRAW=1
+        elif [[ $TUI_SORT_MODE -eq 2 && ${#key} -eq 1 && "$key" =~ [adAD] ]]; then
+          TUI_SORT_PROMPT="$key"
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+    esac
+    return 0
+  fi
+  
+  # Handle search mode differently
+  if [[ $TUI_SEARCH_MODE -eq 1 ]]; then
+    case "$key" in
+      ENTER)
+        # Commit search
+        TUI_SEARCH_QUERY="$TUI_SEARCH_PROMPT"
+        TUI_SEARCH_MODE=0
+        tui_apply_search
+        TUI_NEEDS_REDRAW=1
+        ;;
+      ESC)
+        # Cancel search prompt
+        TUI_SEARCH_MODE=0
+        TUI_NEEDS_REDRAW=1
+        ;;
+      BACKSPACE)
+        # Remove last character from prompt
+        if [[ -n "$TUI_SEARCH_PROMPT" ]]; then
+          TUI_SEARCH_PROMPT="${TUI_SEARCH_PROMPT%?}"
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+      NONE) ;;  # No action needed
+      *)
+        # Add printable character to prompt
+        if [[ ${#key} -eq 1 && "$key" =~ [a-zA-Z0-9\ \.\-\_] ]]; then
+          TUI_SEARCH_PROMPT="${TUI_SEARCH_PROMPT}${key}"
+          TUI_NEEDS_REDRAW=1
+        fi
+        ;;
+    esac
+    return 0
+  fi
+  
   case "$key" in
     q) return 1 ;;  # Signal to quit
+    f) 
+      # Enter filter mode (field selection)
+      TUI_FILTER_MODE=1
+      TUI_FILTER_PROMPT=""
+      TUI_NEEDS_REDRAW=1
+      ;;
+    s) 
+      # Enter sort mode (key selection)
+      TUI_SORT_MODE=1
+      TUI_SORT_PROMPT=""
+      TUI_NEEDS_REDRAW=1
+      ;;
+    /) 
+      # Enter search mode
+      TUI_SEARCH_MODE=1
+      TUI_SEARCH_PROMPT="$TUI_SEARCH_QUERY"
+      TUI_NEEDS_REDRAW=1
+      ;;
+    n) tui_handle_search_navigation "next" ;;
+    p) tui_handle_search_navigation "prev" ;;
+    c) 
+      # Clear search and filters
+      TUI_SEARCH_QUERY=""
+      TUI_FILTER_ACTIVE=0
+      TUI_FILTER_FIELD=""
+      TUI_FILTER_VALUE=""
+      tui_apply_filter_and_sort
+      TUI_NEEDS_REDRAW=1
+      ;;
     UP|k) tui_handle_movement "UP" ;;
     DOWN|j) tui_handle_movement "DOWN" ;;
     LEFT|h) tui_handle_movement "LEFT" ;;
