@@ -17,4 +17,4 @@ docker run --rm -it \
   -p 4096:4096 \
   --name opencode-server \
   ghcr.io/openai/codex-universal:latest \
-  -lc 'npm install -g opencode-ai && opencode serve --hostname 0.0.0.0 --port 4096'
+  -lc 'npm install -g opencode-ai && opencode serve --hostname 0.0.0.0 --port 4096 --log-level DEBUG'
