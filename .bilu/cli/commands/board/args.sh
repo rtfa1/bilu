@@ -7,6 +7,8 @@ board_parse_args() {
   BOARD_FILTER_VALUE=""
   BOARD_NO_COLOR=0
   BOARD_VIEW="table"
+  BOARD_SET_TASK_ID=""
+  BOARD_SET_VALUE=""
 
   while [ $# -gt 0 ]; do
     arg=$1
@@ -18,40 +20,66 @@ board_parse_args() {
         ;;
       --list|-l)
         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
+          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
         fi
         BOARD_ACTION="list"
         shift
         ;;
-      --tui)
-        if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
-        fi
-        BOARD_ACTION="tui"
-        shift
-        ;;
-      --validate)
-        if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
-        fi
-        BOARD_ACTION="validate"
-        shift
-        ;;
-      --rebuild-index)
-        if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
-        fi
-        BOARD_ACTION="rebuild-index"
-        shift
-        ;;
-      --migrate)
-        if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
-          usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, or --validate)"
-        fi
-        BOARD_ACTION="migrate"
-        shift
-        ;;
-      --dry-run)
+       --tui)
+         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+           usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
+         fi
+         BOARD_ACTION="tui"
+         shift
+         ;;
+       --validate)
+         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+           usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
+         fi
+         BOARD_ACTION="validate"
+         shift
+         ;;
+       --rebuild-index)
+         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+           usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
+         fi
+         BOARD_ACTION="rebuild-index"
+         shift
+         ;;
+       --migrate)
+         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+           usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
+         fi
+         BOARD_ACTION="migrate"
+         shift
+         ;;
+       --set-status)
+         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+           usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
+         fi
+         BOARD_ACTION="set-status"
+         shift
+         if [ $# -lt 2 ]; then
+           usage_error "missing arguments for --set-status: <task-id> <status>"
+         fi
+         BOARD_SET_TASK_ID=$1
+         BOARD_SET_VALUE=$2
+         shift 2
+         ;;
+       --set-priority)
+         if [ -n "$BOARD_ACTION" ] && [ "$BOARD_ACTION" != "help" ]; then
+           usage_error "choose a single action (--list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
+         fi
+         BOARD_ACTION="set-priority"
+         shift
+         if [ $# -lt 2 ]; then
+           usage_error "missing arguments for --set-priority: <task-id> <priority>"
+         fi
+         BOARD_SET_TASK_ID=$1
+         BOARD_SET_VALUE=$2
+         shift 2
+         ;;
+       --dry-run)
         BOARD_DRY_RUN=1
         shift
         ;;
@@ -133,7 +161,7 @@ board_parse_args() {
   fi
 
   if [ -z "$BOARD_ACTION" ]; then
-    usage_error "missing action (use --list, --tui, --rebuild-index, --migrate, or --validate)"
+    usage_error "missing action (use --list, --tui, --rebuild-index, --migrate, --validate, --set-status, or --set-priority)"
   fi
 
   if [ "$BOARD_ACTION" != "list" ]; then
@@ -155,6 +183,11 @@ board_parse_args() {
       usage_error "--dry-run is not valid with --tui"
     fi
   fi
+  if [ "$BOARD_ACTION" = "set-status" ] || [ "$BOARD_ACTION" = "set-priority" ]; then
+    if [ "$BOARD_DRY_RUN" -eq 1 ]; then
+      usage_error "--dry-run is not valid with --set-status or --set-priority"
+    fi
+  fi
 
   if [ -n "$BOARD_FILTER_NAME" ] && [ -z "$BOARD_FILTER_VALUE" ]; then
     usage_error "--filter-value is required when --filter is set"
@@ -170,5 +203,5 @@ board_parse_args() {
       ;;
   esac
 
-  export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE BOARD_NO_COLOR BOARD_VIEW
+  export BOARD_ACTION BOARD_DRY_RUN BOARD_FILTER_NAME BOARD_FILTER_VALUE BOARD_NO_COLOR BOARD_VIEW BOARD_SET_TASK_ID BOARD_SET_VALUE
 }

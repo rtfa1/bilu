@@ -564,23 +564,23 @@
      ],
      "link": "board/tasks/05-05-file-locking-and-concurrency.md"
    },
-  {
-    "title": "Phase 05 — Persistence tests",
-    "description": "Add non-interactive persistence tests that operate on a temp copy of task markdown, verify status/priority edits are scoped to the right section, confirm atomic write behavior, and ensure list output reflects persisted edits.",
-    "priority": "MEDIUM",
-    "kind": "task",
-    "status": "TODO",
-    "depends_on": [],
-    "tags": [
-      "design",
-      "devops",
-      "frontend",
-      "planning",
-      "testing",
-      "usability"
-    ],
-    "link": "board/tasks/05-06-persistence-tests.md"
-  },
+    {
+      "title": "Phase 05 — Persistence tests",
+      "description": "Add non-interactive persistence tests that operate on a temp copy of task markdown, verify status/priority edits are scoped to the right section, confirm atomic write behavior, and ensure list output reflects persisted edits.",
+      "priority": "MEDIUM",
+      "kind": "task",
+      "status": "DONE",
+      "depends_on": [],
+      "tags": [
+        "design",
+        "devops",
+        "frontend",
+        "planning",
+        "testing",
+        "usability"
+      ],
+      "link": "board/tasks/05-06-persistence-tests.md"
+    },
   {
     "title": "Phase 06 — Test matrix",
     "description": "Define the test matrix for the shell-only board UI (CLI parsing, normalization, non-interactive rendering, persistence edits), explicitly excluding automated TUI interaction tests and listing the required tools (POSIX sh + coreutils).",

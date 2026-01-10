@@ -9,6 +9,8 @@ Usage:
   bilu board --validate [--no-color]
   bilu board --migrate [--dry-run] [--no-color]
   bilu board --rebuild-index [--dry-run] [--no-color]
+  bilu board --set-status <task-id> <status> [--dry-run] [--no-color]
+  bilu board --set-priority <task-id> <priority> [--dry-run] [--no-color]
 
 Options:
   --list, -l                 List board items
@@ -20,6 +22,8 @@ Options:
   --validate                 Validate board config/data
   --migrate                  Migrate task markdown metadata sections
   --rebuild-index            Rebuild derived board index from markdown
+  --set-status               Set status of a task
+  --set-priority             Set priority of a task
   --dry-run                  Print changes without writing
   --                         End of options
   --help, -h                 Show this help
@@ -31,6 +35,7 @@ Examples:
   bilu board --list -f status -fv todo
   bilu board --tui
   bilu board --validate
+  bilu board --set-status 05-06-persistence-tests DONE
 EOF
 }
 
@@ -67,10 +72,24 @@ case "$BOARD_ACTION" in
   rebuild-index)
     exec sh "$BOARD_LIB_DIR/rebuild_index.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"
     ;;
-  migrate)
-    exec sh "$BOARD_LIB_DIR/migrate.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"
-    ;;
-  list)
+   migrate)
+     exec sh "$BOARD_LIB_DIR/migrate.sh" "$BOARD_ROOT" "$BOARD_DRY_RUN"
+     ;;
+   set-status)
+     task_path="$BOARD_TASKS_DIR/$BOARD_SET_TASK_ID.md"
+     if [ ! -f "$task_path" ]; then
+       die "task not found: $BOARD_SET_TASK_ID"
+     fi
+     exec bash "$BOARD_LIB_DIR/actions/set_status.sh" "$task_path" "$BOARD_SET_VALUE"
+     ;;
+   set-priority)
+     task_path="$BOARD_TASKS_DIR/$BOARD_SET_TASK_ID.md"
+     if [ ! -f "$task_path" ]; then
+       die "task not found: $BOARD_SET_TASK_ID"
+     fi
+     exec bash "$BOARD_LIB_DIR/actions/set_priority.sh" "$task_path" "$BOARD_SET_VALUE"
+     ;;
+   list)
     if [ -n "$BOARD_FILTER_NAME" ]; then
       exec sh "$BOARD_LIB_DIR/list.sh" "$BOARD_FILTER_NAME" "$BOARD_FILTER_VALUE"
     fi

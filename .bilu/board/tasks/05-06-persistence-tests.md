@@ -6,11 +6,11 @@ Add tests covering file edits without relying on the interactive TUI.
 
 ## Checklist
 
-- [ ] Create a temp copy of `src/board/tasks/*.md` and operate on it.
-- [ ] Test status edit updates only the status section.
-- [ ] Test priority edit updates only the priority section.
-- [ ] Ensure atomic write behavior (file is always valid after operation).
-- [ ] Ensure list output reflects edits.
+- [x] Create a temp copy of `src/board/tasks/*.md` and operate on it.
+- [x] Test status edit updates only the status section.
+- [x] Test priority edit updates only the priority section.
+- [x] Ensure atomic write behavior (file is always valid after operation).
+- [x] Ensure list output reflects edits.
 
 ## Acceptance
 
@@ -144,7 +144,7 @@ Follow the existing test harness pattern:
 # Description
 Add non-interactive persistence tests that operate on a temp copy of task markdown, verify status/priority edits are scoped to the right section, confirm atomic write behavior, and ensure list output reflects persisted edits.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind
@@ -157,3 +157,17 @@ task
 - testing
 - usability
 # depends_on
+ 
+## Outcomes
+
+- Added CLI commands `bilu board --set-status <task-id> <status>` and `bilu board --set-priority <task-id> <priority>` in board.sh and args.sh to enable non-interactive testing.
+
+- Created `tests/persistence.test.sh` with temp fixture, scoped edit tests, atomic write checks, and list reflection verification.
+
+- Tests run via `sh tests/run.sh` and validate persistence behavior.
+
+What changed: new test file, CLI flags, task file updates.
+
+Decisions made: implemented CLI flags as per plan option A.
+
+Remaining work: none.
