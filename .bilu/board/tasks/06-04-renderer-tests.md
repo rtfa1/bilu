@@ -6,11 +6,11 @@ Verify non-interactive outputs without relying on ANSI formatting.
 
 ## Checklist
 
-- [ ] Add tests for:
-  - [ ] `--view=table` includes expected titles/statuses
-  - [ ] `--view=kanban` includes column headers/markers
-  - [ ] `--no-color` emits no escape sequences
-- [ ] Fix terminal width for tests if needed (e.g. by setting env or using a helper).
+- [x] Add tests for:
+  - [x] `--view=table` includes expected titles/statuses
+  - [x] `--view=kanban` includes column headers/markers
+  - [x] `--no-color` emits no escape sequences
+- [x] Fix terminal width for tests if needed (e.g. by setting env or using a helper).
 
 ## Acceptance
 
@@ -120,7 +120,7 @@ Add:
 # Description
 Add stable renderer tests for non-interactive table and kanban views that assert key markers/titles/statuses, verify --no-color has no escape sequences, and force a deterministic width to avoid terminal-dependent flakes.
 # Status
-TODO
+DONE
 # Priority
 MEDIUM
 # Kind

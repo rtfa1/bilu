@@ -616,7 +616,7 @@
     "description": "Add normalization tests to lock deterministic behavior for status/priority/kind variants (including legacy/missing fields), asserting stable normalized outputs and (optionally) warning messages routed to stderr.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "INPROGRESS",
+    "status": "DONE",
     "depends_on": [],
     "tags": [
       "planning",
@@ -629,7 +629,7 @@
     "description": "Add stable renderer tests for non-interactive table and kanban views that assert key markers/titles/statuses, verify --no-color has no escape sequences, and force a deterministic width to avoid terminal-dependent flakes.",
     "priority": "MEDIUM",
     "kind": "task",
-    "status": "TODO",
+    "status": "INPROGRESS",
     "depends_on": [],
     "tags": [
       "design",
